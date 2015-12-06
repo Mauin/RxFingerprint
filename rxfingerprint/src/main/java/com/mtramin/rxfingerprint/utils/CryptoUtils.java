@@ -27,8 +27,9 @@ public class CryptoUtils {
     /**
      * Alias for our key in the Android Key Store
      */
-    // TODO make this user changable
-    private static final String KEY_NAME = "my_key";
+    // TODO make this user changeable
+    private static final String DEFAULT_KEY_NAME = "rxfingerprint_default";
+    private static final int DEFAULT_KEY_SIZE = 256;
 
     public static Cipher createCipher() throws NoSuchPaddingException, NoSuchAlgorithmException {
         return Cipher.getInstance(KeyProperties.KEY_ALGORITHM_AES + "/"
@@ -45,8 +46,9 @@ public class CryptoUtils {
 
     private static SecretKey createKey() throws NoSuchProviderException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
         KeyGenerator keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, "AndroidKeyStore");
-        keyGenerator.init(new KeyGenParameterSpec.Builder(KEY_NAME,
+        keyGenerator.init(new KeyGenParameterSpec.Builder(DEFAULT_KEY_NAME,
                 KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
+                .setKeySize(DEFAULT_KEY_SIZE)
                 .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
                 .setUserAuthenticationRequired(true)
                 .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
@@ -64,6 +66,6 @@ public class CryptoUtils {
     private static SecretKey getKey() throws KeyStoreException, CertificateException, NoSuchAlgorithmException, IOException, UnrecoverableKeyException {
         KeyStore keyStore = KeyStore.getInstance("AndroidKeyStore");
         keyStore.load(null);
-        return (SecretKey) keyStore.getKey(KEY_NAME, null);
+        return (SecretKey) keyStore.getKey(DEFAULT_KEY_NAME, null);
     }
 }

@@ -62,7 +62,6 @@ public class RxFingerprint {
         return FingerprintManagerCompat.from(context);
     }
 
-
     public static Observable<FingerprintAuthenticationResult> authenticate(Context context) {
         return FingerprintAuthenticationObservable.create(context);
     }

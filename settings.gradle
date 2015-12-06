@@ -1,1 +1,1 @@
-include ':app', ':rxfingerprint'
+include ':sample', ':rxfingerprint'

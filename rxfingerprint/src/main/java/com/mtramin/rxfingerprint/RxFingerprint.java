@@ -32,6 +32,8 @@ import rx.Observable;
  */
 public class RxFingerprint {
 
+    // TODO: add encryption / decryption with custom keystore key
+
     /**
      * Authenticate the user with his fingerprint.
      *

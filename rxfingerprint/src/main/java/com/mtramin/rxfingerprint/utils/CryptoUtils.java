@@ -24,7 +24,6 @@ import javax.crypto.spec.IvParameterSpec;
  */
 public class CryptoUtils {
 
-    // TODO make this user changeable
     private static final String DEFAULT_KEY_NAME = "rxfingerprint_default";
     private static final int DEFAULT_KEY_SIZE = 256;
 

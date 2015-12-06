@@ -10,6 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fa57f2d0-e771-475a-bf02-85282b68f60f" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/RxFingerprint.java" afterPath="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/RxFingerprint.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/utils/CryptoUtils.java" afterPath="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/utils/CryptoUtils.java" />
     </list>
     <ignored path="RxFingerprint.iws" />
@@ -41,8 +42,8 @@
       <file leaf-file-name="RxFingerprint.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/RxFingerprint.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.85227275">
-              <caret line="71" column="6" selection-start-line="71" selection-start-column="6" selection-end-line="71" selection-end-column="6" />
+            <state vertical-scroll-proportion="0.4661017">
+              <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -3086,7 +3087,6 @@
         <option value="$PROJECT_DIR$/sample/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/rxfingerprint/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/observables/FingerprintObservable.java" />
-        <option value="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/RxFingerprint.java" />
         <option value="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/observables/FingerprintEncryptionObservable.java" />
         <option value="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/observables/FingerprintDecryptionObservable.java" />
         <option value="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/observables/FingerprintAuthenticationObservable.java" />
@@ -3097,6 +3097,7 @@
         <option value="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/data/FingerprintAuthenticationException.java" />
         <option value="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/data/CryptoData.java" />
         <option value="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/utils/CryptoUtils.java" />
+        <option value="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/RxFingerprint.java" />
       </list>
     </option>
   </component>
@@ -3440,6 +3441,8 @@
     <property name="settings.editor.selected.configurable" value="android.sdk-updates" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="device.picker.selection" value="CVH7N15B04003711" />
+    <property name="android.project.structure.last.selected" value="SDK Location" />
+    <property name="android.project.structure.proportion" value="0.15" />
   </component>
   <component name="RecentsManager">
     <key name="IntroduceConstantDialog.RECENTS_KEY">
@@ -3752,7 +3755,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32923368" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32923368" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32923368" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
@@ -4115,44 +4118,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/observables/FingerprintEncryptionObservable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.056818184">
-          <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="31" selection-end-column="3" />
-          <folding>
-            <marker date="1449421104000" expanded="false" signature="55:966" placeholder="..." />
-            <marker date="1449421104000" expanded="true" signature="968:1204" placeholder="/**...*/" />
-            <marker date="1449421104000" expanded="true" signature="1422:1489" placeholder="{...}" />
-            <marker date="1449421104000" expanded="true" signature="1495:1788" placeholder="/**...*/" />
-            <marker date="1449421104000" expanded="true" signature="1889:1987" placeholder="{...}" />
-            <marker date="1449421104000" expanded="true" signature="1993:2016" placeholder="@{...}" />
-            <marker date="1449421104000" expanded="true" signature="2146:2529" placeholder="{...}" />
-            <marker date="1449421104000" expanded="true" signature="2704:3400" placeholder="{...}" />
-            <marker date="1449421104000" expanded="true" signature="3554:3663" placeholder="{...}" />
-            <marker date="1449421104000" expanded="true" signature="3781:3886" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/observables/FingerprintDecryptionObservable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.1278409">
-          <caret line="33" column="96" selection-start-line="33" selection-start-column="96" selection-end-line="33" selection-end-column="96" />
-          <folding>
-            <marker date="1449422029000" expanded="false" signature="55:1007" placeholder="..." />
-            <marker date="1449422029000" expanded="true" signature="1009:1345" placeholder="/**...*/" />
-            <marker date="1449422029000" expanded="true" signature="1571:1665" placeholder="{...}" />
-            <marker date="1449422029000" expanded="true" signature="1671:1964" placeholder="/**...*/" />
-            <marker date="1449422029000" expanded="true" signature="2065:2163" placeholder="{...}" />
-            <marker date="1449422029000" expanded="true" signature="2169:2192" placeholder="@{...}" />
-            <marker date="1449422029000" expanded="true" signature="2322:2785" placeholder="{...}" />
-            <marker date="1449422029000" expanded="true" signature="2960:3403" placeholder="{...}" />
-            <marker date="1449422029000" expanded="true" signature="3557:3666" placeholder="{...}" />
-            <marker date="1449422029000" expanded="true" signature="3784:3889" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/observables/FingerprintAuthenticationObservable.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.2556818">
@@ -4169,16 +4134,6 @@
             <marker date="1449422097000" expanded="true" signature="1521:1665" placeholder="{...}" />
             <marker date="1449422097000" expanded="true" signature="1823:1930" placeholder="{...}" />
             <marker date="1449422097000" expanded="true" signature="2052:2155" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/data/FingerprintResult.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.042613637">
-          <caret line="3" column="61" selection-start-line="3" selection-start-column="61" selection-end-line="3" selection-end-column="61" />
-          <folding>
-            <marker date="1449422114000" expanded="true" signature="41:110" placeholder="/**...*/" />
           </folding>
         </state>
       </provider>
@@ -4232,17 +4187,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/data/FingerprintAuthenticationException.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.042613637">
-          <caret line="3" column="100" selection-start-line="3" selection-start-column="100" selection-end-line="3" selection-end-column="100" />
-          <folding>
-            <marker date="1449422568000" expanded="true" signature="41:149" placeholder="/**...*/" />
-            <marker date="1449422568000" expanded="true" signature="288:295" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/data/CryptoData.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.79545456">
@@ -4270,9 +4214,68 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/data/FingerprintAuthenticationException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.06355932">
+          <caret line="3" column="100" selection-start-line="3" selection-start-column="100" selection-end-line="3" selection-end-column="100" />
+          <folding>
+            <marker date="1449422568000" expanded="true" signature="41:149" placeholder="/**...*/" />
+            <marker date="1449422568000" expanded="true" signature="288:295" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/data/FingerprintResult.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.105932206">
+          <caret line="5" column="31" selection-start-line="5" selection-start-column="31" selection-end-line="5" selection-end-column="31" />
+          <folding>
+            <marker date="1449422114000" expanded="true" signature="41:110" placeholder="/**...*/" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/observables/FingerprintDecryptionObservable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.27118644">
+          <caret line="33" column="96" selection-start-line="33" selection-start-column="96" selection-end-line="33" selection-end-column="96" />
+          <folding>
+            <marker date="1449422029000" expanded="false" signature="55:1007" placeholder="..." />
+            <marker date="1449422029000" expanded="true" signature="1009:1345" placeholder="/**...*/" />
+            <marker date="1449422029000" expanded="true" signature="1571:1665" placeholder="{...}" />
+            <marker date="1449422029000" expanded="true" signature="1671:1964" placeholder="/**...*/" />
+            <marker date="1449422029000" expanded="true" signature="2065:2163" placeholder="{...}" />
+            <marker date="1449422029000" expanded="true" signature="2169:2192" placeholder="@{...}" />
+            <marker date="1449422029000" expanded="true" signature="2322:2785" placeholder="{...}" />
+            <marker date="1449422029000" expanded="true" signature="2960:3403" placeholder="{...}" />
+            <marker date="1449422029000" expanded="true" signature="3557:3666" placeholder="{...}" />
+            <marker date="1449422029000" expanded="true" signature="3784:3889" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/observables/FingerprintEncryptionObservable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.057909604">
+          <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="31" selection-end-column="3" />
+          <folding>
+            <marker date="1449421104000" expanded="false" signature="55:966" placeholder="..." />
+            <marker date="1449421104000" expanded="true" signature="968:1204" placeholder="/**...*/" />
+            <marker date="1449421104000" expanded="true" signature="1422:1489" placeholder="{...}" />
+            <marker date="1449421104000" expanded="true" signature="1495:1788" placeholder="/**...*/" />
+            <marker date="1449421104000" expanded="true" signature="1889:1987" placeholder="{...}" />
+            <marker date="1449421104000" expanded="true" signature="1993:2016" placeholder="@{...}" />
+            <marker date="1449421104000" expanded="true" signature="2146:2529" placeholder="{...}" />
+            <marker date="1449421104000" expanded="true" signature="2704:3400" placeholder="{...}" />
+            <marker date="1449421104000" expanded="true" signature="3554:3663" placeholder="{...}" />
+            <marker date="1449421104000" expanded="true" signature="3781:3886" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/observables/FingerprintObservable.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.051136363">
+        <state vertical-scroll-proportion="0.021186441">
           <caret line="62" column="39" selection-start-line="62" selection-start-column="39" selection-end-line="62" selection-end-column="39" />
           <folding>
             <marker date="1449418890000" expanded="true" signature="55:620" placeholder="..." />
@@ -4298,26 +4301,26 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/utils/CryptoUtils.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5255682">
-          <caret line="54" column="39" selection-start-line="54" selection-start-column="39" selection-end-line="54" selection-end-column="39" />
+        <state vertical-scroll-proportion="0.19067797">
+          <caret line="26" column="37" selection-start-line="26" selection-start-column="37" selection-end-line="26" selection-end-column="37" />
           <folding>
-            <marker date="1449422762000" expanded="false" signature="49:711" placeholder="..." />
-            <marker date="1449422762000" expanded="true" signature="713:791" placeholder="/**...*/" />
-            <marker date="1449422762000" expanded="true" signature="992:1080" placeholder="/**...*/" />
-            <marker date="1449422762000" expanded="true" signature="1267:1421" placeholder="{...}" />
-            <marker date="1449422762000" expanded="true" signature="1427:1577" placeholder="/**...*/" />
-            <marker date="1449422762000" expanded="true" signature="1829:2005" placeholder="{...}" />
-            <marker date="1449422762000" expanded="true" signature="2104:2295" placeholder="{...}" />
-            <marker date="1449422762000" expanded="true" signature="2431:3016" placeholder="{...}" />
-            <marker date="1449422762000" expanded="true" signature="3169:3342" placeholder="{...}" />
+            <marker date="1449423148000" expanded="false" signature="49:711" placeholder="..." />
+            <marker date="1449423148000" expanded="true" signature="713:791" placeholder="/**...*/" />
+            <marker date="1449423148000" expanded="true" signature="954:1042" placeholder="/**...*/" />
+            <marker date="1449423148000" expanded="true" signature="1229:1383" placeholder="{...}" />
+            <marker date="1449423148000" expanded="true" signature="1389:1539" placeholder="/**...*/" />
+            <marker date="1449423148000" expanded="true" signature="1791:1967" placeholder="{...}" />
+            <marker date="1449423148000" expanded="true" signature="2066:2257" placeholder="{...}" />
+            <marker date="1449423148000" expanded="true" signature="2393:2978" placeholder="{...}" />
+            <marker date="1449423148000" expanded="true" signature="3131:3304" placeholder="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/RxFingerprint.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.85227275">
-          <caret line="71" column="6" selection-start-line="71" selection-start-column="6" selection-end-line="71" selection-end-column="6" />
+        <state vertical-scroll-proportion="0.4661017">
+          <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
           <folding />
         </state>
       </provider>

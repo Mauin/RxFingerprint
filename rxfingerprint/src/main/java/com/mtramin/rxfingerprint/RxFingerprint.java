@@ -31,9 +31,6 @@ import rx.Observable;
  * necessary hardware (a sensor) and the user has to have enrolled at least one fingerprint.
  */
 public class RxFingerprint {
-
-    // TODO: add encryption / decryption with custom keystore key
-
     /**
      * Authenticate the user with his fingerprint.
      *
@@ -69,10 +66,10 @@ public class RxFingerprint {
 
     /**
      * Decrypt data previously encrypted with {@link #encrypt(Context, String)}.
-     *
+     * <p/>
      * The encrypted string should be exactly the one you previously received as a result of the
      * {@link #encrypt(Context, String)} method.
-     *
+     * <p/>
      * The resulting {@link FingerprintDecryptionResult} will contain the decrypted string as a
      * String and is accessible via {@link FingerprintDecryptionResult#getDecrypted()} if the
      * authentication and decryption was successful.

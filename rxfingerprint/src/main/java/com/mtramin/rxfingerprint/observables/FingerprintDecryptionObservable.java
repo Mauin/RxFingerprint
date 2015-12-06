@@ -6,6 +6,7 @@ import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 
 import com.mtramin.rxfingerprint.data.CryptoData;
 import com.mtramin.rxfingerprint.data.FingerprintDecryptionResult;
+import com.mtramin.rxfingerprint.data.FingerprintEncryptionResult;
 import com.mtramin.rxfingerprint.data.FingerprintResult;
 import com.mtramin.rxfingerprint.utils.CryptoUtils;
 
@@ -26,7 +27,11 @@ import rx.Observable;
 import rx.Subscriber;
 
 /**
- * TODO: JAVADOC
+ * Decrypts data with fingerprint authentication. Initializes a {@link Cipher} for decryption which
+ * can only be used with fingerprint authentication and uses it once authentication was successful
+ * to encrypt the given data.
+ *
+ * The date handed in must be previously encrypted by a {@link FingerprintEncryptionObservable}.
  */
 public class FingerprintDecryptionObservable extends FingerprintObservable<FingerprintDecryptionResult> {
 
@@ -37,6 +42,14 @@ public class FingerprintDecryptionObservable extends FingerprintObservable<Finge
         this.encryptedData = CryptoData.fromString(encrypted);
     }
 
+    /**
+     * Creates a new FingerprintEncryptionObservable that will listen to fingerprint authentication
+     * to encrypt the given data.
+     *
+     * @param context   context to use
+     * @param encrypted data to encrypt
+     * @return Observable {@link FingerprintEncryptionResult}
+     */
     public static Observable<FingerprintDecryptionResult> create(Context context, String encrypted) {
         return Observable.create(new FingerprintDecryptionObservable(context, encrypted));
     }

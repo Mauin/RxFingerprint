@@ -11,7 +11,7 @@ import rx.Observable;
 import rx.Subscriber;
 
 /**
- * TODO: JAVADOC
+ * Authenticates the user with his fingerprint.
  */
 public class FingerprintAuthenticationObservable extends FingerprintObservable<FingerprintAuthenticationResult> {
 
@@ -19,6 +19,13 @@ public class FingerprintAuthenticationObservable extends FingerprintObservable<F
         super(context);
     }
 
+    /**
+     * Creates an Observable that will enable the fingerprint scanner of the device and listen for
+     * the users fingerprint for authentication
+     *
+     * @param context context to use
+     * @return Observable {@link FingerprintAuthenticationResult}
+     */
     public static Observable<FingerprintAuthenticationResult> create(Context context) {
         return Observable.create(new FingerprintAuthenticationObservable(context));
     }

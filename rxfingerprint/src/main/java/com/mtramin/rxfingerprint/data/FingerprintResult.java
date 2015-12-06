@@ -1,7 +1,7 @@
 package com.mtramin.rxfingerprint.data;
 
 /**
- * TODO: JAVADOC
+ * Possible results of a fingerprint authentication operation
  */
 public enum FingerprintResult {
     FAILED, HELP, AUTHENTICATED

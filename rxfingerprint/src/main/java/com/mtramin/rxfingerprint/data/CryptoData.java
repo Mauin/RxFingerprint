@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.util.Base64;
 
 /**
- * TODO: JAVADOC
+ * Data of a cryptographic operation with RxFingerprint.
  */
 public class CryptoData {
     private static final String SEPARATOR = "///";
@@ -22,11 +22,24 @@ public class CryptoData {
         this.ivEncoded = iv;
     }
 
+    /**
+     * Sets up data from an input string.
+     *
+     * @param input input string that was previously encrypted by RxFingerprint
+     * @return parsed data
+     */
     public static CryptoData fromString(String input) {
         String[] inputParams = input.split(SEPARATOR);
         return new CryptoData(inputParams[0], inputParams[1]);
     }
 
+    /**
+     * Sets up data from encrypted byte that resulted from encryption operation.
+     *
+     * @param messageBytes encrypted bytes of message
+     * @param ivBytes      initialization vector in bytes
+     * @return parsed data
+     */
     public static CryptoData fromBytes(byte[] messageBytes, byte[] ivBytes) {
         return new CryptoData(messageBytes, ivBytes);
     }
@@ -36,10 +49,16 @@ public class CryptoData {
         return this.messageEncoded + SEPARATOR + this.ivEncoded;
     }
 
+    /**
+     * @return initialization vector of the crypto operation
+     */
     public byte[] getIv() {
         return decode(ivEncoded);
     }
 
+    /**
+     * @return message of the crypto operation
+     */
     public byte[] getMessage() {
         return decode(messageEncoded);
     }

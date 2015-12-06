@@ -26,7 +26,9 @@ import rx.Observable;
 import rx.Subscriber;
 
 /**
- * TODO: JAVADOC
+ * Encrypts data with fingerprint authentication. Initializes a {@link Cipher} for encryption which
+ * can only be used with fingerprint authentication and uses it once authentication was successful
+ * to encrypt the given data.
  */
 public class FingerprintEncryptionObservable extends FingerprintObservable<FingerprintEncryptionResult> {
 
@@ -37,6 +39,14 @@ public class FingerprintEncryptionObservable extends FingerprintObservable<Finge
         this.toEncrypt = toEncrypt;
     }
 
+    /**
+     * Creates a new FingerprintEncryptionObservable that will listen to fingerprint authentication
+     * to encrypt the given data.
+     *
+     * @param context   context to use
+     * @param toEncrypt data to encrypt
+     * @return Observable {@link FingerprintEncryptionResult}
+     */
     public static Observable<FingerprintEncryptionResult> create(Context context, String toEncrypt) {
         return Observable.create(new FingerprintEncryptionObservable(context, toEncrypt));
     }

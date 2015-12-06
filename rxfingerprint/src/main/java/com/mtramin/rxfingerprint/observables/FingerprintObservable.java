@@ -16,14 +16,20 @@ import rx.functions.Action0;
 import rx.subscriptions.Subscriptions;
 
 /**
- * TODO: JAVADOC
+ * Base observable for Fingerprint authentication. Provides abstract methods that allow
+ * to alter the input and result of the authentication.
  */
 public abstract class FingerprintObservable<T> implements Observable.OnSubscribe<T> {
 
     private final Context context;
     private CancellationSignal cancellationSignal;
 
-    FingerprintObservable(Context context) {
+    /**
+     * Default constructor for fingerprint authentication
+     *
+     * @param context Context to be used for the fingerprint authentication
+     */
+    protected FingerprintObservable(Context context) {
         this.context = context;
 
         if (!RxFingerprint.available(context)) {
@@ -77,9 +83,48 @@ public abstract class FingerprintObservable<T> implements Observable.OnSubscribe
         };
     }
 
+    /**
+     * Method to initialize the {@link android.support.v4.hardware.fingerprint.FingerprintManagerCompat.CryptoObject}
+     * used for the fingerprint authentication.
+     *
+     * @param subscriber current subscriber
+     * @return a {@link android.support.v4.hardware.fingerprint.FingerprintManagerCompat.CryptoObject}
+     * that is to be used in the authentication. May be {@code null}.
+     */
     @Nullable
     protected abstract FingerprintManagerCompat.CryptoObject initCryptoObject(Subscriber<? super T> subscriber);
+
+    /**
+     * Action to execute when fingerprint authentication was successful.
+     * Should return the needed result via the given {@link Subscriber}.
+     * <p/>
+     * Should call {@link Subscriber#onCompleted()}.
+     *
+     * @param subscriber current subscriber
+     * @param result     result of the successful fingerprint authentication
+     */
     protected abstract void onAuthenticationSucceeded(Subscriber<? super T> subscriber, FingerprintManagerCompat.AuthenticationResult result);
+
+    /**
+     * Action to execute when the fingerprint authentication returned a help result.
+     * Should return the needed actions to the subscriber via the given {@link Subscriber}.
+     * <p/>
+     * Should <b>not</b> {@link Subscriber#onCompleted()}.
+     *
+     * @param subscriber    current subscriber
+     * @param helpMessageId ID of the help message returned from the {@link FingerprintManagerCompat}
+     * @param helpString    Help message string returned by the {@link FingerprintManagerCompat}
+     */
     protected abstract void onAuthenticationHelp(Subscriber<? super T> subscriber, int helpMessageId, String helpString);
+
+    /**
+     * Action to execute when the fingerprint authentication failed.
+     * Should return the needed action to the given {@link Subscriber}
+     * <p/>
+     * Should only call {@link Subscriber#onCompleted()} when fingerprint authentication should be
+     * canceled due to the failed event.
+     *
+     * @param subscriber current subscriber
+     */
     protected abstract void onAuthenticationFailed(Subscriber<? super T> subscriber);
 }

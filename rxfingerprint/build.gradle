@@ -17,9 +17,11 @@
 buildscript {
     repositories {
         jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.0.0-alpha3'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
     }
 }
 
@@ -28,9 +30,19 @@ plugins {
 }
 
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
 
 group 'com.mtramin'
 version '0.1.0'
+def libName = 'RxFingerprint'
+def libDescription =  'Android library to use fingerprint authentication with RxJava'
+def mavenPackageType = 'aar'
+def mavenDeveloperId = 'mauin'
+def mavenDeveloperName = 'Marvin Ramin'
+def mavenDeveloperEmail = 'marvin.ramin@gmail.com'
+def libWebsite = "https://github.com/Mauin/RxFingerprint"
+def libGit = "https://github.com/Mauin/RxFingerprint.git"
+
 
 def versionTag = version.toString()
 
@@ -40,20 +52,50 @@ bintray {
     configurations = ['archives']
     pkg {
         repo = "maven"
-        name = "RxFingerprint"
-        desc = "Android library to use fingerprint authentication with RxJava"
-        websiteUrl = "https://github.com/Mauin/RxFingerprint"
+        name = libName
+        desc = libDescription
+        websiteUrl = libWebsite
         issueTrackerUrl = "https://github.com/Mauin/RxFingerprint/issues"
-        vcsUrl = "https://github.com/Mauin/RxFingerprint.git"
+        vcsUrl = libGit
         licenses = ['Apache-2.0']
         labels = ['aar', 'android', 'fingerprint', 'fingerprintmanager', 'rxjava', 'authentication']
         version {
             name = versionTag
-            released  = new Date()
+            released = new Date()
             vcsTag = versionTag
         }
     }
 }
+
+install {
+    repositories.mavenInstaller {
+        pom.project {
+            packaging mavenPackageType
+            name libName
+            url libWebsite
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                }
+            }
+            developers {
+                developer {
+                    id mavenDeveloperId
+                    name mavenDeveloperName
+                    email mavenDeveloperEmail
+                }
+            }
+            scm {
+                connection libGit
+                developerConnection libGit
+                url libWebsite
+
+            }
+        }
+    }
+}
+
 
 android {
     compileSdkVersion 23

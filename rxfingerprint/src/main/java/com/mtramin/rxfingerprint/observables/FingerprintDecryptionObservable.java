@@ -8,7 +8,7 @@ import com.mtramin.rxfingerprint.data.CryptoData;
 import com.mtramin.rxfingerprint.data.FingerprintDecryptionResult;
 import com.mtramin.rxfingerprint.data.FingerprintEncryptionResult;
 import com.mtramin.rxfingerprint.data.FingerprintResult;
-import com.mtramin.rxfingerprint.utils.CryptoUtils;
+import com.mtramin.rxfingerprint.utils.CryptoProvider;
 
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
@@ -30,15 +30,17 @@ import rx.Subscriber;
  * Decrypts data with fingerprint authentication. Initializes a {@link Cipher} for decryption which
  * can only be used with fingerprint authentication and uses it once authentication was successful
  * to encrypt the given data.
- *
+ * <p/>
  * The date handed in must be previously encrypted by a {@link FingerprintEncryptionObservable}.
  */
 public class FingerprintDecryptionObservable extends FingerprintObservable<FingerprintDecryptionResult> {
 
+    private final String keyName;
     private CryptoData encryptedData;
 
-    private FingerprintDecryptionObservable(Context context, String encrypted) {
+    private FingerprintDecryptionObservable(Context context, String keyName, String encrypted) {
         super(context);
+        this.keyName = keyName;
         this.encryptedData = CryptoData.fromString(encrypted);
     }
 
@@ -47,20 +49,31 @@ public class FingerprintDecryptionObservable extends FingerprintObservable<Finge
      * to encrypt the given data.
      *
      * @param context   context to use
-     * @param encrypted data to encrypt
-     * @return Observable {@link FingerprintEncryptionResult}
+     * @param keyName   keyName to use for the decryption
+     * @param encrypted data to encrypt  @return Observable {@link FingerprintEncryptionResult}
+     */
+    public static Observable<FingerprintDecryptionResult> create(Context context, String keyName, String encrypted) {
+        return Observable.create(new FingerprintDecryptionObservable(context, keyName, encrypted));
+    }
+
+    /**
+     * Creates a new FingerprintEncryptionObservable that will listen to fingerprint authentication
+     * to encrypt the given data.
+     *
+     * @param context   context to use
+     * @param encrypted data to encrypt  @return Observable {@link FingerprintEncryptionResult}
      */
     public static Observable<FingerprintDecryptionResult> create(Context context, String encrypted) {
-        return Observable.create(new FingerprintDecryptionObservable(context, encrypted));
+        return Observable.create(new FingerprintDecryptionObservable(context, null, encrypted));
     }
 
     @Nullable
     @Override
     protected FingerprintManagerCompat.CryptoObject initCryptoObject(Subscriber<? super FingerprintDecryptionResult> subscriber) {
+        CryptoProvider cryptoProvider = new CryptoProvider(this.context, this.keyName);
         try {
-            Cipher cipher = CryptoUtils.initDecryptionCipher(encryptedData.getIv());
+            Cipher cipher = cryptoProvider.initDecryptionCipher(encryptedData.getIv());
             return new FingerprintManagerCompat.CryptoObject(cipher);
-
         } catch (NoSuchAlgorithmException | CertificateException | InvalidKeyException | KeyStoreException | InvalidAlgorithmParameterException | NoSuchPaddingException | IOException | UnrecoverableKeyException e) {
             subscriber.onError(e);
             return null;

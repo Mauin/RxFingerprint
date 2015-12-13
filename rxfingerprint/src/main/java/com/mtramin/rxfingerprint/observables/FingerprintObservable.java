@@ -21,7 +21,7 @@ import rx.subscriptions.Subscriptions;
  */
 public abstract class FingerprintObservable<T> implements Observable.OnSubscribe<T> {
 
-    private final Context context;
+    protected final Context context;
     private CancellationSignal cancellationSignal;
 
     /**
@@ -32,7 +32,8 @@ public abstract class FingerprintObservable<T> implements Observable.OnSubscribe
     protected FingerprintObservable(Context context) {
         this.context = context;
 
-        if (!RxFingerprint.available(context)) {
+        // TODO throw error in subscriber
+        if (!RxFingerprint.isAvailable(context)) {
             throw new IllegalAccessError("Fingerprint authentication is not available on this device! Ensure that the device has a Fingerprint sensor and enrolled Fingerprints by calling RxFingerprint#available(Context) first");
         }
     }

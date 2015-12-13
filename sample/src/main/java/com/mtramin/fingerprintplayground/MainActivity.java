@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         statusText.setText(text);
     }
 
-    private void preFingerprintAction() {
+    private void setStatusText() {
         if (!RxFingerprint.isAvailable(this)) {
             setStatusText("Fingerprint not available");
             return;
@@ -77,7 +77,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void authenticate() {
-        preFingerprintAction();
+        setStatusText();
+
+        if (!RxFingerprint.isAvailable(this)) {
+            return;
+        }
 
         fingerprintSubscription = RxFingerprint.authenticate(this)
                 .subscribe(new Action1<FingerprintAuthenticationResult>() {
@@ -98,7 +102,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void encrypt() {
-        preFingerprintAction();
+        setStatusText();
+
+        if (!RxFingerprint.isAvailable(this)) {
+            return;
+        }
 
         String toEncrypt = input.getText().toString();
         if (TextUtils.isEmpty(toEncrypt)) {
@@ -132,7 +140,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void decrypt(String encrypted) {
-        preFingerprintAction();
+        setStatusText();
+
+        if (!RxFingerprint.isAvailable(this)) {
+            return;
+        }
 
         fingerprintSubscription = RxFingerprint.decrypt(this, SAMPLE_KEY, encrypted)
                 .subscribe(new Action1<FingerprintDecryptionResult>() {

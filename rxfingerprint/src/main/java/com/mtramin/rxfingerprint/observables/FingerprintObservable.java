@@ -31,15 +31,14 @@ public abstract class FingerprintObservable<T> implements Observable.OnSubscribe
      */
     protected FingerprintObservable(Context context) {
         this.context = context;
-
-        // TODO throw error in subscriber
-        if (!RxFingerprint.isAvailable(context)) {
-            throw new IllegalAccessError("Fingerprint authentication is not available on this device! Ensure that the device has a Fingerprint sensor and enrolled Fingerprints by calling RxFingerprint#available(Context) first");
-        }
     }
 
     @Override
     public void call(final Subscriber<? super T> subscriber) {
+        if (!RxFingerprint.isAvailable(context)) {
+            subscriber.onError(new IllegalAccessException("Fingerprint authentication is not available on this device! Ensure that the device has a Fingerprint sensor and enrolled Fingerprints by calling RxFingerprint#available(Context) first"));
+        }
+
         AuthenticationCallback callback = createAuthenticationCallback(subscriber);
         cancellationSignal = new CancellationSignal();
         FingerprintManagerCompat.CryptoObject cryptoObject = initCryptoObject(subscriber);

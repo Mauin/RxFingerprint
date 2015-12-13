@@ -10,13 +10,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fa57f2d0-e771-475a-bf02-85282b68f60f" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/appcompat_v7_23_1_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/hamcrest_core_1_3.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/junit_4_12.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/rxjava_1_0_16.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/support_annotations_23_1_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/support_v4_23_1_1.xml" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/rxfingerprint/publish.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rxfingerprint/build.gradle" afterPath="$PROJECT_DIR$/rxfingerprint/build.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rxfingerprint/rxfingerprint.iml" afterPath="$PROJECT_DIR$/rxfingerprint/rxfingerprint.iml" />
     </list>
     <ignored path="RxFingerprint.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -53,130 +50,6 @@
                 <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ProjectNode" />
               </PATH_ELEMENT>
             </PATH>
-            <PATH>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ExternalProjectsStructure$RootNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="RxFingerprint" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ProjectNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value=":rxfingerprint" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ModuleNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="Run Configurations" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.RunConfigurationsNode" />
-              </PATH_ELEMENT>
-            </PATH>
-            <PATH>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ExternalProjectsStructure$RootNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="RxFingerprint" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ProjectNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value=":rxfingerprint" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ModuleNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="Tasks" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.TasksNode" />
-              </PATH_ELEMENT>
-            </PATH>
-            <PATH>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ExternalProjectsStructure$RootNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="RxFingerprint" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ProjectNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value=":rxfingerprint" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ModuleNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="Tasks" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.TasksNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="publishing" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.TasksNode$1" />
-              </PATH_ELEMENT>
-            </PATH>
-            <PATH>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ExternalProjectsStructure$RootNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="RxFingerprint" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ProjectNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value=":rxfingerprint" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ModuleNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="Tasks" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.TasksNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="install" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.TasksNode$1" />
-              </PATH_ELEMENT>
-            </PATH>
-            <PATH>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ExternalProjectsStructure$RootNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="RxFingerprint" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ProjectNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value=":rxfingerprint" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ModuleNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="Tasks" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.TasksNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="help" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.TasksNode$1" />
-              </PATH_ELEMENT>
-            </PATH>
-            <PATH>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ExternalProjectsStructure$RootNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="RxFingerprint" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ProjectNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value=":rxfingerprint" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ModuleNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="Tasks" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.TasksNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="build" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.TasksNode$1" />
-              </PATH_ELEMENT>
-            </PATH>
           </tree_state>
         </projects_view>
       </state>
@@ -190,8 +63,8 @@
       <file leaf-file-name="build.gradle" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/rxfingerprint/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.30612245">
-              <caret line="35" column="14" selection-start-line="35" selection-start-column="14" selection-end-line="35" selection-end-column="14" />
+            <state vertical-scroll-proportion="0.24781342">
+              <caret line="31" column="14" selection-start-line="31" selection-start-column="14" selection-end-line="31" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -575,6 +448,14 @@
                 <option name="name" value="installDebugAndroidTest" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="javadoc" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="javadocJar" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
                 <option name="description" value="Runs lint on all variants." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="lint" />
@@ -767,6 +648,10 @@
                 <option name="name" value="sourceSets" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="sourcesJar" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
                 <option name="description" value="Run unit tests for all variants." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="test" />
@@ -874,9 +759,9 @@
                 <option name="name" value="packageRelease" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Prepare com.mtramin:rxfingerprint:0.1.1" />
+                <option name="description" value="Prepare com.mtramin:rxfingerprint:0.1.2" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="prepareComMtraminRxfingerprint011Library" />
+                <option name="name" value="prepareComMtraminRxfingerprint012Library" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
@@ -1209,6 +1094,14 @@
                 <option name="name" value="installDebugAndroidTest" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/rxfingerprint" />
+                <option name="name" value="javadoc" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/rxfingerprint" />
+                <option name="name" value="javadocJar" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
                 <option name="description" value="Runs lint on all variants." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/rxfingerprint" />
                 <option name="name" value="lint" />
@@ -1414,6 +1307,10 @@
                 <option name="description" value="Prints out all the source sets defined in this project." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/rxfingerprint" />
                 <option name="name" value="sourceSets" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/rxfingerprint" />
+                <option name="name" value="sourcesJar" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="description" value="Displays the tasks runnable from project ':rxfingerprint'." />
@@ -1893,9 +1790,9 @@
                 <option name="name" value="prepareComAndroidSupportSupportV42311Library" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Prepare com.mtramin:rxfingerprint:0.1.1" />
+                <option name="description" value="Prepare com.mtramin:rxfingerprint:0.1.2" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/sample" />
-                <option name="name" value="prepareComMtraminRxfingerprint011Library" />
+                <option name="name" value="prepareComMtraminRxfingerprint012Library" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/sample" />
@@ -2080,7 +1977,7 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="5800054747000" />
+        <entry key="$PROJECT_DIR$" value="7250090886000" />
         <entry key="$PROJECT_DIR$/../Upvotes" value="5705695296000" />
         <entry key="$PROJECT_DIR$/../auth_lib" value="5697978192000" />
         <entry key="$PROJECT_DIR$/../blue" value="4280820901000" />
@@ -2230,8 +2127,8 @@
                             <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.build/gradle/2.0.0-alpha3/32ebb3ab89733335d71e1a644762a8d1d26808c3/gradle-2.0.0-alpha3.jar" />
                             <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.dcendents/android-maven-gradle-plugin/1.3/c284e22e7c691774d2240e419ac2a744e80d7e84/android-maven-gradle-plugin-1.3-sources.jar" />
                             <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.dcendents/android-maven-gradle-plugin/1.3/56f44bee48445bcb6b1f1e0f04576de3fee13426/android-maven-gradle-plugin-1.3.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jfrog.bintray.gradle/gradle-bintray-plugin/1.4/37e7780aac43d6a2c643d315f8015c7244d34907/gradle-bintray-plugin-1.4-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jfrog.bintray.gradle/gradle-bintray-plugin/1.4/c9c2779b543eec72706349967debdeeefd0be46f/gradle-bintray-plugin-1.4.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jfrog.bintray.gradle/gradle-bintray-plugin/1.3.1/c66b2388a77bbf5750b1fadff9b1ccbe3e84a86d/gradle-bintray-plugin-1.3.1-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jfrog.bintray.gradle/gradle-bintray-plugin/1.3.1/12a572adeff745e7a320486f4345fad05fa23555/gradle-bintray-plugin-1.3.1.jar" />
                             <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.build/gradle-core/2.0.0-alpha3/ac3e938963c4b8e55b467f78cca8e3d56a9540cf/gradle-core-2.0.0-alpha3-sources.jar" />
                             <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.build/gradle-core/2.0.0-alpha3/212725f3ed3b3983de881047c14ab7d229cafa89/gradle-core-2.0.0-alpha3.jar" />
                             <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.codehaus.groovy.modules.http-builder/http-builder/0.7.2/f1860181de06236f28f3f247aed57fa4631016d8/http-builder-0.7.2-sources.jar" />
@@ -2623,6 +2520,7 @@
         <option value="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/data/CryptoData.java" />
         <option value="$PROJECT_DIR$/rxfingerprint/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/sample/src/main/java/com/mtramin/fingerprintplayground/MainActivity.java" />
+        <option value="$PROJECT_DIR$/rxfingerprint/publish.gradle" />
         <option value="$PROJECT_DIR$/rxfingerprint/build.gradle" />
       </list>
     </option>
@@ -3008,7 +2906,7 @@
       <recent name="com.mtramin.rxfingerprint.observables" />
     </key>
   </component>
-  <component name="RunManager" selected="Android Application.sample">
+  <component name="RunManager" selected="Gradle.RxFingerprint:rxfingerprint [sourcesJar]">
     <configuration default="false" name="RxFingerprint:rxfingerprint [bintrayUpload]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -3039,6 +2937,24 @@
         <option name="taskNames">
           <list>
             <option value="assemble" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <method />
+    </configuration>
+    <configuration default="false" name="RxFingerprint:rxfingerprint [sourcesJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/rxfingerprint" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="sourcesJar" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -3135,6 +3051,15 @@
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
+      <method />
+    </configuration>
+    <configuration default="true" type="GroovyScriptRunConfiguration" factoryName="Groovy">
+      <module name="" />
+      <setting name="path" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workDir" value="file://$PROJECT_DIR$" />
+      <setting name="debug" value="false" />
       <method />
     </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
@@ -3329,16 +3254,18 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method />
     </configuration>
-    <list size="4">
+    <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Android Application.app" />
       <item index="1" class="java.lang.String" itemvalue="Android Application.sample" />
       <item index="2" class="java.lang.String" itemvalue="Gradle.RxFingerprint:rxfingerprint [bintrayUpload]" />
       <item index="3" class="java.lang.String" itemvalue="Gradle.RxFingerprint:rxfingerprint [assemble]" />
+      <item index="4" class="java.lang.String" itemvalue="Gradle.RxFingerprint:rxfingerprint [sourcesJar]" />
     </list>
     <recent_temporary>
-      <list size="2">
-        <item index="0" class="java.lang.String" itemvalue="Gradle.RxFingerprint:rxfingerprint [assemble]" />
-        <item index="1" class="java.lang.String" itemvalue="Gradle.RxFingerprint:rxfingerprint [bintrayUpload]" />
+      <list size="3">
+        <item index="0" class="java.lang.String" itemvalue="Gradle.RxFingerprint:rxfingerprint [sourcesJar]" />
+        <item index="1" class="java.lang.String" itemvalue="Gradle.RxFingerprint:rxfingerprint [assemble]" />
+        <item index="2" class="java.lang.String" itemvalue="Gradle.RxFingerprint:rxfingerprint [bintrayUpload]" />
       </list>
     </recent_temporary>
     <configuration name="&lt;template&gt;" type="Applet" default="true" selected="false">
@@ -3396,7 +3323,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24973376" sideWeight="0.5049365" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32923368" sideWeight="0.4744409" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32960597" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32960597" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32923368" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -3441,19 +3368,19 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="54" column="5" selection-start-line="54" selection-start-column="5" selection-end-line="54" selection-end-column="5" />
           <folding>
-            <marker date="1450013466000" expanded="false" signature="646:1457" placeholder="..." />
-            <marker date="1450013466000" expanded="true" signature="1459:1599" placeholder="/**...*/" />
-            <marker date="1450013466000" expanded="true" signature="1871:2351" placeholder="/**...*/" />
-            <marker date="1450013466000" expanded="true" signature="2430:2621" placeholder="{...}" />
-            <marker date="1450013466000" expanded="true" signature="2627:2715" placeholder="/**...*/" />
-            <marker date="1450013466000" expanded="true" signature="2976:3148" placeholder="{...}" />
-            <marker date="1450013466000" expanded="true" signature="3154:3304" placeholder="/**...*/" />
-            <marker date="1450013466000" expanded="true" signature="3549:3737" placeholder="{...}" />
-            <marker date="1450013466000" expanded="true" signature="3829:4020" placeholder="{...}" />
-            <marker date="1450013466000" expanded="true" signature="4250:4372" placeholder="{...}" />
-            <marker date="1450013466000" expanded="true" signature="4506:4847" placeholder="{...}" />
-            <marker date="1450013466000" expanded="true" signature="4990:5566" placeholder="{...}" />
-            <marker date="1450013466000" expanded="true" signature="5726:5890" placeholder="{...}" />
+            <marker date="1450014393000" expanded="false" signature="646:1457" placeholder="..." />
+            <marker date="1450014393000" expanded="true" signature="1459:1599" placeholder="/**...*/" />
+            <marker date="1450014393000" expanded="true" signature="1871:2351" placeholder="/**...*/" />
+            <marker date="1450014393000" expanded="true" signature="2430:2621" placeholder="{...}" />
+            <marker date="1450014393000" expanded="true" signature="2627:2715" placeholder="/**...*/" />
+            <marker date="1450014393000" expanded="true" signature="2976:3148" placeholder="{...}" />
+            <marker date="1450014393000" expanded="true" signature="3154:3304" placeholder="/**...*/" />
+            <marker date="1450014393000" expanded="true" signature="3549:3737" placeholder="{...}" />
+            <marker date="1450014393000" expanded="true" signature="3829:4020" placeholder="{...}" />
+            <marker date="1450014393000" expanded="true" signature="4250:4372" placeholder="{...}" />
+            <marker date="1450014393000" expanded="true" signature="4506:4847" placeholder="{...}" />
+            <marker date="1450014393000" expanded="true" signature="4990:5566" placeholder="{...}" />
+            <marker date="1450014393000" expanded="true" signature="5726:5890" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -3549,14 +3476,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sample/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.17621145">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.1278409">
@@ -3588,6 +3507,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="3.099369">
           <caret line="171" column="33" selection-start-line="171" selection-start-column="33" selection-end-line="171" selection-end-column="33" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -4625,19 +4545,19 @@
         <state vertical-scroll-proportion="-0.5677966">
           <caret line="54" column="5" selection-start-line="54" selection-start-column="5" selection-end-line="54" selection-end-column="5" />
           <folding>
-            <marker date="1450013466000" expanded="false" signature="646:1457" placeholder="..." />
-            <marker date="1450013466000" expanded="true" signature="1459:1599" placeholder="/**...*/" />
-            <marker date="1450013466000" expanded="true" signature="1871:2351" placeholder="/**...*/" />
-            <marker date="1450013466000" expanded="true" signature="2430:2621" placeholder="{...}" />
-            <marker date="1450013466000" expanded="true" signature="2627:2715" placeholder="/**...*/" />
-            <marker date="1450013466000" expanded="true" signature="2976:3148" placeholder="{...}" />
-            <marker date="1450013466000" expanded="true" signature="3154:3304" placeholder="/**...*/" />
-            <marker date="1450013466000" expanded="true" signature="3549:3737" placeholder="{...}" />
-            <marker date="1450013466000" expanded="true" signature="3829:4020" placeholder="{...}" />
-            <marker date="1450013466000" expanded="true" signature="4250:4372" placeholder="{...}" />
-            <marker date="1450013466000" expanded="true" signature="4506:4847" placeholder="{...}" />
-            <marker date="1450013466000" expanded="true" signature="4990:5566" placeholder="{...}" />
-            <marker date="1450013466000" expanded="true" signature="5726:5890" placeholder="{...}" />
+            <marker date="1450014393000" expanded="false" signature="646:1457" placeholder="..." />
+            <marker date="1450014393000" expanded="true" signature="1459:1599" placeholder="/**...*/" />
+            <marker date="1450014393000" expanded="true" signature="1871:2351" placeholder="/**...*/" />
+            <marker date="1450014393000" expanded="true" signature="2430:2621" placeholder="{...}" />
+            <marker date="1450014393000" expanded="true" signature="2627:2715" placeholder="/**...*/" />
+            <marker date="1450014393000" expanded="true" signature="2976:3148" placeholder="{...}" />
+            <marker date="1450014393000" expanded="true" signature="3154:3304" placeholder="/**...*/" />
+            <marker date="1450014393000" expanded="true" signature="3549:3737" placeholder="{...}" />
+            <marker date="1450014393000" expanded="true" signature="3829:4020" placeholder="{...}" />
+            <marker date="1450014393000" expanded="true" signature="4250:4372" placeholder="{...}" />
+            <marker date="1450014393000" expanded="true" signature="4506:4847" placeholder="{...}" />
+            <marker date="1450014393000" expanded="true" signature="4990:5566" placeholder="{...}" />
+            <marker date="1450014393000" expanded="true" signature="5726:5890" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -4655,7 +4575,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="9" selection-start-line="0" selection-start-column="9" selection-end-line="0" selection-end-column="9" />
           <folding>
-            <marker date="1450013466000" expanded="true" signature="623:675" placeholder="..." />
+            <marker date="1450014393000" expanded="true" signature="623:675" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -4665,46 +4585,94 @@
         <state vertical-scroll-proportion="-1.5770925">
           <caret line="56" column="0" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
           <folding>
-            <marker date="1450013466000" expanded="false" signature="0:595" placeholder="/.../" />
-            <marker date="1450013466000" expanded="false" signature="648:1263" placeholder="..." />
-            <marker date="1450013466000" expanded="true" signature="1265:1312" placeholder="/**...*/" />
-            <marker date="1450013466000" expanded="true" signature="1668:2353" placeholder="{...}" />
-            <marker date="1450013466000" expanded="false" signature="1887:1979" placeholder="(v) → {" />
-            <marker date="1450013466000" expanded="false" signature="2020:2035" placeholder="}" />
-            <marker date="1450013466000" expanded="false" signature="2093:2202" placeholder="(v) → { " />
-            <marker date="1450013466000" expanded="false" signature="2212:2236" placeholder=" }" />
-            <marker date="1450013466000" expanded="true" signature="2397:2476" placeholder="{...}" />
-            <marker date="1450013466000" expanded="false" signature="2521:2532" placeholder=" { " />
-            <marker date="1450013466000" expanded="false" signature="2557:2563" placeholder=" }" />
-            <marker date="1450013466000" expanded="true" signature="2598:2784" placeholder="{...}" />
-            <marker date="1450013466000" expanded="true" signature="2818:3771" placeholder="{...}" />
-            <marker date="1450013466000" expanded="false" signature="3019:3201" placeholder="(Action1) (fingerprintAuthenticationResult) → {" />
-            <marker date="1450013466000" expanded="false" signature="3515:3538" placeholder="}" />
-            <marker date="1450013466000" expanded="false" signature="3540:3656" placeholder="(throwable) → {" />
-            <marker date="1450013466000" expanded="false" signature="3740:3763" placeholder="}" />
-            <marker date="1450013466000" expanded="true" signature="3800:5473" placeholder="{...}" />
-            <marker date="1450013466000" expanded="false" signature="4216:4386" placeholder="(Action1) (fingerprintEncryptionResult) → {" />
-            <marker date="1450013466000" expanded="false" signature="4840:4863" placeholder="}" />
-            <marker date="1450013466000" expanded="false" signature="4865:4981" placeholder="(throwable) → {" />
-            <marker date="1450013466000" expanded="true" signature="5081:5337" placeholder="//..." />
-            <marker date="1450013466000" expanded="false" signature="5442:5465" placeholder="}" />
-            <marker date="1450013466000" expanded="true" signature="5518:6876" placeholder="{...}" />
-            <marker date="1450013466000" expanded="false" signature="5737:5907" placeholder="(Action1) (fingerprintDecryptionResult) → {" />
-            <marker date="1450013466000" expanded="false" signature="6243:6266" placeholder="}" />
-            <marker date="1450013466000" expanded="false" signature="6268:6384" placeholder="(throwable) → {" />
-            <marker date="1450013466000" expanded="true" signature="6484:6740" placeholder="//..." />
-            <marker date="1450013466000" expanded="false" signature="6845:6868" placeholder="}" />
-            <marker date="1450013466000" expanded="true" signature="6942:7284" placeholder="{...}" />
-            <marker date="1450013466000" expanded="false" signature="7092:7201" placeholder="(v) → { " />
-            <marker date="1450013466000" expanded="false" signature="7220:7244" placeholder=" }" />
+            <marker date="1450014393000" expanded="false" signature="0:595" placeholder="/.../" />
+            <marker date="1450014393000" expanded="false" signature="648:1263" placeholder="..." />
+            <marker date="1450014393000" expanded="true" signature="1265:1312" placeholder="/**...*/" />
+            <marker date="1450014393000" expanded="true" signature="1668:2353" placeholder="{...}" />
+            <marker date="1450014393000" expanded="false" signature="1887:1979" placeholder="(v) → {" />
+            <marker date="1450014393000" expanded="false" signature="2020:2035" placeholder="}" />
+            <marker date="1450014393000" expanded="false" signature="2093:2202" placeholder="(v) → { " />
+            <marker date="1450014393000" expanded="false" signature="2212:2236" placeholder=" }" />
+            <marker date="1450014393000" expanded="true" signature="2397:2476" placeholder="{...}" />
+            <marker date="1450014393000" expanded="false" signature="2521:2532" placeholder=" { " />
+            <marker date="1450014393000" expanded="false" signature="2557:2563" placeholder=" }" />
+            <marker date="1450014393000" expanded="true" signature="2598:2784" placeholder="{...}" />
+            <marker date="1450014393000" expanded="true" signature="2818:3771" placeholder="{...}" />
+            <marker date="1450014393000" expanded="false" signature="3019:3201" placeholder="(Action1) (fingerprintAuthenticationResult) → {" />
+            <marker date="1450014393000" expanded="false" signature="3515:3538" placeholder="}" />
+            <marker date="1450014393000" expanded="false" signature="3540:3656" placeholder="(throwable) → {" />
+            <marker date="1450014393000" expanded="false" signature="3740:3763" placeholder="}" />
+            <marker date="1450014393000" expanded="true" signature="3800:5473" placeholder="{...}" />
+            <marker date="1450014393000" expanded="false" signature="4216:4386" placeholder="(Action1) (fingerprintEncryptionResult) → {" />
+            <marker date="1450014393000" expanded="false" signature="4840:4863" placeholder="}" />
+            <marker date="1450014393000" expanded="false" signature="4865:4981" placeholder="(throwable) → {" />
+            <marker date="1450014393000" expanded="true" signature="5081:5337" placeholder="//..." />
+            <marker date="1450014393000" expanded="false" signature="5442:5465" placeholder="}" />
+            <marker date="1450014393000" expanded="true" signature="5518:6876" placeholder="{...}" />
+            <marker date="1450014393000" expanded="false" signature="5737:5907" placeholder="(Action1) (fingerprintDecryptionResult) → {" />
+            <marker date="1450014393000" expanded="false" signature="6243:6266" placeholder="}" />
+            <marker date="1450014393000" expanded="false" signature="6268:6384" placeholder="(throwable) → {" />
+            <marker date="1450014393000" expanded="true" signature="6484:6740" placeholder="//..." />
+            <marker date="1450014393000" expanded="false" signature="6845:6868" placeholder="}" />
+            <marker date="1450014393000" expanded="true" signature="6942:7284" placeholder="{...}" />
+            <marker date="1450014393000" expanded="false" signature="7092:7201" placeholder="(v) → { " />
+            <marker date="1450014393000" expanded="false" signature="7220:7244" placeholder=" }" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sample/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.75284094">
+          <caret line="53" column="14" selection-start-line="53" selection-start-column="14" selection-end-line="53" selection-end-column="14" />
+          <folding>
+            <marker date="1450014393000" expanded="true" signature="0:595" placeholder="/*...*/" />
+            <marker date="1450014393000" expanded="true" signature="609:744" placeholder="{...}" />
+            <marker date="1450014393000" expanded="true" signature="628:638" placeholder="{" />
+            <marker date="1450014393000" expanded="true" signature="647:653" placeholder="}" />
+            <marker date="1450014393000" expanded="true" signature="671:681" placeholder="{" />
+            <marker date="1450014393000" expanded="true" signature="736:742" placeholder="}" />
+            <marker date="1450014393000" expanded="true" signature="800:870" placeholder="{...}" />
+            <marker date="1450014393000" expanded="true" signature="812:822" placeholder="{" />
+            <marker date="1450014393000" expanded="true" signature="862:868" placeholder="}" />
+            <marker date="1450014393000" expanded="true" signature="880:1301" placeholder="{...}" />
+            <marker date="1450014393000" expanded="true" signature="957:1121" placeholder="{...}" />
+            <marker date="1450014393000" expanded="true" signature="1137:1299" placeholder="{...}" />
+            <marker date="1450014393000" expanded="true" signature="1155:1293" placeholder="{...}" />
+            <marker date="1450014393000" expanded="true" signature="1317:1582" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rxfingerprint/publish.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4664723">
+          <caret line="32" column="15" selection-start-line="32" selection-start-column="15" selection-end-line="32" selection-end-column="15" />
+          <folding>
+            <marker date="1450024095000" expanded="true" signature="0:595" placeholder="/*...*/" />
+            <marker date="1450024095000" expanded="true" signature="1113:1677" placeholder="{...}" />
+            <marker date="1450024095000" expanded="true" signature="1203:1675" placeholder="{...}" />
+            <marker date="1450024095000" expanded="true" signature="1562:1669" placeholder="{...}" />
+            <marker date="1450024095000" expanded="true" signature="1687:2431" placeholder="{...}" />
+            <marker date="1450024095000" expanded="true" signature="1721:2429" placeholder="{...}" />
+            <marker date="1450024095000" expanded="true" signature="1743:2423" placeholder="{...}" />
+            <marker date="1450024095000" expanded="true" signature="1857:2057" placeholder="{...}" />
+            <marker date="1450024095000" expanded="true" signature="1883:2043" placeholder="{...}" />
+            <marker date="1450024095000" expanded="true" signature="2081:2272" placeholder="{...}" />
+            <marker date="1450024095000" expanded="true" signature="2109:2258" placeholder="{...}" />
+            <marker date="1450024095000" expanded="true" signature="2289:2413" placeholder="{...}" />
+            <marker date="1450024095000" expanded="true" signature="2460:2536" placeholder="{...}" />
+            <marker date="1450024095000" expanded="true" signature="2566:2758" placeholder="{...}" />
+            <marker date="1450024095000" expanded="true" signature="2807:2869" placeholder="{...}" />
+            <marker date="1450024095000" expanded="true" signature="2881:2932" placeholder="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/rxfingerprint/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.30612245">
-          <caret line="35" column="14" selection-start-line="35" selection-start-column="14" selection-end-line="35" selection-end-column="14" />
+        <state vertical-scroll-proportion="0.24781342">
+          <caret line="31" column="14" selection-start-line="31" selection-start-column="14" selection-end-line="31" selection-end-column="14" />
           <folding />
         </state>
       </provider>

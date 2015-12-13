@@ -10,10 +10,39 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fa57f2d0-e771-475a-bf02-85282b68f60f" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/copyright/Apache.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" afterPath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.gradle" afterPath="$PROJECT_DIR$/build.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gradle.properties" afterPath="$PROJECT_DIR$/gradle.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rxfingerprint/build.gradle" afterPath="$PROJECT_DIR$/rxfingerprint/build.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rxfingerprint/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/rxfingerprint/src/main/AndroidManifest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/RxFingerprint.java" afterPath="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/RxFingerprint.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/data/CryptoData.java" afterPath="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/data/CryptoData.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/data/FingerprintAuthenticationException.java" afterPath="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/data/FingerprintAuthenticationException.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/data/FingerprintAuthenticationResult.java" afterPath="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/data/FingerprintAuthenticationResult.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/data/FingerprintDecryptionResult.java" afterPath="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/data/FingerprintDecryptionResult.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/data/FingerprintEncryptionResult.java" afterPath="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/data/FingerprintEncryptionResult.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/data/FingerprintResult.java" afterPath="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/data/FingerprintResult.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/observables/FingerprintAuthenticationObservable.java" afterPath="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/observables/FingerprintAuthenticationObservable.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/observables/FingerprintDecryptionObservable.java" afterPath="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/observables/FingerprintDecryptionObservable.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/observables/FingerprintEncryptionObservable.java" afterPath="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/observables/FingerprintEncryptionObservable.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/observables/FingerprintObservable.java" afterPath="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/observables/FingerprintObservable.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/utils/ContextUtils.java" afterPath="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/utils/ContextUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/utils/CryptoProvider.java" afterPath="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/utils/CryptoProvider.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rxfingerprint/src/test/java/com/mtramin/rxfingerprint/ExampleUnitTest.java" afterPath="$PROJECT_DIR$/rxfingerprint/src/test/java/com/mtramin/rxfingerprint/ExampleUnitTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sample/build.gradle" afterPath="$PROJECT_DIR$/sample/build.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sample/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/sample/src/main/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sample/src/main/java/com/mtramin/fingerprintplayground/MainActivity.java" afterPath="$PROJECT_DIR$/sample/src/main/java/com/mtramin/fingerprintplayground/MainActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sample/src/main/res/layout/activity_main.xml" afterPath="$PROJECT_DIR$/sample/src/main/res/layout/activity_main.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sample/src/main/res/values-w820dp/dimens.xml" afterPath="$PROJECT_DIR$/sample/src/main/res/values-w820dp/dimens.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sample/src/main/res/values/colors.xml" afterPath="$PROJECT_DIR$/sample/src/main/res/values/colors.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sample/src/main/res/values/dimens.xml" afterPath="$PROJECT_DIR$/sample/src/main/res/values/dimens.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sample/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/sample/src/main/res/values/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sample/src/main/res/values/styles.xml" afterPath="$PROJECT_DIR$/sample/src/main/res/values/styles.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sample/src/test/java/com/mtramin/fingerprintplayground/ExampleUnitTest.java" afterPath="$PROJECT_DIR$/sample/src/test/java/com/mtramin/fingerprintplayground/ExampleUnitTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/settings.gradle" afterPath="$PROJECT_DIR$/settings.gradle" />
     </list>
     <ignored path="RxFingerprint.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -184,12 +213,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="CryptoProvider.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/utils/CryptoProvider.java">
+      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/sample/src/main/java/com/mtramin/fingerprintplayground/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4039548">
-              <caret line="54" column="5" selection-start-line="54" selection-start-column="5" selection-end-line="54" selection-end-column="5" />
-              <folding />
+            <state vertical-scroll-proportion="0.85903084">
+              <caret line="56" column="0" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#7288#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -2067,7 +2098,7 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="5799223128000" />
+        <entry key="$PROJECT_DIR$" value="5800048976000" />
         <entry key="$PROJECT_DIR$/../Upvotes" value="5705695296000" />
         <entry key="$PROJECT_DIR$/../auth_lib" value="5697978192000" />
         <entry key="$PROJECT_DIR$/../blue" value="4280820901000" />
@@ -2587,7 +2618,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/sample/src/main/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/rxfingerprint/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/data/FingerprintResult.java" />
         <option value="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/data/FingerprintAuthenticationException.java" />
         <option value="$PROJECT_DIR$/sample/build.gradle" />
@@ -2608,6 +2638,7 @@
         <option value="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/RxFingerprint.java" />
         <option value="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/observables/FingerprintEncryptionObservable.java" />
         <option value="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/data/CryptoData.java" />
+        <option value="$PROJECT_DIR$/rxfingerprint/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/sample/src/main/java/com/mtramin/fingerprintplayground/MainActivity.java" />
       </list>
     </option>
@@ -2642,7 +2673,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -2933,8 +2964,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="PackagesPane" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -2965,6 +2994,8 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -2979,7 +3010,7 @@
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
     <property name="android.sdk.path" value="$PROJECT_DIR$/../../sdk" />
-    <property name="settings.editor.selected.configurable" value="android.sdk-updates" />
+    <property name="settings.editor.selected.configurable" value="template.copyright.formatting" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="device.picker.selection" value="CVH7N15B04003711" />
     <property name="android.project.structure.last.selected" value="SDK Location" />
@@ -3363,11 +3394,10 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="1173" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32960597" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -3386,14 +3416,15 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32923368" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24973376" sideWeight="0.49506348" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39924315" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24973376" sideWeight="0.49506348" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32923368" sideWeight="0.48509052" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32960597" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39924315" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -3412,7 +3443,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/observables/FingerprintAuthenticationObservable.java</url>
-          <line>45</line>
+          <line>61</line>
           <properties />
         </line-breakpoint>
       </breakpoints>
@@ -3421,27 +3452,33 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/utils/CryptoProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="54" column="5" selection-start-line="54" selection-start-column="5" selection-end-line="54" selection-end-column="5" />
+          <folding>
+            <marker date="1450013466000" expanded="false" signature="646:1457" placeholder="..." />
+            <marker date="1450013466000" expanded="true" signature="1459:1599" placeholder="/**...*/" />
+            <marker date="1450013466000" expanded="true" signature="1871:2351" placeholder="/**...*/" />
+            <marker date="1450013466000" expanded="true" signature="2430:2621" placeholder="{...}" />
+            <marker date="1450013466000" expanded="true" signature="2627:2715" placeholder="/**...*/" />
+            <marker date="1450013466000" expanded="true" signature="2976:3148" placeholder="{...}" />
+            <marker date="1450013466000" expanded="true" signature="3154:3304" placeholder="/**...*/" />
+            <marker date="1450013466000" expanded="true" signature="3549:3737" placeholder="{...}" />
+            <marker date="1450013466000" expanded="true" signature="3829:4020" placeholder="{...}" />
+            <marker date="1450013466000" expanded="true" signature="4250:4372" placeholder="{...}" />
+            <marker date="1450013466000" expanded="true" signature="4506:4847" placeholder="{...}" />
+            <marker date="1450013466000" expanded="true" signature="4990:5566" placeholder="{...}" />
+            <marker date="1450013466000" expanded="true" signature="5726:5890" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/rxfingerprint/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="8" column="20" selection-start-line="8" selection-start-column="20" selection-end-line="8" selection-end-column="20" />
-          <folding>
-            <marker date="1449936064000" expanded="true" signature="12:147" placeholder="{...}" />
-            <marker date="1449936064000" expanded="true" signature="31:41" placeholder="{" />
-            <marker date="1449936064000" expanded="true" signature="50:56" placeholder="}" />
-            <marker date="1449936064000" expanded="true" signature="74:84" placeholder="{" />
-            <marker date="1449936064000" expanded="true" signature="139:145" placeholder="}" />
-            <marker date="1449936064000" expanded="true" signature="157:163" placeholder="{" />
-            <marker date="1449936064000" expanded="true" signature="199:201" placeholder="}" />
-            <marker date="1449936064000" expanded="true" signature="322:1012" placeholder="{...}" />
-            <marker date="1449936064000" expanded="true" signature="412:1010" placeholder="{...}" />
-            <marker date="1449936064000" expanded="true" signature="896:1004" placeholder="{...}" />
-            <marker date="1449936064000" expanded="true" signature="1022:1389" placeholder="{...}" />
-            <marker date="1449936064000" expanded="true" signature="1099:1209" placeholder="{...}" />
-            <marker date="1449936064000" expanded="true" signature="1225:1387" placeholder="{...}" />
-            <marker date="1449936064000" expanded="true" signature="1243:1381" placeholder="{...}" />
-            <marker date="1449936064000" expanded="true" signature="1404:1537" placeholder="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -3449,23 +3486,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-          <folding>
-            <marker date="1449936064000" expanded="true" signature="12:147" placeholder="{...}" />
-            <marker date="1449936064000" expanded="true" signature="31:41" placeholder="{" />
-            <marker date="1449936064000" expanded="true" signature="50:56" placeholder="}" />
-            <marker date="1449936064000" expanded="true" signature="74:84" placeholder="{" />
-            <marker date="1449936064000" expanded="true" signature="139:145" placeholder="}" />
-            <marker date="1449936064000" expanded="true" signature="157:163" placeholder="{" />
-            <marker date="1449936064000" expanded="true" signature="199:201" placeholder="}" />
-            <marker date="1449936064000" expanded="true" signature="322:1012" placeholder="{...}" />
-            <marker date="1449936064000" expanded="true" signature="412:1010" placeholder="{...}" />
-            <marker date="1449936064000" expanded="true" signature="896:1004" placeholder="{...}" />
-            <marker date="1449936064000" expanded="true" signature="1022:1389" placeholder="{...}" />
-            <marker date="1449936064000" expanded="true" signature="1099:1209" placeholder="{...}" />
-            <marker date="1449936064000" expanded="true" signature="1225:1387" placeholder="{...}" />
-            <marker date="1449936064000" expanded="true" signature="1243:1381" placeholder="{...}" />
-            <marker date="1449936064000" expanded="true" signature="1404:1537" placeholder="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -3473,23 +3494,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="25" column="38" selection-start-line="25" selection-start-column="26" selection-end-line="25" selection-end-column="38" />
-          <folding>
-            <marker date="1449936064000" expanded="true" signature="12:147" placeholder="{...}" />
-            <marker date="1449936064000" expanded="true" signature="31:41" placeholder="{" />
-            <marker date="1449936064000" expanded="true" signature="50:56" placeholder="}" />
-            <marker date="1449936064000" expanded="true" signature="74:84" placeholder="{" />
-            <marker date="1449936064000" expanded="true" signature="139:145" placeholder="}" />
-            <marker date="1449936064000" expanded="true" signature="157:163" placeholder="{" />
-            <marker date="1449936064000" expanded="true" signature="199:201" placeholder="}" />
-            <marker date="1449936064000" expanded="true" signature="322:1012" placeholder="{...}" />
-            <marker date="1449936064000" expanded="true" signature="412:1010" placeholder="{...}" />
-            <marker date="1449936064000" expanded="true" signature="896:1004" placeholder="{...}" />
-            <marker date="1449936064000" expanded="true" signature="1022:1389" placeholder="{...}" />
-            <marker date="1449936064000" expanded="true" signature="1099:1209" placeholder="{...}" />
-            <marker date="1449936064000" expanded="true" signature="1225:1387" placeholder="{...}" />
-            <marker date="1449936064000" expanded="true" signature="1243:1381" placeholder="{...}" />
-            <marker date="1449936064000" expanded="true" signature="1404:1537" placeholder="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -3497,32 +3502,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="55" column="32" selection-start-line="55" selection-start-column="32" selection-end-line="55" selection-end-column="32" />
-          <folding>
-            <marker date="1450009197000" expanded="false" signature="43:719" placeholder="..." />
-            <marker date="1450009197000" expanded="true" signature="721:1992" placeholder="/**...*/" />
-            <marker date="1450009197000" expanded="true" signature="2026:2646" placeholder="/**...*/" />
-            <marker date="1450009197000" expanded="true" signature="2739:2814" placeholder="{...}" />
-            <marker date="1450009197000" expanded="true" signature="2820:4112" placeholder="/**...*/" />
-            <marker date="1450009197000" expanded="true" signature="4214:4296" placeholder="{...}" />
-            <marker date="1450009197000" expanded="true" signature="4302:5381" placeholder="/**...*/" />
-            <marker date="1450009197000" expanded="true" signature="5483:5565" placeholder="{...}" />
-            <marker date="1450009197000" expanded="true" signature="5571:6735" placeholder="/**...*/" />
-            <marker date="1450009197000" expanded="true" signature="6871:6962" placeholder="{...}" />
-            <marker date="1450009197000" expanded="true" signature="6968:8130" placeholder="/**...*/" />
-            <marker date="1450009197000" expanded="true" signature="8266:8357" placeholder="{...}" />
-            <marker date="1450009197000" expanded="true" signature="8363:8718" placeholder="/**...*/" />
-            <marker date="1450009197000" expanded="true" signature="8783:8870" placeholder="{...}" />
-            <marker date="1450009197000" expanded="true" signature="8876:9223" placeholder="/**...*/" />
-            <marker date="1450009197000" expanded="false" signature="9289:9300" placeholder=" { " />
-            <marker date="1450009197000" expanded="false" signature="9329:9335" placeholder=" }" />
-            <marker date="1450009197000" expanded="true" signature="9341:9702" placeholder="/**...*/" />
-            <marker date="1450009197000" expanded="true" signature="9774:9849" placeholder="{...}" />
-            <marker date="1450009197000" expanded="true" signature="9855:10207" placeholder="/**...*/" />
-            <marker date="1450009197000" expanded="true" signature="10284:10364" placeholder="{...}" />
-            <marker date="1450009197000" expanded="true" signature="10462:10524" placeholder="{...}" />
-            <marker date="1450009197000" expanded="true" signature="10530:11371" placeholder="/**...*/" />
-            <marker date="1450009197000" expanded="true" signature="11434:11513" placeholder="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -3530,32 +3510,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
-          <folding>
-            <marker date="1450009197000" expanded="false" signature="43:719" placeholder="..." />
-            <marker date="1450009197000" expanded="true" signature="721:1992" placeholder="/**...*/" />
-            <marker date="1450009197000" expanded="true" signature="2026:2646" placeholder="/**...*/" />
-            <marker date="1450009197000" expanded="true" signature="2739:2814" placeholder="{...}" />
-            <marker date="1450009197000" expanded="true" signature="2820:4112" placeholder="/**...*/" />
-            <marker date="1450009197000" expanded="true" signature="4214:4296" placeholder="{...}" />
-            <marker date="1450009197000" expanded="true" signature="4302:5381" placeholder="/**...*/" />
-            <marker date="1450009197000" expanded="true" signature="5483:5565" placeholder="{...}" />
-            <marker date="1450009197000" expanded="true" signature="5571:6735" placeholder="/**...*/" />
-            <marker date="1450009197000" expanded="true" signature="6871:6962" placeholder="{...}" />
-            <marker date="1450009197000" expanded="true" signature="6968:8130" placeholder="/**...*/" />
-            <marker date="1450009197000" expanded="true" signature="8266:8357" placeholder="{...}" />
-            <marker date="1450009197000" expanded="true" signature="8363:8718" placeholder="/**...*/" />
-            <marker date="1450009197000" expanded="true" signature="8783:8870" placeholder="{...}" />
-            <marker date="1450009197000" expanded="true" signature="8876:9223" placeholder="/**...*/" />
-            <marker date="1450009197000" expanded="false" signature="9289:9300" placeholder=" { " />
-            <marker date="1450009197000" expanded="false" signature="9329:9335" placeholder=" }" />
-            <marker date="1450009197000" expanded="true" signature="9341:9702" placeholder="/**...*/" />
-            <marker date="1450009197000" expanded="true" signature="9774:9849" placeholder="{...}" />
-            <marker date="1450009197000" expanded="true" signature="9855:10207" placeholder="/**...*/" />
-            <marker date="1450009197000" expanded="true" signature="10284:10364" placeholder="{...}" />
-            <marker date="1450009197000" expanded="true" signature="10462:10524" placeholder="{...}" />
-            <marker date="1450009197000" expanded="true" signature="10530:11371" placeholder="/**...*/" />
-            <marker date="1450009197000" expanded="true" signature="11434:11513" placeholder="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -3577,13 +3532,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.13081396">
           <caret line="9" column="35" selection-start-line="9" selection-start-column="35" selection-end-line="9" selection-end-column="35" />
-          <folding>
-            <marker date="1448738785000" expanded="true" signature="107:746" placeholder="..." />
-            <marker date="1448738785000" expanded="true" signature="248:733" placeholder="..." />
-            <marker date="1448738785000" expanded="true" signature="349:367" placeholder="&quot;FingerprintPlayground&quot;" />
-            <marker date="1448738785000" expanded="true" signature="490:714" placeholder="..." />
-            <marker date="1448738785000" expanded="true" signature="518:694" placeholder="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -3591,16 +3540,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33333334">
           <caret line="45" column="23" selection-start-line="45" selection-start-column="23" selection-end-line="45" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rxfingerprint/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="9" selection-start-line="0" selection-start-column="9" selection-end-line="0" selection-end-column="9" />
-          <folding>
-            <marker date="1449417236000" expanded="true" signature="9:61" placeholder="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3615,9 +3554,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.105932206">
           <caret line="5" column="31" selection-start-line="5" selection-start-column="31" selection-end-line="5" selection-end-column="31" />
-          <folding>
-            <marker date="1449422114000" expanded="true" signature="41:110" placeholder="/**...*/" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -3625,7 +3562,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3633,21 +3569,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.17621145">
           <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding>
-            <marker date="1449934992000" expanded="true" signature="12:147" placeholder="{...}" />
-            <marker date="1449934992000" expanded="true" signature="31:41" placeholder="{" />
-            <marker date="1449934992000" expanded="true" signature="50:56" placeholder="}" />
-            <marker date="1449934992000" expanded="true" signature="74:84" placeholder="{" />
-            <marker date="1449934992000" expanded="true" signature="139:145" placeholder="}" />
-            <marker date="1449934992000" expanded="true" signature="203:273" placeholder="{...}" />
-            <marker date="1449934992000" expanded="true" signature="215:225" placeholder="{" />
-            <marker date="1449934992000" expanded="true" signature="265:271" placeholder="}" />
-            <marker date="1449934992000" expanded="true" signature="283:704" placeholder="{...}" />
-            <marker date="1449934992000" expanded="true" signature="360:524" placeholder="{...}" />
-            <marker date="1449934992000" expanded="true" signature="540:702" placeholder="{...}" />
-            <marker date="1449934992000" expanded="true" signature="558:696" placeholder="{...}" />
-            <marker date="1449934992000" expanded="true" signature="720:985" placeholder="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -3655,13 +3577,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.1278409">
           <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding>
-            <marker date="1449934995000" expanded="true" signature="12:58" placeholder="{...}" />
-            <marker date="1449934995000" expanded="true" signature="31:41" placeholder="{" />
-            <marker date="1449934995000" expanded="true" signature="50:56" placeholder="}" />
-            <marker date="1449934995000" expanded="true" signature="85:91" placeholder="{" />
-            <marker date="1449934995000" expanded="true" signature="118:120" placeholder="}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -3669,25 +3585,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.4631474">
           <caret line="31" column="30" selection-start-line="31" selection-start-column="30" selection-end-line="31" selection-end-column="30" />
-          <folding>
-            <marker date="1449935795000" expanded="true" signature="111:2059" placeholder="..." />
-            <marker date="1449935795000" expanded="true" signature="299:332" placeholder="&quot;16dp&quot;" />
-            <marker date="1449935795000" expanded="true" signature="357:392" placeholder="&quot;16dp&quot;" />
-            <marker date="1449935795000" expanded="true" signature="418:453" placeholder="&quot;16dp&quot;" />
-            <marker date="1449935795000" expanded="true" signature="477:510" placeholder="&quot;16dp&quot;" />
-            <marker date="1449935795000" expanded="true" signature="668:831" placeholder="..." />
-            <marker date="1449935795000" expanded="true" signature="844:954" placeholder="..." />
-            <marker date="1449935795000" expanded="true" signature="919:952" placeholder="&quot;16dp&quot;" />
-            <marker date="1449935795000" expanded="true" signature="968:1133" placeholder="..." />
-            <marker date="1449935795000" expanded="true" signature="1149:1316" placeholder="..." />
-            <marker date="1449935795000" expanded="true" signature="1330:1485" placeholder="..." />
-            <marker date="1449935795000" expanded="true" signature="1498:1608" placeholder="..." />
-            <marker date="1449935795000" expanded="true" signature="1573:1606" placeholder="&quot;16dp&quot;" />
-            <marker date="1449935795000" expanded="true" signature="1620:1750" placeholder="..." />
-            <marker date="1449935795000" expanded="true" signature="1763:1873" placeholder="..." />
-            <marker date="1449935795000" expanded="true" signature="1838:1871" placeholder="&quot;16dp&quot;" />
-            <marker date="1449935795000" expanded="true" signature="1888:2043" placeholder="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
       <provider editor-type-id="android-designer">
@@ -3698,23 +3596,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="1.2923728">
           <caret line="61" column="25" selection-start-line="61" selection-start-column="25" selection-end-line="61" selection-end-column="25" />
-          <folding>
-            <marker date="1449936064000" expanded="true" signature="12:147" placeholder="{...}" />
-            <marker date="1449936064000" expanded="true" signature="31:41" placeholder="{" />
-            <marker date="1449936064000" expanded="true" signature="50:56" placeholder="}" />
-            <marker date="1449936064000" expanded="true" signature="74:84" placeholder="{" />
-            <marker date="1449936064000" expanded="true" signature="139:145" placeholder="}" />
-            <marker date="1449936064000" expanded="true" signature="157:163" placeholder="{" />
-            <marker date="1449936064000" expanded="true" signature="199:201" placeholder="}" />
-            <marker date="1449936064000" expanded="true" signature="322:1012" placeholder="{...}" />
-            <marker date="1449936064000" expanded="true" signature="412:1010" placeholder="{...}" />
-            <marker date="1449936064000" expanded="true" signature="896:1004" placeholder="{...}" />
-            <marker date="1449936064000" expanded="true" signature="1022:1389" placeholder="{...}" />
-            <marker date="1449936064000" expanded="true" signature="1099:1209" placeholder="{...}" />
-            <marker date="1449936064000" expanded="true" signature="1225:1387" placeholder="{...}" />
-            <marker date="1449936064000" expanded="true" signature="1243:1381" placeholder="{...}" />
-            <marker date="1449936064000" expanded="true" signature="1404:1537" placeholder="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -3722,12 +3604,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.16561514">
           <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-          <folding>
-            <marker date="1450005013000" expanded="true" signature="75:122" placeholder="/**...*/" />
-            <marker date="1450005013000" expanded="true" signature="156:337" placeholder="/**...*/" />
-            <marker date="1450005013000" expanded="false" signature="394:405" placeholder=" { " />
-            <marker date="1450005013000" expanded="false" signature="437:443" placeholder=" }" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -3735,7 +3612,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="3.099369">
           <caret line="171" column="33" selection-start-line="171" selection-start-column="33" selection-end-line="171" selection-end-column="33" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3743,10 +3619,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.14195584">
           <caret line="6" column="11" selection-start-line="6" selection-start-column="11" selection-end-line="6" selection-end-column="11" />
-          <folding>
-            <marker date="1449422568000" expanded="true" signature="41:149" placeholder="/**...*/" />
-            <marker date="1449422568000" expanded="true" signature="288:295" placeholder="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -3754,20 +3627,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.68611985">
           <caret line="32" column="29" selection-start-line="32" selection-start-column="29" selection-end-line="32" selection-end-column="29" />
-          <folding>
-            <marker date="1450007979000" expanded="true" signature="42:98" placeholder="/**...*/" />
-            <marker date="1450007979000" expanded="true" signature="229:404" placeholder="/**...*/" />
-            <marker date="1450007979000" expanded="true" signature="490:559" placeholder="{...}" />
-            <marker date="1450007979000" expanded="true" signature="565:693" placeholder="/**...*/" />
-            <marker date="1450007979000" expanded="false" signature="724:735" placeholder=" { " />
-            <marker date="1450007979000" expanded="false" signature="750:756" placeholder=" }" />
-            <marker date="1450007979000" expanded="true" signature="762:835" placeholder="/**...*/" />
-            <marker date="1450007979000" expanded="true" signature="876:887" placeholder=" { " />
-            <marker date="1450007979000" expanded="true" signature="901:907" placeholder=" }" />
-            <marker date="1450007979000" expanded="true" signature="913:985" placeholder="/**...*/" />
-            <marker date="1450007979000" expanded="false" signature="1016:1027" placeholder=" { " />
-            <marker date="1450007979000" expanded="false" signature="1076:1082" placeholder=" }" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -3775,13 +3635,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.18927445">
           <caret line="8" column="18" selection-start-line="8" selection-start-column="18" selection-end-line="8" selection-end-column="18" />
-          <folding>
-            <marker date="1450007786000" expanded="true" signature="42:111" placeholder="/**...*/" />
-            <marker date="1450007786000" expanded="true" signature="237:429" placeholder="/**...*/" />
-            <marker date="1450007786000" expanded="true" signature="529:604" placeholder="{...}" />
-            <marker date="1450007786000" expanded="true" signature="610:746" placeholder="/**...*/" />
-            <marker date="1450007786000" expanded="true" signature="780:975" placeholder="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -3789,13 +3643,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.18927445">
           <caret line="8" column="18" selection-start-line="8" selection-start-column="18" selection-end-line="8" selection-end-column="18" />
-          <folding>
-            <marker date="1450007781000" expanded="true" signature="42:118" placeholder="/**...*/" />
-            <marker date="1450007781000" expanded="true" signature="244:453" placeholder="/**...*/" />
-            <marker date="1450007781000" expanded="true" signature="553:628" placeholder="{...}" />
-            <marker date="1450007781000" expanded="true" signature="634:817" placeholder="/**...*/" />
-            <marker date="1450007781000" expanded="true" signature="851:1046" placeholder="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -3803,26 +3651,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5127119">
           <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
-          <folding>
-            <marker date="1450009013000" expanded="true" signature="55:620" placeholder="..." />
-            <marker date="1450009013000" expanded="true" signature="622:773" placeholder="/**...*/" />
-            <marker date="1450009013000" expanded="true" signature="954:1106" placeholder="/**...*/" />
-            <marker date="1450009013000" expanded="false" signature="1159:1170" placeholder=" { " />
-            <marker date="1450009013000" expanded="false" signature="1193:1199" placeholder=" }" />
-            <marker date="1450009013000" expanded="true" signature="1276:2232" placeholder="{...}" />
-            <marker date="1450009013000" expanded="false" signature="1976:2046" placeholder="() → {" />
-            <marker date="1450009013000" expanded="false" signature="2208:2223" placeholder="}" />
-            <marker date="1450009013000" expanded="true" signature="2351:3497" placeholder="{...}" />
-            <marker date="1450009013000" expanded="true" signature="2397:3490" placeholder="{...}" />
-            <marker date="1450009013000" expanded="true" signature="2505:2673" placeholder="{...}" />
-            <marker date="1450009013000" expanded="true" signature="2746:2888" placeholder="{...}" />
-            <marker date="1450009013000" expanded="true" signature="2997:3190" placeholder="{...}" />
-            <marker date="1450009013000" expanded="true" signature="3318:3480" placeholder="{...}" />
-            <marker date="1450009013000" expanded="true" signature="3503:3904" placeholder="/**...*/" />
-            <marker date="1450009013000" expanded="true" signature="4037:4387" placeholder="/**...*/" />
-            <marker date="1450009013000" expanded="true" signature="4536:5048" placeholder="/**...*/" />
-            <marker date="1450009013000" expanded="true" signature="5176:5530" placeholder="/**...*/" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -3830,19 +3659,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3855932">
           <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
-          <folding>
-            <marker date="1450009018000" expanded="false" signature="55:370" placeholder="..." />
-            <marker date="1450009018000" expanded="true" signature="372:427" placeholder="/**...*/" />
-            <marker date="1450009018000" expanded="false" signature="607:618" placeholder=" { " />
-            <marker date="1450009018000" expanded="false" signature="633:639" placeholder=" }" />
-            <marker date="1450009018000" expanded="true" signature="645:913" placeholder="/**...*/" />
-            <marker date="1450009018000" expanded="true" signature="1000:1091" placeholder="{...}" />
-            <marker date="1450009018000" expanded="true" signature="1097:1120" placeholder="@{...}" />
-            <marker date="1450009018000" expanded="true" signature="1254:1342" placeholder="{...}" />
-            <marker date="1450009018000" expanded="true" signature="1521:1665" placeholder="{...}" />
-            <marker date="1450009018000" expanded="true" signature="1823:1930" placeholder="{...}" />
-            <marker date="1450009018000" expanded="true" signature="2052:2155" placeholder="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -3850,32 +3667,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.35451978">
           <caret line="127" column="48" selection-start-line="127" selection-start-column="48" selection-end-line="127" selection-end-column="48" />
-          <folding>
-            <marker date="1450009197000" expanded="false" signature="43:719" placeholder="..." />
-            <marker date="1450009197000" expanded="true" signature="721:1992" placeholder="/**...*/" />
-            <marker date="1450009197000" expanded="true" signature="2026:2646" placeholder="/**...*/" />
-            <marker date="1450009197000" expanded="true" signature="2739:2814" placeholder="{...}" />
-            <marker date="1450009197000" expanded="true" signature="2820:4112" placeholder="/**...*/" />
-            <marker date="1450009197000" expanded="true" signature="4214:4296" placeholder="{...}" />
-            <marker date="1450009197000" expanded="true" signature="4302:5381" placeholder="/**...*/" />
-            <marker date="1450009197000" expanded="true" signature="5483:5565" placeholder="{...}" />
-            <marker date="1450009197000" expanded="true" signature="5571:6735" placeholder="/**...*/" />
-            <marker date="1450009197000" expanded="true" signature="6871:6962" placeholder="{...}" />
-            <marker date="1450009197000" expanded="true" signature="6968:8130" placeholder="/**...*/" />
-            <marker date="1450009197000" expanded="true" signature="8266:8357" placeholder="{...}" />
-            <marker date="1450009197000" expanded="true" signature="8363:8718" placeholder="/**...*/" />
-            <marker date="1450009197000" expanded="true" signature="8783:8870" placeholder="{...}" />
-            <marker date="1450009197000" expanded="true" signature="8876:9223" placeholder="/**...*/" />
-            <marker date="1450009197000" expanded="false" signature="9289:9300" placeholder=" { " />
-            <marker date="1450009197000" expanded="false" signature="9329:9335" placeholder=" }" />
-            <marker date="1450009197000" expanded="true" signature="9341:9702" placeholder="/**...*/" />
-            <marker date="1450009197000" expanded="true" signature="9774:9849" placeholder="{...}" />
-            <marker date="1450009197000" expanded="true" signature="9855:10207" placeholder="/**...*/" />
-            <marker date="1450009197000" expanded="true" signature="10284:10364" placeholder="{...}" />
-            <marker date="1450009197000" expanded="true" signature="10462:10524" placeholder="{...}" />
-            <marker date="1450009197000" expanded="true" signature="10530:11371" placeholder="/**...*/" />
-            <marker date="1450009197000" expanded="true" signature="11434:11513" placeholder="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -4832,20 +4624,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33898306">
           <caret line="46" column="70" selection-start-line="46" selection-start-column="70" selection-end-line="46" selection-end-column="70" />
-          <folding>
-            <marker date="1450009272000" expanded="false" signature="55:1133" placeholder="..." />
-            <marker date="1450009272000" expanded="true" signature="1135:1371" placeholder="/**...*/" />
-            <marker date="1450009272000" expanded="true" signature="1645:1898" placeholder="{...}" />
-            <marker date="1450009272000" expanded="true" signature="1904:2246" placeholder="/**...*/" />
-            <marker date="1450009272000" expanded="true" signature="2363:2470" placeholder="{...}" />
-            <marker date="1450009272000" expanded="true" signature="2476:2762" placeholder="/**...*/" />
-            <marker date="1450009272000" expanded="true" signature="2863:2967" placeholder="{...}" />
-            <marker date="1450009272000" expanded="true" signature="2973:2996" placeholder="@{...}" />
-            <marker date="1450009272000" expanded="true" signature="3126:3684" placeholder="{...}" />
-            <marker date="1450009272000" expanded="true" signature="3859:4555" placeholder="{...}" />
-            <marker date="1450009272000" expanded="true" signature="4709:4818" placeholder="{...}" />
-            <marker date="1450009272000" expanded="true" signature="4936:5041" placeholder="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -4853,20 +4632,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33333334">
           <caret line="43" column="40" selection-start-line="43" selection-start-column="40" selection-end-line="43" selection-end-column="40" />
-          <folding>
-            <marker date="1450008953000" expanded="false" signature="55:1010" placeholder="..." />
-            <marker date="1450008953000" expanded="true" signature="1012:1353" placeholder="/**...*/" />
-            <marker date="1450008953000" expanded="true" signature="1635:1761" placeholder="{...}" />
-            <marker date="1450008953000" expanded="true" signature="1767:2163" placeholder="/**...*/" />
-            <marker date="1450008953000" expanded="true" signature="2280:2387" placeholder="{...}" />
-            <marker date="1450008953000" expanded="true" signature="2393:2731" placeholder="/**...*/" />
-            <marker date="1450008953000" expanded="true" signature="2832:2936" placeholder="{...}" />
-            <marker date="1450008953000" expanded="true" signature="2942:2965" placeholder="@{...}" />
-            <marker date="1450008953000" expanded="true" signature="3095:3648" placeholder="{...}" />
-            <marker date="1450008953000" expanded="true" signature="3823:4266" placeholder="{...}" />
-            <marker date="1450008953000" expanded="true" signature="4420:4529" placeholder="{...}" />
-            <marker date="1450008953000" expanded="true" signature="4647:4752" placeholder="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -4874,76 +4640,75 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.4180791">
           <caret line="36" column="172" selection-start-line="36" selection-start-column="172" selection-end-line="36" selection-end-column="172" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/utils/CryptoProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.5677966">
+          <caret line="54" column="5" selection-start-line="54" selection-start-column="5" selection-end-line="54" selection-end-column="5" />
           <folding>
-            <marker date="1450009658000" expanded="false" signature="48:111" placeholder="..." />
-            <marker date="1450009658000" expanded="true" signature="113:177" placeholder="/**...*/" />
-            <marker date="1450009658000" expanded="true" signature="394:495" placeholder="{...}" />
-            <marker date="1450009658000" expanded="true" signature="547:622" placeholder="{...}" />
-            <marker date="1450009658000" expanded="true" signature="628:795" placeholder="/**...*/" />
-            <marker date="1450009658000" expanded="true" signature="850:1403" placeholder="{...}" />
-            <marker date="1450009658000" expanded="true" signature="1409:1647" placeholder="/**...*/" />
-            <marker date="1450009658000" expanded="true" signature="1724:1785" placeholder="{...}" />
-            <marker date="1450009658000" expanded="false" signature="1829:1840" placeholder=" { " />
-            <marker date="1450009658000" expanded="false" signature="1896:1902" placeholder=" }" />
-            <marker date="1450009658000" expanded="true" signature="1908:1980" placeholder="/**...*/" />
-            <marker date="1450009658000" expanded="false" signature="2006:2017" placeholder=" { " />
-            <marker date="1450009658000" expanded="false" signature="2042:2048" placeholder=" }" />
-            <marker date="1450009658000" expanded="true" signature="2054:2112" placeholder="/**...*/" />
-            <marker date="1450009658000" expanded="false" signature="2143:2154" placeholder=" { " />
-            <marker date="1450009658000" expanded="false" signature="2184:2190" placeholder=" }" />
-            <marker date="1450009658000" expanded="true" signature="2241:2310" placeholder="{...}" />
-            <marker date="1450009658000" expanded="true" signature="2372:2447" placeholder="{...}" />
+            <marker date="1450013466000" expanded="false" signature="646:1457" placeholder="..." />
+            <marker date="1450013466000" expanded="true" signature="1459:1599" placeholder="/**...*/" />
+            <marker date="1450013466000" expanded="true" signature="1871:2351" placeholder="/**...*/" />
+            <marker date="1450013466000" expanded="true" signature="2430:2621" placeholder="{...}" />
+            <marker date="1450013466000" expanded="true" signature="2627:2715" placeholder="/**...*/" />
+            <marker date="1450013466000" expanded="true" signature="2976:3148" placeholder="{...}" />
+            <marker date="1450013466000" expanded="true" signature="3154:3304" placeholder="/**...*/" />
+            <marker date="1450013466000" expanded="true" signature="3549:3737" placeholder="{...}" />
+            <marker date="1450013466000" expanded="true" signature="3829:4020" placeholder="{...}" />
+            <marker date="1450013466000" expanded="true" signature="4250:4372" placeholder="{...}" />
+            <marker date="1450013466000" expanded="true" signature="4506:4847" placeholder="{...}" />
+            <marker date="1450013466000" expanded="true" signature="4990:5566" placeholder="{...}" />
+            <marker date="1450013466000" expanded="true" signature="5726:5890" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LICENSE">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.8305085">
+          <caret line="200" column="33" selection-start-line="188" selection-start-column="3" selection-end-line="200" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rxfingerprint/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="9" selection-start-line="0" selection-start-column="9" selection-end-line="0" selection-end-column="9" />
+          <folding>
+            <marker date="1450013466000" expanded="true" signature="623:675" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sample/src/main/java/com/mtramin/fingerprintplayground/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.309322">
-          <caret line="148" column="83" selection-start-line="148" selection-start-column="83" selection-end-line="148" selection-end-column="83" />
+        <state vertical-scroll-proportion="0.85903084">
+          <caret line="56" column="0" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
           <folding>
-            <marker date="1450009673000" expanded="false" signature="51:666" placeholder="..." />
-            <marker date="1450009673000" expanded="true" signature="668:715" placeholder="/**...*/" />
-            <marker date="1450009673000" expanded="true" signature="1071:1756" placeholder="{...}" />
-            <marker date="1450009673000" expanded="false" signature="1290:1382" placeholder="(v) → {" />
-            <marker date="1450009673000" expanded="false" signature="1423:1438" placeholder="}" />
-            <marker date="1450009673000" expanded="false" signature="1496:1605" placeholder="(v) → { " />
-            <marker date="1450009673000" expanded="false" signature="1615:1639" placeholder=" }" />
-            <marker date="1450009673000" expanded="true" signature="1800:1879" placeholder="{...}" />
-            <marker date="1450009673000" expanded="false" signature="1924:1935" placeholder=" { " />
-            <marker date="1450009673000" expanded="false" signature="1960:1966" placeholder=" }" />
-            <marker date="1450009673000" expanded="true" signature="2001:2187" placeholder="{...}" />
-            <marker date="1450009673000" expanded="true" signature="2221:3174" placeholder="{...}" />
-            <marker date="1450009673000" expanded="false" signature="2422:2604" placeholder="(Action1) (fingerprintAuthenticationResult) → {" />
-            <marker date="1450009673000" expanded="false" signature="2918:2941" placeholder="}" />
-            <marker date="1450009673000" expanded="false" signature="2943:3059" placeholder="(throwable) → {" />
-            <marker date="1450009673000" expanded="false" signature="3143:3166" placeholder="}" />
-            <marker date="1450009673000" expanded="true" signature="3203:4876" placeholder="{...}" />
-            <marker date="1450009673000" expanded="false" signature="3619:3789" placeholder="(Action1) (fingerprintEncryptionResult) → {" />
-            <marker date="1450009673000" expanded="false" signature="4243:4266" placeholder="}" />
-            <marker date="1450009673000" expanded="false" signature="4268:4384" placeholder="(throwable) → {" />
-            <marker date="1450009673000" expanded="true" signature="4484:4740" placeholder="//..." />
-            <marker date="1450009673000" expanded="false" signature="4845:4868" placeholder="}" />
-            <marker date="1450009673000" expanded="true" signature="4921:6279" placeholder="{...}" />
-            <marker date="1450009673000" expanded="false" signature="5140:5310" placeholder="(Action1) (fingerprintDecryptionResult) → {" />
-            <marker date="1450009673000" expanded="false" signature="5646:5669" placeholder="}" />
-            <marker date="1450009673000" expanded="false" signature="5671:5787" placeholder="(throwable) → {" />
-            <marker date="1450009673000" expanded="true" signature="5887:6143" placeholder="//..." />
-            <marker date="1450009673000" expanded="false" signature="6248:6271" placeholder="}" />
-            <marker date="1450009673000" expanded="true" signature="6345:6687" placeholder="{...}" />
-            <marker date="1450009673000" expanded="false" signature="6495:6604" placeholder="(v) → { " />
-            <marker date="1450009673000" expanded="false" signature="6623:6647" placeholder=" }" />
+            <element signature="e#0#7288#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/utils/CryptoProvider.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4039548">
-          <caret line="54" column="5" selection-start-line="54" selection-start-column="5" selection-end-line="54" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="Copyright.UI">
+        <settings>
+          <last-edited>Apache</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
   </component>
 </project>

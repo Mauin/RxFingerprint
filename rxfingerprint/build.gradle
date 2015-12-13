@@ -33,7 +33,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 
 group 'com.mtramin'
-version '0.1.0'
+version '0.1.1'
 def libName = 'RxFingerprint'
 def libDescription =  'Android library to use fingerprint authentication with RxJava'
 def mavenPackageType = 'aar'

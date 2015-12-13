@@ -36,7 +36,7 @@ import rx.Subscriber;
 public class FingerprintDecryptionObservable extends FingerprintObservable<FingerprintDecryptionResult> {
 
     private final String keyName;
-    private CryptoData encryptedData;
+    private final CryptoData encryptedData;
 
     private FingerprintDecryptionObservable(Context context, String keyName, String encrypted) {
         super(context);
@@ -51,6 +51,7 @@ public class FingerprintDecryptionObservable extends FingerprintObservable<Finge
      * @param context   context to use
      * @param keyName   keyName to use for the decryption
      * @param encrypted data to encrypt  @return Observable {@link FingerprintEncryptionResult}
+     * @return Observable result of the decryption
      */
     public static Observable<FingerprintDecryptionResult> create(Context context, String keyName, String encrypted) {
         return Observable.create(new FingerprintDecryptionObservable(context, keyName, encrypted));
@@ -62,6 +63,7 @@ public class FingerprintDecryptionObservable extends FingerprintObservable<Finge
      *
      * @param context   context to use
      * @param encrypted data to encrypt  @return Observable {@link FingerprintEncryptionResult}
+     * @return Observable result of the decryption
      */
     public static Observable<FingerprintDecryptionResult> create(Context context, String encrypted) {
         return Observable.create(new FingerprintDecryptionObservable(context, null, encrypted));

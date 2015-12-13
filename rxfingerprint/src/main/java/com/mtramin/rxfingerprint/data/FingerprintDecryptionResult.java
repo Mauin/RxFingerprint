@@ -6,7 +6,7 @@ package com.mtramin.rxfingerprint.data;
  */
 public class FingerprintDecryptionResult extends FingerprintAuthenticationResult {
 
-    private String decrypted;
+    private final String decrypted;
 
     /**
      * Default constructor

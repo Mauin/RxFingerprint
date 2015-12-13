@@ -97,6 +97,8 @@ public class RxFingerprint {
      *                  {@link FingerprintDecryptionResult} that will contain the decrypted data.
      *                  Will complete once the authentication and decryption were
      *                  successful or have failed entirely.
+     * @return Observable result of the decryption operation. Will contain the
+     * decrypted string if decryption was successful.
      */
     public static Observable<FingerprintDecryptionResult> decrypt(Context context, String encrypted) {
         return FingerprintDecryptionObservable.create(context, encrypted);
@@ -144,13 +146,14 @@ public class RxFingerprint {
      *                  {@link FingerprintDecryptionResult} that will contain the decrypted data.
      *                  Will complete once the authentication and decryption were
      *                  successful or have failed entirely.
+     * @return Observable result of the decryption
      */
     public static Observable<FingerprintDecryptionResult> decrypt(Context context, String keyName, String encrypted) {
         return FingerprintDecryptionObservable.create(context, keyName, encrypted);
     }
 
     /**
-     * Provides information if fingerprint authentication is currently isAvailable.
+     * Provides information if fingerprint authentication is currently available.
      * <p/>
      * The device needs to have a fingerprint hardware and the user needs to have enrolled
      * at least one fingerprint in the system.
@@ -160,6 +163,19 @@ public class RxFingerprint {
      */
     public static boolean isAvailable(@NonNull Context context) {
         return isHardwareDetected(context) && hasEnrolledFingerprints(context);
+    }
+
+    /**
+     * Provides information if fingerprint authentication is unavailable.
+     * <p/>
+     * The device needs to have a fingerprint hardware and the user needs to have enrolled
+     * at least one fingerprint in the system.
+     *
+     * @param context a context
+     * @return {@code true} if fingerprint authentication is unavailable
+     */
+    public static boolean isUnavailable(@NonNull Context context) {
+        return !isAvailable(context);
     }
 
     /**

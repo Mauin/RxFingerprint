@@ -5,12 +5,13 @@ package com.mtramin.rxfingerprint.data;
  * Result of a fingerprint based authentication.
  */
 public class FingerprintAuthenticationResult {
-    private FingerprintResult result;
-    private String message;
+    private final FingerprintResult result;
+    private final String message;
 
     /**
      * Default constructor
-     * @param result result of the fingerprint authentication
+     *
+     * @param result  result of the fingerprint authentication
      * @param message optional message to be displayed to the user
      */
     public FingerprintAuthenticationResult(FingerprintResult result, String message) {

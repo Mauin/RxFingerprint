@@ -33,7 +33,7 @@ public class CryptoProvider {
     private static final String DEFAULT_KEY_NAME = "rxfingerprint_default";
     private static final int DEFAULT_KEY_SIZE = 256;
 
-    private String keyName;
+    private final String keyName;
 
     /**
      * Creates a new CryptoProvider. If a keyName is provided, uses the given key in the KeyStore
@@ -55,7 +55,6 @@ public class CryptoProvider {
     }
 
     /**
-     * @param keyName name of the key to use in the {@link KeyStore}
      * @return Initialized cipher for encryption operations in RxFingerprint
      */
     public Cipher initEncryptionCipher() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, NoSuchProviderException, InvalidAlgorithmParameterException, UnrecoverableKeyException, CertificateException, KeyStoreException, IOException {
@@ -66,8 +65,7 @@ public class CryptoProvider {
     }
 
     /**
-     * @param keyName name of the key to use in the {@link KeyStore}
-     * @param iv      initialization vector used during encryption
+     * @param iv initialization vector used during encryption
      * @return Initialized cipher for decryption operations in RxFingerprint
      */
     public Cipher initDecryptionCipher(byte[] iv) throws CertificateException, NoSuchAlgorithmException, IOException, InvalidKeyException, UnrecoverableKeyException, KeyStoreException, InvalidAlgorithmParameterException, NoSuchPaddingException {

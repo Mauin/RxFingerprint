@@ -9,8 +9,8 @@ import android.util.Base64;
 public class CryptoData {
     private static final String SEPARATOR = "///";
 
-    private String messageEncoded;
-    private String ivEncoded;
+    private final String messageEncoded;
+    private final String ivEncoded;
 
     private CryptoData(byte[] messageBytes, byte[] ivBytes) {
         this.messageEncoded = encode(messageBytes);

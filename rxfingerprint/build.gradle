@@ -1,0 +1,64 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.0.0-alpha3'
+    }
+}
+
+plugins {
+    id "com.jfrog.bintray" version "1.4"
+}
+
+apply plugin: 'com.android.library'
+
+group 'com.mtramin'
+version '0.1.0'
+
+def versionTag = version.toString()
+
+bintray {
+    user = bintray_user
+    key = bintray_key
+    configurations = ['archives']
+    pkg {
+        repo = "maven"
+        name = "RxFingerprint"
+        desc = "Android library to use fingerprint authentication with RxJava"
+        websiteUrl = "https://github.com/Mauin/RxFingerprint"
+        issueTrackerUrl = "https://github.com/Mauin/RxFingerprint/issues"
+        vcsUrl = "https://github.com/Mauin/RxFingerprint.git"
+        licenses = ['Apache-2.0']
+        labels = ['aar', 'android', 'fingerprint', 'fingerprintmanager', 'rxjava', 'authentication']
+        version {
+            name = versionTag
+            released  = new Date()
+            vcsTag = versionTag
+        }
+    }
+}
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+        minSdkVersion 23
+        targetSdkVersion 23
+        versionCode 1
+        versionName version
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'io.reactivex:rxjava:1.0.16'
+}

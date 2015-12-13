@@ -124,7 +124,7 @@ public class RxFingerprint {
      * @return Observable {@link FingerprintEncryptionResult} that will contain the encrypted data.
      * Will complete once the authentication and encryption were successful or have failed entirely.
      */
-    public static Observable<FingerprintEncryptionResult> encrypt(Context context, String keyName, String toEncrypt) {
+    public static Observable<FingerprintEncryptionResult> encrypt(Context context, @NonNull String keyName, @NonNull String toEncrypt) {
         return FingerprintEncryptionObservable.create(context, keyName, toEncrypt);
     }
 
@@ -148,7 +148,7 @@ public class RxFingerprint {
      *                  successful or have failed entirely.
      * @return Observable result of the decryption
      */
-    public static Observable<FingerprintDecryptionResult> decrypt(Context context, String keyName, String encrypted) {
+    public static Observable<FingerprintDecryptionResult> decrypt(Context context, @NonNull String keyName, @NonNull String encrypted) {
         return FingerprintDecryptionObservable.create(context, keyName, encrypted);
     }
 

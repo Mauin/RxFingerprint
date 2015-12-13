@@ -29,6 +29,14 @@ public class CryptoData {
      * @return parsed data
      */
     public static CryptoData fromString(String input) {
+        if (input == null) {
+            throw new NullPointerException("Input for decryption is null. Make sure to provide a valid, encrypted String for decryption.");
+        }
+
+        if (input.isEmpty() || !input.contains(SEPARATOR)) {
+            throw new IllegalArgumentException("Invalid input given for decryption operation. Make sure you provide a string that was previously encrypted by RxFingerprint.");
+        }
+
         String[] inputParams = input.split(SEPARATOR);
         return new CryptoData(inputParams[0], inputParams[1]);
     }

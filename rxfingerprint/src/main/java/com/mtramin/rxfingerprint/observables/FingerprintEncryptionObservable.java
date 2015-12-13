@@ -42,6 +42,10 @@ public class FingerprintEncryptionObservable extends FingerprintObservable<Finge
     private FingerprintEncryptionObservable(Context context, String keyName, String toEncrypt) {
         super(context);
         this.keyName = keyName;
+
+        if (toEncrypt == null) {
+            throw new NullPointerException("String to be encrypted is null. Can only encrypt valid strings");
+        }
         this.toEncrypt = toEncrypt;
     }
 

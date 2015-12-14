@@ -10,7 +10,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fa57f2d0-e771-475a-bf02-85282b68f60f" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rxfingerprint/build.gradle" afterPath="$PROJECT_DIR$/rxfingerprint/build.gradle" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/rxfingerprint_0_1_2.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rxfingerprint/rxfingerprint.iml" afterPath="$PROJECT_DIR$/rxfingerprint/rxfingerprint.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sample/build.gradle" afterPath="$PROJECT_DIR$/sample/build.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sample/sample.iml" afterPath="$PROJECT_DIR$/sample/sample.iml" />
     </list>
     <ignored path="RxFingerprint.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -36,18 +40,7 @@
           <activation />
         </task>
         <projects_view>
-          <tree_state>
-            <PATH>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ExternalProjectsStructure$RootNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="RxFingerprint" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ProjectNode" />
-              </PATH_ELEMENT>
-            </PATH>
-          </tree_state>
+          <tree_state />
         </projects_view>
       </state>
     </system>
@@ -58,11 +51,13 @@
   <component name="FileEditorManager">
     <leaf>
       <file leaf-file-name="build.gradle" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/rxfingerprint/build.gradle">
+        <entry file="file://$PROJECT_DIR$/sample/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.24781342">
-              <caret line="31" column="14" selection-start-line="31" selection-start-column="14" selection-end-line="31" selection-end-column="14" />
-              <folding />
+            <state vertical-scroll-proportion="0.7434402">
+              <caret line="51" column="34" selection-start-line="51" selection-start-column="34" selection-end-line="51" selection-end-column="34" />
+              <folding>
+                <element signature="e#0#595#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -1974,7 +1969,7 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="7250090886000" />
+        <entry key="$PROJECT_DIR$" value="7250152333000" />
         <entry key="$PROJECT_DIR$/../Upvotes" value="5705695296000" />
         <entry key="$PROJECT_DIR$/../auth_lib" value="5697978192000" />
         <entry key="$PROJECT_DIR$/../blue" value="4280820901000" />
@@ -2255,6 +2250,8 @@
                             <option value="$PROJECT_DIR$/../../sdk/extras/android/m2repository/com/android/support/appcompat-v7/23.1.1/appcompat-v7-23.1.1.aar" />
                             <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.reactivex/rxjava/1.0.16/2e5ded06594e14fc251f4c50cb10fe499d6f477e/rxjava-1.0.16-sources.jar" />
                             <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.reactivex/rxjava/1.0.16/bdc5ca010675cd9385bdd3a28cf53ee88164424f/rxjava-1.0.16.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.mtramin/rxfingerprint/0.1.2/f6995e88f793ededd80334a13c5c4c09c3f99db5/rxfingerprint-0.1.2-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.mtramin/rxfingerprint/0.1.2/53431dcdb2ed3d89d174d6e69c4b89272ba35abf/rxfingerprint-0.1.2.aar" />
                             <option value="$PROJECT_DIR$/../../sdk/extras/android/m2repository/com/android/support/support-v4/23.1.1/support-v4-23.1.1.aar" />
                             <option value="$PROJECT_DIR$/../../sdk/extras/android/m2repository/com/android/support/support-annotations/23.1.1/support-annotations-23.1.1.jar" />
                             <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.build/gradle/2.0.0-alpha3/36654347cf8ea06c1bfa42e06e7ccb926762f5e2/gradle-2.0.0-alpha3-sources.jar" />
@@ -2498,7 +2495,6 @@
         <option value="$PROJECT_DIR$/sample/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/data/FingerprintResult.java" />
         <option value="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/data/FingerprintAuthenticationException.java" />
-        <option value="$PROJECT_DIR$/sample/build.gradle" />
         <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/sample/src/main/res/layout/activity_main.xml" />
         <option value="$PROJECT_DIR$/rxfingerprint/src/main/java/com/mtramin/rxfingerprint/utils/PackageUtils.java" />
@@ -2519,6 +2515,7 @@
         <option value="$PROJECT_DIR$/sample/src/main/java/com/mtramin/fingerprintplayground/MainActivity.java" />
         <option value="$PROJECT_DIR$/rxfingerprint/publish.gradle" />
         <option value="$PROJECT_DIR$/rxfingerprint/build.gradle" />
+        <option value="$PROJECT_DIR$/sample/build.gradle" />
       </list>
     </option>
   </component>
@@ -2559,6 +2556,10 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="RxFingerprint" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -2889,11 +2890,14 @@
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
     <property name="android.sdk.path" value="$PROJECT_DIR$/../../sdk" />
-    <property name="settings.editor.selected.configurable" value="template.copyright.formatting" />
+    <property name="settings.editor.selected.configurable" value="android.sdk-updates" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
-    <property name="device.picker.selection" value="CVH7N15B04003711" />
+    <property name="device.picker.selection" value="emulator-5554" />
     <property name="android.project.structure.last.selected" value="SDK Location" />
     <property name="android.project.structure.proportion" value="0.15" />
+    <property name="DEBUGGABLE_DEVICE" value="emulator-5554" />
+    <property name="DEBUGGABLE_PROCESS" value="com.mtramin.rxfingerprintsample" />
+    <property name="SHOW_ALL_PROCESSES" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="IntroduceConstantDialog.RECENTS_KEY">
@@ -2903,7 +2907,7 @@
       <recent name="com.mtramin.rxfingerprint.observables" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.RxFingerprint:rxfingerprint [sourcesJar]">
+  <component name="RunManager" selected="Android Application.sample">
     <configuration default="false" name="RxFingerprint:rxfingerprint [bintrayUpload]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -3312,7 +3316,7 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32923368" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32923368" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39924315" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24973376" sideWeight="0.5049365" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -3320,7 +3324,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24973376" sideWeight="0.5049365" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32923368" sideWeight="0.4744409" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32960597" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32960597" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32923368" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -3355,7 +3359,7 @@
           <properties />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="1" />
+      <option name="time" value="3" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -3386,7 +3390,17 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="8" column="20" selection-start-line="8" selection-start-column="20" selection-end-line="8" selection-end-column="20" />
-          <folding />
+          <folding>
+            <marker date="1450024454000" expanded="false" signature="0:595" placeholder="/*...*/" />
+            <marker date="1450024454000" expanded="true" signature="609:913" placeholder="{...}" />
+            <marker date="1450024454000" expanded="true" signature="628:676" placeholder="{...}" />
+            <marker date="1450024454000" expanded="true" signature="694:911" placeholder="{...}" />
+            <marker date="1450024454000" expanded="true" signature="997:1365" placeholder="{...}" />
+            <marker date="1450024454000" expanded="true" signature="1074:1184" placeholder="{...}" />
+            <marker date="1450024454000" expanded="true" signature="1201:1363" placeholder="{...}" />
+            <marker date="1450024454000" expanded="true" signature="1219:1357" placeholder="{...}" />
+            <marker date="1450024454000" expanded="true" signature="1382:1515" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -3394,7 +3408,17 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1450024454000" expanded="false" signature="0:595" placeholder="/*...*/" />
+            <marker date="1450024454000" expanded="true" signature="609:913" placeholder="{...}" />
+            <marker date="1450024454000" expanded="true" signature="628:676" placeholder="{...}" />
+            <marker date="1450024454000" expanded="true" signature="694:911" placeholder="{...}" />
+            <marker date="1450024454000" expanded="true" signature="997:1365" placeholder="{...}" />
+            <marker date="1450024454000" expanded="true" signature="1074:1184" placeholder="{...}" />
+            <marker date="1450024454000" expanded="true" signature="1201:1363" placeholder="{...}" />
+            <marker date="1450024454000" expanded="true" signature="1219:1357" placeholder="{...}" />
+            <marker date="1450024454000" expanded="true" signature="1382:1515" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -3402,7 +3426,17 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="25" column="38" selection-start-line="25" selection-start-column="26" selection-end-line="25" selection-end-column="38" />
-          <folding />
+          <folding>
+            <marker date="1450024454000" expanded="false" signature="0:595" placeholder="/*...*/" />
+            <marker date="1450024454000" expanded="true" signature="609:913" placeholder="{...}" />
+            <marker date="1450024454000" expanded="true" signature="628:676" placeholder="{...}" />
+            <marker date="1450024454000" expanded="true" signature="694:911" placeholder="{...}" />
+            <marker date="1450024454000" expanded="true" signature="997:1365" placeholder="{...}" />
+            <marker date="1450024454000" expanded="true" signature="1074:1184" placeholder="{...}" />
+            <marker date="1450024454000" expanded="true" signature="1201:1363" placeholder="{...}" />
+            <marker date="1450024454000" expanded="true" signature="1219:1357" placeholder="{...}" />
+            <marker date="1450024454000" expanded="true" signature="1382:1515" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -3470,14 +3504,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.1278409">
-          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4577,10 +4603,78 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/rxfingerprint/publish.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4664723">
+          <caret line="32" column="15" selection-start-line="32" selection-start-column="15" selection-end-line="32" selection-end-column="15" />
+          <folding>
+            <marker date="1450024446000" expanded="true" signature="0:595" placeholder="/*...*/" />
+            <marker date="1450024446000" expanded="true" signature="1113:1677" placeholder="{...}" />
+            <marker date="1450024446000" expanded="true" signature="1203:1675" placeholder="{...}" />
+            <marker date="1450024446000" expanded="true" signature="1562:1669" placeholder="{...}" />
+            <marker date="1450024446000" expanded="true" signature="1687:2431" placeholder="{...}" />
+            <marker date="1450024446000" expanded="true" signature="1721:2429" placeholder="{...}" />
+            <marker date="1450024446000" expanded="true" signature="1743:2423" placeholder="{...}" />
+            <marker date="1450024446000" expanded="true" signature="1857:2057" placeholder="{...}" />
+            <marker date="1450024446000" expanded="true" signature="1883:2043" placeholder="{...}" />
+            <marker date="1450024446000" expanded="true" signature="2081:2272" placeholder="{...}" />
+            <marker date="1450024446000" expanded="true" signature="2109:2258" placeholder="{...}" />
+            <marker date="1450024446000" expanded="true" signature="2289:2413" placeholder="{...}" />
+            <marker date="1450024446000" expanded="true" signature="2460:2536" placeholder="{...}" />
+            <marker date="1450024446000" expanded="true" signature="2566:2758" placeholder="{...}" />
+            <marker date="1450024446000" expanded="true" signature="2807:2869" placeholder="{...}" />
+            <marker date="1450024446000" expanded="true" signature="2881:2932" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rxfingerprint/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.24147727">
+          <caret line="31" column="14" selection-start-line="31" selection-start-column="14" selection-end-line="31" selection-end-column="14" />
+          <folding>
+            <marker date="1450024454000" expanded="false" signature="0:595" placeholder="/*...*/" />
+            <marker date="1450024454000" expanded="true" signature="609:913" placeholder="{...}" />
+            <marker date="1450024454000" expanded="true" signature="628:676" placeholder="{...}" />
+            <marker date="1450024454000" expanded="true" signature="694:911" placeholder="{...}" />
+            <marker date="1450024454000" expanded="true" signature="997:1365" placeholder="{...}" />
+            <marker date="1450024454000" expanded="true" signature="1074:1184" placeholder="{...}" />
+            <marker date="1450024454000" expanded="true" signature="1201:1363" placeholder="{...}" />
+            <marker date="1450024454000" expanded="true" signature="1219:1357" placeholder="{...}" />
+            <marker date="1450024454000" expanded="true" signature="1382:1515" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/settings.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1450014393000" expanded="true" signature="0:595" placeholder="/*...*/" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.21293375">
+          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <folding>
+            <marker date="1450014393000" expanded="true" signature="0:595" placeholder="/*...*/" />
+            <marker date="1450014393000" expanded="true" signature="609:655" placeholder="{...}" />
+            <marker date="1450014393000" expanded="true" signature="628:638" placeholder="{" />
+            <marker date="1450014393000" expanded="true" signature="647:653" placeholder="}" />
+            <marker date="1450014393000" expanded="true" signature="682:688" placeholder="{" />
+            <marker date="1450014393000" expanded="true" signature="715:717" placeholder="}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/sample/src/main/java/com/mtramin/fingerprintplayground/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.5770925">
-          <caret line="56" column="0" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
+        <state vertical-scroll-proportion="-0.5042373">
+          <caret line="118" column="0" selection-start-line="118" selection-start-column="0" selection-end-line="118" selection-end-column="0" />
           <folding>
             <marker date="1450014393000" expanded="false" signature="0:595" placeholder="/.../" />
             <marker date="1450014393000" expanded="false" signature="648:1263" placeholder="..." />
@@ -4620,57 +4714,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/sample/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.75284094">
-          <caret line="53" column="14" selection-start-line="53" selection-start-column="14" selection-end-line="53" selection-end-column="14" />
+        <state vertical-scroll-proportion="0.7434402">
+          <caret line="51" column="34" selection-start-line="51" selection-start-column="34" selection-end-line="51" selection-end-column="34" />
           <folding>
-            <marker date="1450014393000" expanded="true" signature="0:595" placeholder="/*...*/" />
-            <marker date="1450014393000" expanded="true" signature="609:744" placeholder="{...}" />
-            <marker date="1450014393000" expanded="true" signature="628:638" placeholder="{" />
-            <marker date="1450014393000" expanded="true" signature="647:653" placeholder="}" />
-            <marker date="1450014393000" expanded="true" signature="671:681" placeholder="{" />
-            <marker date="1450014393000" expanded="true" signature="736:742" placeholder="}" />
-            <marker date="1450014393000" expanded="true" signature="800:870" placeholder="{...}" />
-            <marker date="1450014393000" expanded="true" signature="812:822" placeholder="{" />
-            <marker date="1450014393000" expanded="true" signature="862:868" placeholder="}" />
-            <marker date="1450014393000" expanded="true" signature="880:1301" placeholder="{...}" />
-            <marker date="1450014393000" expanded="true" signature="957:1121" placeholder="{...}" />
-            <marker date="1450014393000" expanded="true" signature="1137:1299" placeholder="{...}" />
-            <marker date="1450014393000" expanded="true" signature="1155:1293" placeholder="{...}" />
-            <marker date="1450014393000" expanded="true" signature="1317:1582" placeholder="{...}" />
+            <element signature="e#0#595#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rxfingerprint/publish.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4664723">
-          <caret line="32" column="15" selection-start-line="32" selection-start-column="15" selection-end-line="32" selection-end-column="15" />
-          <folding>
-            <marker date="1450024095000" expanded="true" signature="0:595" placeholder="/*...*/" />
-            <marker date="1450024095000" expanded="true" signature="1113:1677" placeholder="{...}" />
-            <marker date="1450024095000" expanded="true" signature="1203:1675" placeholder="{...}" />
-            <marker date="1450024095000" expanded="true" signature="1562:1669" placeholder="{...}" />
-            <marker date="1450024095000" expanded="true" signature="1687:2431" placeholder="{...}" />
-            <marker date="1450024095000" expanded="true" signature="1721:2429" placeholder="{...}" />
-            <marker date="1450024095000" expanded="true" signature="1743:2423" placeholder="{...}" />
-            <marker date="1450024095000" expanded="true" signature="1857:2057" placeholder="{...}" />
-            <marker date="1450024095000" expanded="true" signature="1883:2043" placeholder="{...}" />
-            <marker date="1450024095000" expanded="true" signature="2081:2272" placeholder="{...}" />
-            <marker date="1450024095000" expanded="true" signature="2109:2258" placeholder="{...}" />
-            <marker date="1450024095000" expanded="true" signature="2289:2413" placeholder="{...}" />
-            <marker date="1450024095000" expanded="true" signature="2460:2536" placeholder="{...}" />
-            <marker date="1450024095000" expanded="true" signature="2566:2758" placeholder="{...}" />
-            <marker date="1450024095000" expanded="true" signature="2807:2869" placeholder="{...}" />
-            <marker date="1450024095000" expanded="true" signature="2881:2932" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rxfingerprint/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.24781342">
-          <caret line="31" column="14" selection-start-line="31" selection-start-column="14" selection-end-line="31" selection-end-column="14" />
-          <folding />
         </state>
       </provider>
     </entry>

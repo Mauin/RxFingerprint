@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="rxfingerprint-0.1.2">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/sample/build/intermediates/exploded-aar/com.mtramin/rxfingerprint/0.1.2/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/sample/build/intermediates/exploded-aar/com.mtramin/rxfingerprint/0.1.2/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.mtramin/rxfingerprint/0.1.2/f6995e88f793ededd80334a13c5c4c09c3f99db5/rxfingerprint-0.1.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -189,6 +189,7 @@ public class RxFingerprint {
      *
      * @param context a context
      * @return {@code true} if fingerprint authentication is unavailable
+     * @deprecated redundant method! use {@link RxFingerprint#isAvailable(Context)} instead
      */
     public static boolean isUnavailable(@NonNull Context context) {
         return !isAvailable(context);

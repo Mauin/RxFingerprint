@@ -46,7 +46,7 @@ public abstract class FingerprintObservable<T> implements Observable.OnSubscribe
      * @param context Context to be used for the fingerprint authentication
      */
     protected FingerprintObservable(Context context) {
-        this.context = context;
+        this.context = context.getApplicationContext();
     }
 
     @Override

@@ -145,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
+                        //noinspection StatementWithEmptyBody
                         if (RxFingerprint.keyInvalidated(throwable)) {
                             // The keys you wanted to use are invalidated because the user has turned off his
                             // secure lock screen or changed the fingerprints stored on the device
@@ -175,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
+                        //noinspection StatementWithEmptyBody
                         if (RxFingerprint.keyInvalidated(throwable)) {
                             // The keys you wanted to use are invalidated because the user has turned off his
                             // secure lock screen or changed the fingerprints stored on the device
@@ -187,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void createDecryptionButton(final String encrypted) {
         Button button = new Button(this);
-        button.setText("decrypt " + encrypted.substring(0, 6) + "...");
+        button.setText(String.format("decrypt %s...", encrypted.substring(0, 6)));
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

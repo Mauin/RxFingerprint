@@ -10,7 +10,7 @@ RxFingerprint makes it easy for you to authenticate the user with just his finge
 
 Additionally it provides the possibility to encrypt/decrypt data with the users fingerprint.
 This can be used to easily encrypt user passwords that can be decrypted again later when the user authenticates with their fingerprint. For more information about how to use these functions,
-see [Encryption/Decryption](#Encryption/Decryption).
+see [Encryption/Decryption](#encryption-and-decryption).
 
 ## Usage
 
@@ -41,9 +41,9 @@ In the case of a recoverable error it provides the error message.
 
 By unsubscribing from the Subscription, the fingerprint sensor will be disabled again with no result.
 
-### Encryption/Decryption
+### Encryption-and-decryption
 
-Usage of the Encryption and decryption features of RxFingerprint are very similar to simple authentication calls. For more details about the cryptography used and it's security, see [Cryptography](#Cryptography)
+Usage of the Encryption and decryption features of RxFingerprint are very similar to simple authentication calls. For more details about the cryptography used and it's security, see [Cryptography](#cryptography)
 
 ``` java
 Subscription subscription = RxFingerprint.encrypt(this, stringToEncrypt)

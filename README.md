@@ -4,7 +4,7 @@ RxFingerprint wraps the Android Fingerprint APIs (introduced in API 23) to authe
 
 Learn more about the Android Fingerprint APIs at <a href="https://developer.android.com/about/versions/marshmallow/android-6.0.html#fingerprint-authentication">developer.android.com</a>.
 
-This library is compatible until minSdkVersion 15, butt will only really work on API level 23. Below that it will provide no functionality due to the missing APIs.
+This library is compatible until minSdkVersion 15, but will only really work on API level 23. Below that it will provide no functionality due to the missing APIs.
 
 RxFingerprint makes it easy for you to authenticate the user with just his fingerprint. For more on how to use RxFingerprint see [Usage](#usage).
 

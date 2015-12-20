@@ -87,7 +87,7 @@ during decryption check if the keys were invalidated with `RxFingerprint.keyInva
 
 To prevent errors and ensure a good user experience, make sure to think of these cases:
 
-- Before calling any RxFingerprint authentication, check if the user can use fingerprint authentication by calling: `RxFingerprint.isAvailable(Context)` or `RxFingerprint.isAvailable(Context)`
+- Before calling any RxFingerprint authentication, check if the user can use fingerprint authentication by calling: `RxFingerprint.isAvailable(Context)` or `RxFingerprint.isUnavailable(Context)`
 - Always check for recoverable errors in any `onNext` events and provide the user with the given Error message in the result.
 
 ## Cryptography

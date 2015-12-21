@@ -19,7 +19,21 @@ package com.mtramin.rxfingerprint.data;
 /**
  * Exception that gets thrown during fingerprint authentication if it fails and cannot be recovered.
  */
-public class FingerprintAuthenticationException extends Throwable {
+public class FingerprintAuthenticationException extends Exception {
+
+    private final String message;
+
+    /**
+     * Creates exception that occurs during fingerprint authentication with message
+     *
+     * @param errString message of exception
+     */
     public FingerprintAuthenticationException(CharSequence errString) {
+        this.message = errString.toString();
+    }
+
+    @Override
+    public String getMessage() {
+        return this.message;
     }
 }

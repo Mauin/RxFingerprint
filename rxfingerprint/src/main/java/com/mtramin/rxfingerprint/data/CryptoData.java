@@ -23,7 +23,7 @@ import android.util.Base64;
  * Data of a cryptographic operation with RxFingerprint.
  */
 public class CryptoData {
-    private static final String SEPARATOR = "///";
+    private static final String SEPARATOR = "-_-";
 
     private final String messageEncoded;
     private final String ivEncoded;

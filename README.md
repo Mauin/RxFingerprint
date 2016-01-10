@@ -21,6 +21,12 @@ dependencies {
 }
 ```
 
+Furthermore, you have to declare the Fingerprint permission in your `AndroidManifest.xml`:
+```xml
+<uses-permission android:name="android.permission.USE_FINGERPRINT" />
+```
+
+
 Below you will find an overview on how to use the different functionalities of RxFingerprint.
 
 ### Authentication

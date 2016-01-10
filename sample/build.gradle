@@ -46,10 +46,10 @@ android {
 
 
 dependencies {
-    compile project(':rxfingerprint');
+//    compile project(':rxfingerprint');
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'io.reactivex:rxjava:1.1.0'
-//    compile 'com.mtramin:rxfingerprint:0.3.0'
+    compile 'com.mtramin:rxfingerprint:1.0.0'
     testCompile 'junit:junit:4.12'
     androidTestCompile 'junit:junit:4.12'
 }

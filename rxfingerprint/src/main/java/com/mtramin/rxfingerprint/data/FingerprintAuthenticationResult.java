@@ -38,6 +38,9 @@ public class FingerprintAuthenticationResult {
     /**
      * @return message that can be displayed to the user to help him guide through the
      * authentication process
+     *
+     * Will only return a message if {@link FingerprintAuthenticationResult#result} is of type
+     * {@link FingerprintResult#HELP}. <b>Returns {@code null} otherwise!</b>
      */
     public String getMessage() {
         return message;

@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
     private void authenticate() {
         setStatusText();
 
-        if (!RxFingerprint.isAvailable(this)) {
+        if (RxFingerprint.isUnavailable(this)) {
             return;
         }
 
@@ -103,10 +103,16 @@ public class MainActivity extends AppCompatActivity {
                 .subscribe(new Action1<FingerprintAuthenticationResult>() {
                     @Override
                     public void call(FingerprintAuthenticationResult fingerprintAuthenticationResult) {
-                        if (fingerprintAuthenticationResult.isSuccess()) {
-                            setStatusText("Successfully authenticated!");
-                        } else {
-                            setStatusText(fingerprintAuthenticationResult.getMessage());
+                        switch (fingerprintAuthenticationResult.getResult()) {
+                            case FAILED:
+                                setStatusText("Fingerprint not recognized, try again!");
+                                break;
+                            case HELP:
+                                setStatusText(fingerprintAuthenticationResult.getMessage());
+                                break;
+                            case AUTHENTICATED:
+                                setStatusText("Successfully authenticated!");
+                                break;
                         }
                     }
                 }, new Action1<Throwable>() {
@@ -120,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
     private void encrypt() {
         setStatusText();
 
-        if (!RxFingerprint.isAvailable(this)) {
+        if (RxFingerprint.isUnavailable(this)) {
             return;
         }
 
@@ -134,12 +140,18 @@ public class MainActivity extends AppCompatActivity {
                 .subscribe(new Action1<FingerprintEncryptionResult>() {
                     @Override
                     public void call(FingerprintEncryptionResult fingerprintEncryptionResult) {
-                        if (fingerprintEncryptionResult.isSuccess()) {
-                            String encrypted = fingerprintEncryptionResult.getEncrypted();
-                            setStatusText("encryption successful");
-                            createDecryptionButton(encrypted);
-                        } else {
-                            setStatusText(fingerprintEncryptionResult.getMessage());
+                        switch (fingerprintEncryptionResult.getResult()) {
+                            case FAILED:
+                                setStatusText("Fingerprint not recognized, try again!");
+                                break;
+                            case HELP:
+                                setStatusText(fingerprintEncryptionResult.getMessage());
+                                break;
+                            case AUTHENTICATED:
+                                String encrypted = fingerprintEncryptionResult.getEncrypted();
+                                setStatusText("encryption successful");
+                                createDecryptionButton(encrypted);
+                                break;
                         }
                     }
                 }, new Action1<Throwable>() {
@@ -167,10 +179,16 @@ public class MainActivity extends AppCompatActivity {
                 .subscribe(new Action1<FingerprintDecryptionResult>() {
                     @Override
                     public void call(FingerprintDecryptionResult fingerprintDecryptionResult) {
-                        if (fingerprintDecryptionResult.isSuccess()) {
-                            setStatusText("decrypted:\n" + fingerprintDecryptionResult.getDecrypted());
-                        } else {
-                            setStatusText(fingerprintDecryptionResult.getMessage());
+                        switch (fingerprintDecryptionResult.getResult()) {
+                            case FAILED:
+                                setStatusText("Fingerprint not recognized, try again!");
+                                break;
+                            case HELP:
+                                setStatusText(fingerprintDecryptionResult.getMessage());
+                                break;
+                            case AUTHENTICATED:
+                                setStatusText("decrypted:\n" + fingerprintDecryptionResult.getDecrypted());
+                                break;
                         }
                     }
                 }, new Action1<Throwable>() {

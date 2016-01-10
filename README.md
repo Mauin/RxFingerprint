@@ -30,10 +30,16 @@ To simply authenticate the user with his fingerprint, call the following:
 ``` java
 Subscription subscription = RxFingerprint.authenticate(this)
                 .subscribe(fingerprintAuthenticationResult -> {
-                    if (fingerprintAuthenticationResult.isSuccess()) {
-                        setStatusText("Successfully authenticated!");
-                    } else {
-                        setStatusText(fingerprintAuthenticationResult.getMessage());
+                    switch (fingerprintAuthenticationResult.getResult()) {
+                        case FAILED:
+                            setStatusText("Fingerprint not recognized, try again!");
+                            break;
+                        case HELP:
+                            setStatusText(fingerprintAuthenticationResult.getMessage());
+                            break;
+                        case AUTHENTICATED:
+                            setStatusText("Successfully authenticated!");
+                            break;
                     }
                 }, throwable -> {
                     Log.e("ERROR", "authenticate", throwable);
@@ -55,10 +61,17 @@ Usage of the Encryption and decryption features of RxFingerprint are very simila
 ``` java
 Subscription subscription = RxFingerprint.encrypt(this, stringToEncrypt)
                 .subscribe(encryptionResult -> {
-                    if (encryptionResult.isSuccess()) {
-                        String encrypted = encryptionResult.getEncrypted();
-                    } else {
-                        setStatusText(encryptionResult.getMessage());
+                    switch (fingerprintEncryptionResult.getResult()) {
+                        case FAILED:
+                            setStatusText("Fingerprint not recognized, try again!");
+                            break;
+                        case HELP:
+                            setStatusText(fingerprintEncryptionResult.getMessage());
+                            break;
+                        case AUTHENTICATED:
+                            String encrypted = fingerprintEncryptionResult.getEncrypted();
+                            // Do something with encrypted data
+                            break;
                     }
                 }, throwable -> {
                     Log.e("ERROR", "encrypt", throwable);
@@ -72,10 +85,17 @@ Store the encrypted String anywhere and use it later to decrypt the original val
 ``` java
 Subscription subscription = RxFingerprint.decrypt(this, encryptedString)
                 .subscribe(decryptionResult -> {
-                    if (decryptionResult.isSuccess()) {
-                        String decrypted = decryptionResult.getDecrypted();
-                    } else {
-                        setStatusText(fingerprintDecryptionResult.getMessage());
+                    switch (fingerprintDecryptionResult.getResult()) {
+                        case FAILED:
+                            setStatusText("Fingerprint not recognized, try again!");
+                            break;
+                        case HELP:
+                            setStatusText(fingerprintDecryptionResult.getMessage());
+                            break;
+                        case AUTHENTICATED:
+                            String decrypted = fingerprintDecryptionResult.getDecrypted();
+                            // Do something with decrypted data
+                            break;
                     }
                 }, throwable -> {
                     if (RxFingerprint.keyInvalidated(throwable)) {

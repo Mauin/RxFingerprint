@@ -128,7 +128,7 @@ To prevent errors and ensure a good user experience, make sure to think of these
 Encryption and Decryption in RxFingerprint is backed by the [Android KeyStore System](https://developer.android.com/training/articles/keystore.html).
 If you do not provide a key name in the encryption and decryption calls, a default key will be generated from the package name of your application.
 
-The encryption relies on the [Advanced Encryption Standard](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard) with a 265 bit keysize.
+The encryption relies on the [Advanced Encryption Standard](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard) with a 256-bit keysize.
 
 After the encryption step all results will be Base64 encoded for easier transportation and storage.
 

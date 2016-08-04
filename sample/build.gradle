@@ -14,28 +14,25 @@
  * limitations under the License.
  */
 
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.0.0-alpha3'
-    }
-}
-
 apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion versions.compileSdk
+    buildToolsVersion versions.buildTools
 
     defaultConfig {
-        applicationId "com.mtramin.rxfingerprintsample"
-        minSdkVersion 15
-        targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
+        versionCode versions.versionCode
+        versionName versions.versionName
+
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -47,9 +44,6 @@ android {
 
 dependencies {
 //    compile project(':rxfingerprint');
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'io.reactivex:rxjava:1.1.0'
+    compile "com.android.support:appcompat-v7:$versions.supportLibrary"
     compile 'com.mtramin:rxfingerprint:1.0.0'
-    testCompile 'junit:junit:4.12'
-    androidTestCompile 'junit:junit:4.12'
 }

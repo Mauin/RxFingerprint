@@ -27,12 +27,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.mtramin.rxfingerprint.RxFingerprint;
-import com.mtramin.rxfingerprint.data.FingerprintAuthenticationResult;
-import com.mtramin.rxfingerprint.data.FingerprintDecryptionResult;
-import com.mtramin.rxfingerprint.data.FingerprintEncryptionResult;
 
 import rx.Subscription;
-import rx.functions.Action1;
 import rx.observers.Subscribers;
 
 /**
@@ -55,19 +51,9 @@ public class MainActivity extends AppCompatActivity {
 
         this.statusText = (TextView) findViewById(R.id.status);
 
-        findViewById(R.id.authenticate).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                authenticate();
-            }
-        });
+        findViewById(R.id.authenticate).setOnClickListener(v -> authenticate());
 
-        findViewById(R.id.encrypt).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                encrypt();
-            }
-        });
+        findViewById(R.id.encrypt).setOnClickListener(v -> encrypt());
         input = (EditText) findViewById(R.id.input);
         layout = (ViewGroup) findViewById(R.id.layout);
     }
@@ -100,26 +86,20 @@ public class MainActivity extends AppCompatActivity {
         }
 
         fingerprintSubscription = RxFingerprint.authenticate(this)
-                .subscribe(new Action1<FingerprintAuthenticationResult>() {
-                    @Override
-                    public void call(FingerprintAuthenticationResult fingerprintAuthenticationResult) {
-                        switch (fingerprintAuthenticationResult.getResult()) {
-                            case FAILED:
-                                setStatusText("Fingerprint not recognized, try again!");
-                                break;
-                            case HELP:
-                                setStatusText(fingerprintAuthenticationResult.getMessage());
-                                break;
-                            case AUTHENTICATED:
-                                setStatusText("Successfully authenticated!");
-                                break;
-                        }
+                .subscribe(fingerprintAuthenticationResult -> {
+                    switch (fingerprintAuthenticationResult.getResult()) {
+                        case FAILED:
+                            setStatusText("Fingerprint not recognized, try again!");
+                            break;
+                        case HELP:
+                            setStatusText(fingerprintAuthenticationResult.getMessage());
+                            break;
+                        case AUTHENTICATED:
+                            setStatusText("Successfully authenticated!");
+                            break;
                     }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        Log.e("ERROR", "authenticate", throwable);
-                    }
+                }, throwable -> {
+                    Log.e("ERROR", "authenticate", throwable);
                 });
     }
 
@@ -137,34 +117,28 @@ public class MainActivity extends AppCompatActivity {
         }
 
         fingerprintSubscription = RxFingerprint.encrypt(this, SAMPLE_KEY, toEncrypt)
-                .subscribe(new Action1<FingerprintEncryptionResult>() {
-                    @Override
-                    public void call(FingerprintEncryptionResult fingerprintEncryptionResult) {
-                        switch (fingerprintEncryptionResult.getResult()) {
-                            case FAILED:
-                                setStatusText("Fingerprint not recognized, try again!");
-                                break;
-                            case HELP:
-                                setStatusText(fingerprintEncryptionResult.getMessage());
-                                break;
-                            case AUTHENTICATED:
-                                String encrypted = fingerprintEncryptionResult.getEncrypted();
-                                setStatusText("encryption successful");
-                                createDecryptionButton(encrypted);
-                                break;
-                        }
+                .subscribe(fingerprintEncryptionResult -> {
+                    switch (fingerprintEncryptionResult.getResult()) {
+                        case FAILED:
+                            setStatusText("Fingerprint not recognized, try again!");
+                            break;
+                        case HELP:
+                            setStatusText(fingerprintEncryptionResult.getMessage());
+                            break;
+                        case AUTHENTICATED:
+                            String encrypted = fingerprintEncryptionResult.getEncrypted();
+                            setStatusText("encryption successful");
+                            createDecryptionButton(encrypted);
+                            break;
                     }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        //noinspection StatementWithEmptyBody
-                        if (RxFingerprint.keyInvalidated(throwable)) {
-                            // The keys you wanted to use are invalidated because the user has turned off his
-                            // secure lock screen or changed the fingerprints stored on the device
-                            // You have to re-encrypt the data to access it
-                        }
-                        Log.e("ERROR", "encrypt", throwable);
+                }, throwable -> {
+                    //noinspection StatementWithEmptyBody
+                    if (RxFingerprint.keyInvalidated(throwable)) {
+                        // The keys you wanted to use are invalidated because the user has turned off his
+                        // secure lock screen or changed the fingerprints stored on the device
+                        // You have to re-encrypt the data to access it
                     }
+                    Log.e("ERROR", "encrypt", throwable);
                 });
     }
 
@@ -176,32 +150,26 @@ public class MainActivity extends AppCompatActivity {
         }
 
         fingerprintSubscription = RxFingerprint.decrypt(this, SAMPLE_KEY, encrypted)
-                .subscribe(new Action1<FingerprintDecryptionResult>() {
-                    @Override
-                    public void call(FingerprintDecryptionResult fingerprintDecryptionResult) {
-                        switch (fingerprintDecryptionResult.getResult()) {
-                            case FAILED:
-                                setStatusText("Fingerprint not recognized, try again!");
-                                break;
-                            case HELP:
-                                setStatusText(fingerprintDecryptionResult.getMessage());
-                                break;
-                            case AUTHENTICATED:
-                                setStatusText("decrypted:\n" + fingerprintDecryptionResult.getDecrypted());
-                                break;
-                        }
+                .subscribe(fingerprintDecryptionResult -> {
+                    switch (fingerprintDecryptionResult.getResult()) {
+                        case FAILED:
+                            setStatusText("Fingerprint not recognized, try again!");
+                            break;
+                        case HELP:
+                            setStatusText(fingerprintDecryptionResult.getMessage());
+                            break;
+                        case AUTHENTICATED:
+                            setStatusText("decrypted:\n" + fingerprintDecryptionResult.getDecrypted());
+                            break;
                     }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        //noinspection StatementWithEmptyBody
-                        if (RxFingerprint.keyInvalidated(throwable)) {
-                            // The keys you wanted to use are invalidated because the user has turned off his
-                            // secure lock screen or changed the fingerprints stored on the device
-                            // You have to re-encrypt the data to access it
-                        }
-                        Log.e("ERROR", "decrypt", throwable);
+                }, throwable -> {
+                    //noinspection StatementWithEmptyBody
+                    if (RxFingerprint.keyInvalidated(throwable)) {
+                        // The keys you wanted to use are invalidated because the user has turned off his
+                        // secure lock screen or changed the fingerprints stored on the device
+                        // You have to re-encrypt the data to access it
                     }
+                    Log.e("ERROR", "decrypt", throwable);
                 });
     }
 

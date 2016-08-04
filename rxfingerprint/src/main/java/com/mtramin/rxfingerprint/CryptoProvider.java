@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mtramin.rxfingerprint.utils;
+package com.mtramin.rxfingerprint;
 
 import android.content.Context;
 import android.security.keystore.KeyGenParameterSpec;
@@ -43,7 +43,7 @@ import javax.crypto.spec.IvParameterSpec;
  * Provider class for cryptographic elements used in the encryption/decryption
  * of {@link com.mtramin.rxfingerprint.RxFingerprint}
  */
-public class CryptoProvider {
+class CryptoProvider {
 
     private static final String ANDROID_KEY_STORE = "AndroidKeyStore";
     private static final String DEFAULT_KEY_NAME = "rxfingerprint_default";

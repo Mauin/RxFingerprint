@@ -2,6 +2,8 @@ package com.mtramin.rxfingerprint.utils;
 
 import android.content.Context;
 
+import com.mtramin.rxfingerprint.CryptoProvider;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

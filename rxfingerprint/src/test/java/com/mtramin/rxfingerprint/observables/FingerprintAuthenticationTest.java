@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.support.v4.os.CancellationSignal;
 
+import com.mtramin.rxfingerprint.FingerprintAuthenticationObservable;
 import com.mtramin.rxfingerprint.RxFingerprint;
 import com.mtramin.rxfingerprint.data.FingerprintAuthenticationException;
 import com.mtramin.rxfingerprint.data.FingerprintAuthenticationResult;

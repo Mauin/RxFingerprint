@@ -2,6 +2,8 @@ package com.mtramin.rxfingerprint.data;
 
 import android.util.Base64;
 
+import com.mtramin.rxfingerprint.CryptoData;
+
 import org.junit.Test;
 
 import java.util.Arrays;

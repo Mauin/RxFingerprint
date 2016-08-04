@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mtramin.rxfingerprint.observables;
+package com.mtramin.rxfingerprint;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -29,7 +29,7 @@ import rx.Subscriber;
 /**
  * Authenticates the user with his fingerprint.
  */
-public class FingerprintAuthenticationObservable extends FingerprintObservable<FingerprintAuthenticationResult> {
+class FingerprintAuthenticationObservable extends FingerprintObservable<FingerprintAuthenticationResult> {
 
     private FingerprintAuthenticationObservable(Context context) {
         super(context);
@@ -42,7 +42,7 @@ public class FingerprintAuthenticationObservable extends FingerprintObservable<F
      * @param context context to use
      * @return Observable {@link FingerprintAuthenticationResult}
      */
-    public static Observable<FingerprintAuthenticationResult> create(Context context) {
+    static Observable<FingerprintAuthenticationResult> create(Context context) {
         return Observable.create(new FingerprintAuthenticationObservable(context));
     }
 

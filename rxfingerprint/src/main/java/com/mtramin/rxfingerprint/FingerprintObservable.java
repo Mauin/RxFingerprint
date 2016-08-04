@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mtramin.rxfingerprint.observables;
+package com.mtramin.rxfingerprint;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -23,7 +23,6 @@ import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat.AuthenticationCallback;
 import android.support.v4.os.CancellationSignal;
 
-import com.mtramin.rxfingerprint.RxFingerprint;
 import com.mtramin.rxfingerprint.data.FingerprintAuthenticationException;
 
 import rx.Observable;
@@ -34,7 +33,7 @@ import rx.subscriptions.Subscriptions;
  * Base observable for Fingerprint authentication. Provides abstract methods that allow
  * to alter the input and result of the authentication.
  */
-public abstract class FingerprintObservable<T> implements Observable.OnSubscribe<T> {
+abstract class FingerprintObservable<T> implements Observable.OnSubscribe<T> {
 
     protected final Context context;
     private CancellationSignal cancellationSignal;
@@ -44,7 +43,7 @@ public abstract class FingerprintObservable<T> implements Observable.OnSubscribe
      *
      * @param context Context to be used for the fingerprint authentication
      */
-    protected FingerprintObservable(Context context) {
+    FingerprintObservable(Context context) {
         this.context = context.getApplicationContext();
     }
 

@@ -14,16 +14,14 @@
  * limitations under the License.
  */
 
-package com.mtramin.rxfingerprint.observables;
+package com.mtramin.rxfingerprint;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 
-import com.mtramin.rxfingerprint.data.CryptoData;
 import com.mtramin.rxfingerprint.data.FingerprintEncryptionResult;
 import com.mtramin.rxfingerprint.data.FingerprintResult;
-import com.mtramin.rxfingerprint.utils.CryptoProvider;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -50,7 +48,7 @@ import rx.Subscriber;
  * can only be used with fingerprint authentication and uses it once authentication was successful
  * to encrypt the given data.
  */
-public class FingerprintEncryptionObservable extends FingerprintObservable<FingerprintEncryptionResult> {
+class FingerprintEncryptionObservable extends FingerprintObservable<FingerprintEncryptionResult> {
 
     private final String keyName;
     private final String toEncrypt;
@@ -73,7 +71,7 @@ public class FingerprintEncryptionObservable extends FingerprintObservable<Finge
      * @param keyName   name of the key in the keystore
      *@param toEncrypt data to encrypt  @return Observable {@link FingerprintEncryptionResult}
      */
-    public static Observable<FingerprintEncryptionResult> create(Context context, String keyName, String toEncrypt) {
+    static Observable<FingerprintEncryptionResult> create(Context context, String keyName, String toEncrypt) {
         return Observable.create(new FingerprintEncryptionObservable(context, keyName, toEncrypt));
     }
 
@@ -84,7 +82,7 @@ public class FingerprintEncryptionObservable extends FingerprintObservable<Finge
      * @param context   context to use
      *@param toEncrypt data to encrypt  @return Observable {@link FingerprintEncryptionResult}
      */
-    public static Observable<FingerprintEncryptionResult> create(Context context, String toEncrypt) {
+    static Observable<FingerprintEncryptionResult> create(Context context, String toEncrypt) {
         return Observable.create(new FingerprintEncryptionObservable(context, null, toEncrypt));
     }
 

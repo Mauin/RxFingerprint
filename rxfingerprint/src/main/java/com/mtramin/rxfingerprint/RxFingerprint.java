@@ -24,9 +24,6 @@ import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import com.mtramin.rxfingerprint.data.FingerprintAuthenticationResult;
 import com.mtramin.rxfingerprint.data.FingerprintDecryptionResult;
 import com.mtramin.rxfingerprint.data.FingerprintEncryptionResult;
-import com.mtramin.rxfingerprint.observables.FingerprintAuthenticationObservable;
-import com.mtramin.rxfingerprint.observables.FingerprintDecryptionObservable;
-import com.mtramin.rxfingerprint.observables.FingerprintEncryptionObservable;
 
 import rx.Observable;
 

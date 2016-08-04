@@ -14,17 +14,15 @@
  * limitations under the License.
  */
 
-package com.mtramin.rxfingerprint.observables;
+package com.mtramin.rxfingerprint;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 
-import com.mtramin.rxfingerprint.data.CryptoData;
 import com.mtramin.rxfingerprint.data.FingerprintDecryptionResult;
 import com.mtramin.rxfingerprint.data.FingerprintEncryptionResult;
 import com.mtramin.rxfingerprint.data.FingerprintResult;
-import com.mtramin.rxfingerprint.utils.CryptoProvider;
 
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
@@ -49,7 +47,7 @@ import rx.Subscriber;
  * <p/>
  * The date handed in must be previously encrypted by a {@link FingerprintEncryptionObservable}.
  */
-public class FingerprintDecryptionObservable extends FingerprintObservable<FingerprintDecryptionResult> {
+class FingerprintDecryptionObservable extends FingerprintObservable<FingerprintDecryptionResult> {
 
     private final String keyName;
     private final CryptoData encryptedData;
@@ -69,7 +67,7 @@ public class FingerprintDecryptionObservable extends FingerprintObservable<Finge
      * @param encrypted data to encrypt  @return Observable {@link FingerprintEncryptionResult}
      * @return Observable result of the decryption
      */
-    public static Observable<FingerprintDecryptionResult> create(Context context, String keyName, String encrypted) {
+    static Observable<FingerprintDecryptionResult> create(Context context, String keyName, String encrypted) {
         return Observable.create(new FingerprintDecryptionObservable(context, keyName, encrypted));
     }
 
@@ -81,7 +79,7 @@ public class FingerprintDecryptionObservable extends FingerprintObservable<Finge
      * @param encrypted data to encrypt  @return Observable {@link FingerprintEncryptionResult}
      * @return Observable result of the decryption
      */
-    public static Observable<FingerprintDecryptionResult> create(Context context, String encrypted) {
+    static Observable<FingerprintDecryptionResult> create(Context context, String encrypted) {
         return Observable.create(new FingerprintDecryptionObservable(context, null, encrypted));
     }
 

@@ -26,15 +26,16 @@ import android.support.v4.os.CancellationSignal;
 import com.mtramin.rxfingerprint.RxFingerprint;
 import com.mtramin.rxfingerprint.data.FingerprintAuthenticationException;
 
-import rx.Observable;
+import rx.AsyncEmitter;
 import rx.Subscriber;
+import rx.functions.Action1;
 import rx.subscriptions.Subscriptions;
 
 /**
  * Base observable for Fingerprint authentication. Provides abstract methods that allow
  * to alter the input and result of the authentication.
  */
-public abstract class FingerprintObservable<T> implements Observable.OnSubscribe<T> {
+abstract class FingerprintObservable<T> implements Action1<AsyncEmitter<T>> {
 
     protected final Context context;
     private CancellationSignal cancellationSignal;
@@ -49,48 +50,49 @@ public abstract class FingerprintObservable<T> implements Observable.OnSubscribe
     }
 
     @Override
-    public void call(final Subscriber<? super T> subscriber) {
+    public void call(AsyncEmitter<T> asyncEmitter) {
         if (!RxFingerprint.isAvailable(context)) {
-            subscriber.onError(new IllegalAccessException("Fingerprint authentication is not available on this device! Ensure that the device has a Fingerprint sensor and enrolled Fingerprints by calling RxFingerprint#available(Context) first"));
+            asyncEmitter.onError(new IllegalAccessException("Fingerprint authentication is not available on this device! Ensure that the device has a Fingerprint sensor and enrolled Fingerprints by calling RxFingerprint#available(Context) first"));
         }
 
-        AuthenticationCallback callback = createAuthenticationCallback(subscriber);
+        AuthenticationCallback callback = createAuthenticationCallback(asyncEmitter);
         cancellationSignal = new CancellationSignal();
-        FingerprintManagerCompat.CryptoObject cryptoObject = initCryptoObject(subscriber);
+        FingerprintManagerCompat.CryptoObject cryptoObject = initCryptoObject(asyncEmitter);
         FingerprintManagerCompat.from(context).authenticate(cryptoObject, 0, cancellationSignal, callback, null);
 
-        subscriber.add(Subscriptions.create(() -> {
+        asyncEmitter.setSubscription(Subscriptions.create(() -> {
             if (cancellationSignal != null && !cancellationSignal.isCanceled()) {
                 cancellationSignal.cancel();
             }
         }));
+
     }
 
     @NonNull
-    private AuthenticationCallback createAuthenticationCallback(final Subscriber<? super T> subscriber) {
+    private AuthenticationCallback createAuthenticationCallback(final AsyncEmitter<T> emitter) {
         return new AuthenticationCallback() {
             @Override
             public void onAuthenticationError(int errMsgId, CharSequence errString) {
                 super.onAuthenticationError(errMsgId, errString);
-                subscriber.onError(new FingerprintAuthenticationException(errString));
+                emitter.onError(new FingerprintAuthenticationException(errString));
             }
 
             @Override
             public void onAuthenticationFailed() {
                 super.onAuthenticationFailed();
-                FingerprintObservable.this.onAuthenticationFailed(subscriber);
+                FingerprintObservable.this.onAuthenticationFailed(emitter);
             }
 
             @Override
             public void onAuthenticationHelp(int helpMsgId, CharSequence helpString) {
                 super.onAuthenticationHelp(helpMsgId, helpString);
-                FingerprintObservable.this.onAuthenticationHelp(subscriber, helpMsgId, helpString.toString());
+                FingerprintObservable.this.onAuthenticationHelp(emitter, helpMsgId, helpString.toString());
             }
 
             @Override
             public void onAuthenticationSucceeded(FingerprintManagerCompat.AuthenticationResult result) {
                 super.onAuthenticationSucceeded(result);
-                FingerprintObservable.this.onAuthenticationSucceeded(subscriber, result);
+                FingerprintObservable.this.onAuthenticationSucceeded(emitter, result);
             }
         };
     }
@@ -104,30 +106,28 @@ public abstract class FingerprintObservable<T> implements Observable.OnSubscribe
      * that is to be used in the authentication. May be {@code null}.
      */
     @Nullable
-    protected abstract FingerprintManagerCompat.CryptoObject initCryptoObject(Subscriber<? super T> subscriber);
+    protected abstract FingerprintManagerCompat.CryptoObject initCryptoObject(AsyncEmitter<T> subscriber);
 
     /**
      * Action to execute when fingerprint authentication was successful.
      * Should return the needed result via the given {@link Subscriber}.
      * <p/>
      * Should call {@link Subscriber#onCompleted()}.
-     *
-     * @param subscriber current subscriber
+     *  @param subscriber current subscriber
      * @param result     result of the successful fingerprint authentication
      */
-    protected abstract void onAuthenticationSucceeded(Subscriber<? super T> subscriber, FingerprintManagerCompat.AuthenticationResult result);
+    protected abstract void onAuthenticationSucceeded(AsyncEmitter<T> subscriber, FingerprintManagerCompat.AuthenticationResult result);
 
     /**
      * Action to execute when the fingerprint authentication returned a help result.
      * Should return the needed actions to the subscriber via the given {@link Subscriber}.
      * <p/>
      * Should <b>not</b> {@link Subscriber#onCompleted()}.
-     *
-     * @param subscriber    current subscriber
+     *  @param subscriber    current subscriber
      * @param helpMessageId ID of the help message returned from the {@link FingerprintManagerCompat}
      * @param helpString    Help message string returned by the {@link FingerprintManagerCompat}
      */
-    protected abstract void onAuthenticationHelp(Subscriber<? super T> subscriber, int helpMessageId, String helpString);
+    protected abstract void onAuthenticationHelp(AsyncEmitter<T> subscriber, int helpMessageId, String helpString);
 
     /**
      * Action to execute when the fingerprint authentication failed.
@@ -138,5 +138,5 @@ public abstract class FingerprintObservable<T> implements Observable.OnSubscribe
      *
      * @param subscriber current subscriber
      */
-    protected abstract void onAuthenticationFailed(Subscriber<? super T> subscriber);
+    protected abstract void onAuthenticationFailed(AsyncEmitter<T> subscriber);
 }

@@ -1,4 +1,4 @@
-package com.mtramin.rxfingerprint.data;
+package com.mtramin.rxfingerprint;
 
 import android.util.Base64;
 

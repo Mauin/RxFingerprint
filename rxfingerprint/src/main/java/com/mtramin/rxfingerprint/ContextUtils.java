@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.mtramin.rxfingerprint.utils;
+package com.mtramin.rxfingerprint;
 
 import android.content.Context;
 
 /**
  * Utility methods for {@link Context}s
  */
-public class ContextUtils {
+class ContextUtils {
 
     /**
      * Returns the package name of the current application using this library
@@ -29,7 +29,7 @@ public class ContextUtils {
      * @param context current context
      * @return Package name of the application
      */
-    public static String getPackageName(Context context) {
+    static String getPackageName(Context context) {
         return context.getPackageName();
     }
 }

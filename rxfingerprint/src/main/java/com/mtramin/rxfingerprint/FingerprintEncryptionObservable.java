@@ -40,8 +40,10 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 
+import rx.AsyncEmitter;
 import rx.Observable;
-import rx.Subscriber;
+
+import static rx.AsyncEmitter.BackpressureMode.LATEST;
 
 /**
  * Encrypts data with fingerprint authentication. Initializes a {@link Cipher} for encryption which
@@ -69,10 +71,10 @@ class FingerprintEncryptionObservable extends FingerprintObservable<FingerprintE
      *
      * @param context   context to use
      * @param keyName   name of the key in the keystore
-     *@param toEncrypt data to encrypt  @return Observable {@link FingerprintEncryptionResult}
+     * @param toEncrypt data to encrypt  @return Observable {@link FingerprintEncryptionResult}
      */
     static Observable<FingerprintEncryptionResult> create(Context context, String keyName, String toEncrypt) {
-        return Observable.create(new FingerprintEncryptionObservable(context, keyName, toEncrypt));
+        return Observable.fromAsync(new FingerprintEncryptionObservable(context, keyName, toEncrypt), LATEST);
     }
 
     /**
@@ -80,28 +82,28 @@ class FingerprintEncryptionObservable extends FingerprintObservable<FingerprintE
      * to encrypt the given data.
      *
      * @param context   context to use
-     *@param toEncrypt data to encrypt  @return Observable {@link FingerprintEncryptionResult}
+     * @param toEncrypt data to encrypt  @return Observable {@link FingerprintEncryptionResult}
      */
     static Observable<FingerprintEncryptionResult> create(Context context, String toEncrypt) {
-        return Observable.create(new FingerprintEncryptionObservable(context, null, toEncrypt));
+        return Observable.fromAsync(new FingerprintEncryptionObservable(context, null, toEncrypt), LATEST);
     }
 
     @Nullable
     @Override
-    protected FingerprintManagerCompat.CryptoObject initCryptoObject(Subscriber<? super FingerprintEncryptionResult> subscriber) {
+    protected FingerprintManagerCompat.CryptoObject initCryptoObject(AsyncEmitter<FingerprintEncryptionResult> emitter) {
         CryptoProvider cryptoProvider = new CryptoProvider(this.context, this.keyName);
         try {
             Cipher cipher = cryptoProvider.initEncryptionCipher();
             return new FingerprintManagerCompat.CryptoObject(cipher);
-        } catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchProviderException | NoSuchPaddingException | InvalidAlgorithmParameterException |CertificateException | UnrecoverableKeyException | KeyStoreException | IOException e) {
-            subscriber.onError(e);
+        } catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchProviderException | NoSuchPaddingException | InvalidAlgorithmParameterException | CertificateException | UnrecoverableKeyException | KeyStoreException | IOException e) {
+            emitter.onError(e);
             return null;
         }
 
     }
 
     @Override
-    protected void onAuthenticationSucceeded(Subscriber<? super FingerprintEncryptionResult> subscriber, FingerprintManagerCompat.AuthenticationResult result) {
+    protected void onAuthenticationSucceeded(AsyncEmitter<FingerprintEncryptionResult> emitter, FingerprintManagerCompat.AuthenticationResult result) {
         try {
             Cipher cipher = result.getCryptoObject().getCipher();
             byte[] encryptedBytes = cipher.doFinal(toEncrypt.getBytes("UTF-8"));
@@ -109,20 +111,20 @@ class FingerprintEncryptionObservable extends FingerprintObservable<FingerprintE
 
             CryptoData cryptoData = CryptoData.fromBytes(encryptedBytes, ivBytes);
 
-            subscriber.onNext(new FingerprintEncryptionResult(FingerprintResult.AUTHENTICATED, null, cryptoData.toString()));
-            subscriber.onCompleted();
+            emitter.onNext(new FingerprintEncryptionResult(FingerprintResult.AUTHENTICATED, null, cryptoData.toString()));
+            emitter.onCompleted();
         } catch (IllegalBlockSizeException | BadPaddingException | InvalidParameterSpecException | UnsupportedEncodingException e) {
-            subscriber.onError(e);
+            emitter.onError(e);
         }
     }
 
     @Override
-    protected void onAuthenticationHelp(Subscriber<? super FingerprintEncryptionResult> subscriber, int helpMessageId, String helpString) {
-        subscriber.onNext(new FingerprintEncryptionResult(FingerprintResult.HELP, helpString, null));
+    protected void onAuthenticationHelp(AsyncEmitter<FingerprintEncryptionResult> emitter, int helpMessageId, String helpString) {
+        emitter.onNext(new FingerprintEncryptionResult(FingerprintResult.HELP, helpString, null));
     }
 
     @Override
-    protected void onAuthenticationFailed(Subscriber<? super FingerprintEncryptionResult> subscriber) {
-        subscriber.onNext(new FingerprintEncryptionResult(FingerprintResult.FAILED, null, null));
+    protected void onAuthenticationFailed(AsyncEmitter<FingerprintEncryptionResult> emitter) {
+        emitter.onNext(new FingerprintEncryptionResult(FingerprintResult.FAILED, null, null));
     }
 }

@@ -1,0 +1,29 @@
+language: android
+
+android:
+  components:
+      - platform-tools
+      - tools
+      - build-tools-24.0.1
+      - android-24
+
+      # Additional components
+      - extra-google-m2repository
+      - extra-android-m2repository
+      - addon-google_apis-google-19
+
+      - sys-img-x86-android-24
+
+jdk:
+  - oraclejdk8
+
+# Emulator Management: Create, Start and Wait
+before_script:
+  - echo no | android create avd --force -n test -t android-24 --abi x86
+  - emulator -avd test -no-skin -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
+
+cache:
+  directories:
+    - $HOME/.gradle

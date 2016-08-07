@@ -26,7 +26,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    tools:context="com.mtramin.fingerprintplayground.MainActivity">
+    tools:context="com.mtramin.fingerprintplayground.MainActivity"
+    tools:ignore="HardcodedText">
 
     <TextView
         android:id="@+id/status"
@@ -42,7 +43,7 @@
         android:id="@+id/authenticate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Authenticate"/>
+        android:text="Authenticate" />
 
     <EditText
         android:id="@+id/input"

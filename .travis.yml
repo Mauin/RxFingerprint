@@ -16,3 +16,6 @@ jdk:
 cache:
   directories:
     - $HOME/.gradle
+
+script:
+  ./gradlew build check

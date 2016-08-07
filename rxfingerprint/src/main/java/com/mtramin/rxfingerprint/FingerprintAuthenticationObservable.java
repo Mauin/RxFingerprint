@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mtramin.rxfingerprint.observables;
+package com.mtramin.rxfingerprint;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -26,10 +26,12 @@ import com.mtramin.rxfingerprint.data.FingerprintResult;
 import rx.AsyncEmitter;
 import rx.Observable;
 
+import static rx.AsyncEmitter.BackpressureMode.LATEST;
+
 /**
  * Authenticates the user with his fingerprint.
  */
-public class FingerprintAuthenticationObservable extends FingerprintObservable<FingerprintAuthenticationResult> {
+class FingerprintAuthenticationObservable extends FingerprintObservable<FingerprintAuthenticationResult> {
 
     private FingerprintAuthenticationObservable(Context context) {
         super(context);
@@ -42,8 +44,8 @@ public class FingerprintAuthenticationObservable extends FingerprintObservable<F
      * @param context context to use
      * @return Observable {@link FingerprintAuthenticationResult}
      */
-    public static Observable<FingerprintAuthenticationResult> create(Context context) {
-        return Observable.fromAsync(new FingerprintAuthenticationObservable(context), AsyncEmitter.BackpressureMode.LATEST);
+    static Observable<FingerprintAuthenticationResult> create(Context context) {
+        return Observable.fromAsync(new FingerprintAuthenticationObservable(context), LATEST);
     }
 
     @Nullable

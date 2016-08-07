@@ -14,17 +14,15 @@
  * limitations under the License.
  */
 
-package com.mtramin.rxfingerprint.observables;
+package com.mtramin.rxfingerprint;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 
-import com.mtramin.rxfingerprint.data.CryptoData;
 import com.mtramin.rxfingerprint.data.FingerprintDecryptionResult;
 import com.mtramin.rxfingerprint.data.FingerprintEncryptionResult;
 import com.mtramin.rxfingerprint.data.FingerprintResult;
-import com.mtramin.rxfingerprint.utils.CryptoProvider;
 
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
@@ -42,6 +40,8 @@ import javax.crypto.NoSuchPaddingException;
 import rx.AsyncEmitter;
 import rx.Observable;
 
+import static rx.AsyncEmitter.BackpressureMode.LATEST;
+
 /**
  * Decrypts data with fingerprint authentication. Initializes a {@link Cipher} for decryption which
  * can only be used with fingerprint authentication and uses it once authentication was successful
@@ -49,7 +49,7 @@ import rx.Observable;
  * <p/>
  * The date handed in must be previously encrypted by a {@link FingerprintEncryptionObservable}.
  */
-public class FingerprintDecryptionObservable extends FingerprintObservable<FingerprintDecryptionResult> {
+class FingerprintDecryptionObservable extends FingerprintObservable<FingerprintDecryptionResult> {
 
     private final String keyName;
     private final CryptoData encryptedData;
@@ -69,8 +69,8 @@ public class FingerprintDecryptionObservable extends FingerprintObservable<Finge
      * @param encrypted data to encrypt  @return Observable {@link FingerprintEncryptionResult}
      * @return Observable result of the decryption
      */
-    public static Observable<FingerprintDecryptionResult> create(Context context, String keyName, String encrypted) {
-        return Observable.fromAsync(new FingerprintDecryptionObservable(context, keyName, encrypted), AsyncEmitter.BackpressureMode.LATEST);
+    static Observable<FingerprintDecryptionResult> create(Context context, String keyName, String encrypted) {
+        return Observable.fromAsync(new FingerprintDecryptionObservable(context, keyName, encrypted), LATEST);
     }
 
     /**
@@ -81,8 +81,8 @@ public class FingerprintDecryptionObservable extends FingerprintObservable<Finge
      * @param encrypted data to encrypt  @return Observable {@link FingerprintEncryptionResult}
      * @return Observable result of the decryption
      */
-    public static Observable<FingerprintDecryptionResult> create(Context context, String encrypted) {
-        return Observable.fromAsync(new FingerprintDecryptionObservable(context, null, encrypted), AsyncEmitter.BackpressureMode.LATEST);
+    static Observable<FingerprintDecryptionResult> create(Context context, String encrypted) {
+        return Observable.fromAsync(new FingerprintDecryptionObservable(context, null, encrypted), LATEST);
     }
 
     @Nullable

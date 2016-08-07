@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mtramin.rxfingerprint.utils;
+package com.mtramin.rxfingerprint;
 
 import android.content.Context;
 

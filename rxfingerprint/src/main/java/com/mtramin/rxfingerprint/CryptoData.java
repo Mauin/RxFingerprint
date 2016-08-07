@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mtramin.rxfingerprint.data;
+package com.mtramin.rxfingerprint;
 
 import android.support.annotation.NonNull;
 import android.util.Base64;
@@ -22,7 +22,7 @@ import android.util.Base64;
 /**
  * Data of a cryptographic operation with RxFingerprint.
  */
-public class CryptoData {
+class CryptoData {
     private static final String SEPARATOR = "-_-";
 
     private final String messageEncoded;
@@ -44,7 +44,7 @@ public class CryptoData {
      * @param input input string that was previously encrypted by RxFingerprint
      * @return parsed data
      */
-    public static CryptoData fromString(String input) {
+    static CryptoData fromString(String input) {
         if (input == null) {
             throw new NullPointerException("Input for decryption is null. Make sure to provide a valid, encrypted String for decryption.");
         }
@@ -64,7 +64,7 @@ public class CryptoData {
      * @param ivBytes      initialization vector in bytes
      * @return parsed data
      */
-    public static CryptoData fromBytes(byte[] messageBytes, byte[] ivBytes) {
+    static CryptoData fromBytes(byte[] messageBytes, byte[] ivBytes) {
         return new CryptoData(messageBytes, ivBytes);
     }
 
@@ -76,18 +76,18 @@ public class CryptoData {
     /**
      * @return initialization vector of the crypto operation
      */
-    public byte[] getIv() {
+     byte[] getIv() {
         return decode(ivEncoded);
     }
 
     /**
      * @return message of the crypto operation
      */
-    public byte[] getMessage() {
+     byte[] getMessage() {
         return decode(messageEncoded);
     }
 
-    private byte[] decode(String messageEncoded) {
+     byte[] decode(String messageEncoded) {
         return Base64.decode(messageEncoded, Base64.DEFAULT);
     }
 

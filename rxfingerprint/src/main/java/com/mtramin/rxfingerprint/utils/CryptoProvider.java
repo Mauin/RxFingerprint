@@ -16,7 +16,6 @@
 
 package com.mtramin.rxfingerprint.utils;
 
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
@@ -76,7 +75,7 @@ public class CryptoProvider {
     /**
      * @return Initialized cipher for encryption operations in RxFinerprint
      */
-    @SuppressLint("NewApi")
+    @TargetApi(Build.VERSION_CODES.M)
     public Cipher initEncryptionCipher() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, NoSuchProviderException, InvalidAlgorithmParameterException, UnrecoverableKeyException, CertificateException, KeyStoreException, IOException {
         Cipher cipher = createCipher();
         SecretKey key = findOrCreateKey(this.keyName);
@@ -95,7 +94,7 @@ public class CryptoProvider {
         return cipher;
     }
 
-    @SuppressLint({"InlinedApi", "NewApi"})
+    @TargetApi(Build.VERSION_CODES.M)
     private Cipher createCipher() throws NoSuchPaddingException, NoSuchAlgorithmException {
         return Cipher.getInstance(KeyProperties.KEY_ALGORITHM_AES + "/"
                 + KeyProperties.BLOCK_MODE_CBC + "/"
@@ -123,7 +122,6 @@ public class CryptoProvider {
         return false;
     }
 
-    @SuppressLint({"InlinedApi", "NewApi"})
     @TargetApi(Build.VERSION_CODES.M)
     private SecretKey createKey(String keyName) throws NoSuchAlgorithmException, NoSuchProviderException, InvalidAlgorithmParameterException {
         KeyGenerator keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, ANDROID_KEY_STORE);

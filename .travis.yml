@@ -18,4 +18,4 @@ cache:
     - $HOME/.gradle
 
 script:
-  ./gradlew build check
+  ./gradlew clean build check

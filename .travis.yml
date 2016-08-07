@@ -1,0 +1,22 @@
+language: android
+
+android:
+  components:
+      - tools # to get the new `repository-11.xml`
+      - tools # to install Android SDK tools 25.1.x (x = 6 right now)
+      - platform-tools
+      - build-tools-24.0.1
+      - android-24
+
+      # Additional components
+      - extra-android-m2repository
+
+jdk:
+  - oraclejdk8
+
+cache:
+  directories:
+    - $HOME/.gradle
+
+script:
+  ./gradlew clean build check

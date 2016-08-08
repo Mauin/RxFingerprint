@@ -18,7 +18,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'me.tatarka.retrolambda'
 
 group 'com.mtramin'
-version versions.versionName
+version versions.name
 
 android {
     compileSdkVersion versions.compileSdk
@@ -27,8 +27,8 @@ android {
     defaultConfig {
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
-        versionCode versions.versionCode
-        versionName versions.versionName
+        versionCode versions.code
+        versionName versions.name
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 

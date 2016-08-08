@@ -1,11 +1,11 @@
 /*
- * Copyright 2015 Marvin Ramin
+ *  Copyright 2016 Marvin Ramin.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * <http://www.apache.org/licenses/LICENSE-2.0>
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,8 +26,7 @@ def mavenDeveloperEmail = 'marvin.ramin@gmail.com'
 def libWebsite = "https://github.com/Mauin/RxFingerprint"
 def libGit = "https://github.com/Mauin/RxFingerprint.git"
 
-
-def versionTag = version.toString()
+def versionTag = versions.name.toString()
 
 bintray {
     user = bintray_user
@@ -98,4 +97,8 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 artifacts {
     archives javadocJar
     archives sourcesJar
+}
+
+task bintrayPublish(dependsOn: [javadocJar, sourcesJar, bintrayUpload]) {
+    // everything is done in the depending tasks
 }

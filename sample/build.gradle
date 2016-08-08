@@ -24,8 +24,8 @@ android {
     defaultConfig {
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
-        versionCode versions.versionCode
-        versionName versions.versionName
+        versionCode versions.code
+        versionName versions.name
 
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_1_8
@@ -43,8 +43,8 @@ android {
 
 
 dependencies {
-    compile project(':rxfingerprint');
-//    compile "com.mtramin:rxfingerprint:$versions.name"
+//    compile project(':rxfingerprint');
+    compile "com.mtramin:rxfingerprint:$versions.name"
 
     compile "com.android.support:appcompat-v7:$versions.supportLibrary"
 }

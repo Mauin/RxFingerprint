@@ -26,14 +26,14 @@ ext.versions = [
         buildTools             : '24.0.1',
 
         // Gradle Versions
-        androidGradlePlugin    : '2.2.0-alpha7',
+        androidGradlePlugin    : '2.2.0-beta2',
         retrolambdaGradlePlugin: '3.2.5',
         mavenGradlePlugin      : '1.4.1',
         bintrayGradlePlugin    : '1.7.1',
 
         // Dependency Versions
-        supportLibrary         : '24.1.1',
-        rxJava                 : '1.1.8',
+        supportLibrary         : '24.2.0',
+        rxJava                 : '1.1.9',
 
         // Testing dependencies
         jUnit : '4.12',

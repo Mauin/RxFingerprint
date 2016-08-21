@@ -53,7 +53,7 @@ android {
 
 
 dependencies {
-    compile "com.android.support:appcompat-v7:$versions.supportLibrary"
+    compile "com.android.support:support-compat:$versions.supportLibrary"
     compile "io.reactivex:rxjava:$versions.rxJava"
 
     testCompile "junit:junit:$versions.jUnit"

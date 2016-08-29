@@ -25,7 +25,7 @@ import com.mtramin.rxfingerprint.data.FingerprintAuthenticationResult;
 import com.mtramin.rxfingerprint.data.FingerprintDecryptionResult;
 import com.mtramin.rxfingerprint.data.FingerprintEncryptionResult;
 
-import rx.Observable;
+import io.reactivex.Observable;
 
 /**
  * Entry point for RxFingerprint. Contains all the base methods you need to interact with the

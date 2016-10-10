@@ -60,7 +60,7 @@ abstract class FingerprintObservable<T> implements Action1<AsyncEmitter<T>> {
     @Override
     public void call(AsyncEmitter<T> asyncEmitter) {
         if (!RxFingerprint.isAvailable(context)) {
-            asyncEmitter.onError(new IllegalAccessException("Fingerprint authentication is not available on this device! Ensure that the device has a Fingerprint sensor and enrolled Fingerprints by calling RxFingerprint#available(Context) first"));
+            asyncEmitter.onError(new IllegalAccessException("Fingerprint authentication is not available on this device! Ensure that the device has a Fingerprint sensor and enrolled Fingerprints by calling RxFingerprint#isAvailable(Context) first"));
         }
 
         AuthenticationCallback callback = createAuthenticationCallback(asyncEmitter);

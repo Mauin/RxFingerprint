@@ -20,6 +20,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import rx.observers.TestSubscriber;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
@@ -37,6 +38,7 @@ public class FingerprintAuthenticationTest {
 
     private static final String ERROR_MESSAGE = "Error message";
     private static final CharSequence MESSAGE_HELP = "Help message";
+    private static final CharSequence MESSAGE_FAILED = "Fail message";
 
     TestSubscriber<FingerprintAuthenticationResult> testSubscriber = TestSubscriber.create();
 
@@ -143,7 +145,7 @@ public class FingerprintAuthenticationTest {
 
         ArgumentCaptor<FingerprintManagerCompat.AuthenticationCallback> callbackCaptor = ArgumentCaptor.forClass(FingerprintManagerCompat.AuthenticationCallback.class);
         verify(mockFingerprintManager).authenticate(any(FingerprintManagerCompat.CryptoObject.class), anyInt(), any(CancellationSignal.class), callbackCaptor.capture(), any(Handler.class));
-        callbackCaptor.getValue().onAuthenticationHelp(0, MESSAGE_HELP);
+        callbackCaptor.getValue().onAuthenticationFailed();
 
         testSubscriber.assertNoTerminalEvent();
         testSubscriber.assertNoErrors();
@@ -153,8 +155,8 @@ public class FingerprintAuthenticationTest {
 
         FingerprintAuthenticationResult helpResult = testSubscriber.getOnNextEvents().get(0);
         assertTrue("Authentication should not be successful", !helpResult.isSuccess());
-        assertTrue("Result should be equal FAILED", helpResult.getResult().equals(FingerprintResult.HELP));
-        assertTrue("Should contain no message", helpResult.getMessage().equals(MESSAGE_HELP));
+        assertTrue("Result should be equal FAILED", helpResult.getResult().equals(FingerprintResult.FAILED));
+        assertNull("Should contain no message", helpResult.getMessage());
 
         callbackCaptor.getValue().onAuthenticationSucceeded(new FingerprintManagerCompat.AuthenticationResult(null));
 
@@ -168,7 +170,6 @@ public class FingerprintAuthenticationTest {
         assertTrue("Authentication should be successful", successResult.isSuccess());
         assertTrue("Result should be equal AUTHENTICATED", successResult.getResult().equals(FingerprintResult.AUTHENTICATED));
         assertTrue("Should contain no message", successResult.getMessage() == null);
-
     }
 
 }

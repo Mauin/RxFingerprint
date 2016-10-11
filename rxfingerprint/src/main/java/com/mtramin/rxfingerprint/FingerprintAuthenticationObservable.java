@@ -23,10 +23,10 @@ import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import com.mtramin.rxfingerprint.data.FingerprintAuthenticationResult;
 import com.mtramin.rxfingerprint.data.FingerprintResult;
 
-import rx.AsyncEmitter;
+import rx.Emitter;
 import rx.Observable;
 
-import static rx.AsyncEmitter.BackpressureMode.LATEST;
+import static rx.Emitter.BackpressureMode.LATEST;
 
 /**
  * Authenticates the user with his fingerprint.
@@ -45,29 +45,29 @@ class FingerprintAuthenticationObservable extends FingerprintObservable<Fingerpr
      * @return Observable {@link FingerprintAuthenticationResult}
      */
     static Observable<FingerprintAuthenticationResult> create(Context context) {
-        return Observable.fromAsync(new FingerprintAuthenticationObservable(context), LATEST);
+        return Observable.fromEmitter(new FingerprintAuthenticationObservable(context), LATEST);
     }
 
     @Nullable
     @Override
-    protected FingerprintManagerCompat.CryptoObject initCryptoObject(AsyncEmitter<FingerprintAuthenticationResult> subscriber) {
+    protected FingerprintManagerCompat.CryptoObject initCryptoObject(Emitter<FingerprintAuthenticationResult> subscriber) {
         // Simple authentication does not need CryptoObject
         return null;
     }
 
     @Override
-    protected void onAuthenticationSucceeded(AsyncEmitter<FingerprintAuthenticationResult> emitter, FingerprintManagerCompat.AuthenticationResult result) {
+    protected void onAuthenticationSucceeded(Emitter<FingerprintAuthenticationResult> emitter, FingerprintManagerCompat.AuthenticationResult result) {
         emitter.onNext(new FingerprintAuthenticationResult(FingerprintResult.AUTHENTICATED, null));
         emitter.onCompleted();
     }
 
     @Override
-    protected void onAuthenticationHelp(AsyncEmitter<FingerprintAuthenticationResult> emitter, int helpMessageId, String helpString) {
+    protected void onAuthenticationHelp(Emitter<FingerprintAuthenticationResult> emitter, int helpMessageId, String helpString) {
         emitter.onNext(new FingerprintAuthenticationResult(FingerprintResult.HELP, helpString));
     }
 
     @Override
-    protected void onAuthenticationFailed(AsyncEmitter<FingerprintAuthenticationResult> emitter) {
+    protected void onAuthenticationFailed(Emitter<FingerprintAuthenticationResult> emitter) {
         emitter.onNext(new FingerprintAuthenticationResult(FingerprintResult.FAILED, null));
     }
 }

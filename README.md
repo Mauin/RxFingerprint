@@ -17,7 +17,7 @@ see [Encryption/Decryption](#encryption-and-decryption).
 To use RxFingerprint in your project, add the library as a dependency in your `build.gradle` file:
 ```groovy
 dependencies {
-    compile 'com.mtramin:rxfingerprint:1.1.1'
+    compile 'com.mtramin:rxfingerprint:1.2.0'
 }
 ```
 

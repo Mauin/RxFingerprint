@@ -16,12 +16,14 @@
 
 package com.mtramin.rxfingerprint;
 
+import android.app.Application;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat.AuthenticationCallback;
 import android.support.v4.os.CancellationSignal;
+import android.util.Log;
 
 import com.mtramin.rxfingerprint.data.FingerprintAuthenticationException;
 
@@ -45,7 +47,14 @@ abstract class FingerprintObservable<T> implements Action1<AsyncEmitter<T>> {
      * @param context Context to be used for the fingerprint authentication
      */
     FingerprintObservable(Context context) {
-        this.context = context.getApplicationContext();
+        // If this is an Application Context, it causes issues when rotating the device while
+        // the sensor is active. The 2nd callback will receive the cancellation error of the first
+        // authentication action which will immediately onError and unsubscribe the 2nd
+        // authentication action.
+        if (context instanceof Application) {
+            Log.w("RxFingerprint", "Passing an Application Context to RxFingerprint might cause issues when the authentication is active and the application changes orientation. Consider passing an Activity Context.");
+        }
+        this.context = context;
     }
 
     @Override

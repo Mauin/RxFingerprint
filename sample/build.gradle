@@ -43,8 +43,8 @@ android {
 
 
 dependencies {
-//    compile project(':rxfingerprint');
-    compile "com.mtramin:rxfingerprint:$versions.name"
+    compile project(':rxfingerprint');
+//    compile "com.mtramin:rxfingerprint:$versions.name"
 
     compile "com.android.support:appcompat-v7:$versions.supportLibrary"
 }

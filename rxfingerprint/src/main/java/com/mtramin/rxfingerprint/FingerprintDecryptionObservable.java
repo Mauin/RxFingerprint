@@ -50,7 +50,7 @@ import rx.Subscriber;
 class FingerprintDecryptionObservable extends FingerprintObservable<FingerprintDecryptionResult> {
 
 	private final String keyName;
-	private final CryptoData encryptedData;
+	private final String encryptedString;
 
 	/**
 	 * Creates a new FingerprintEncryptionObservable that will listen to fingerprint authentication
@@ -80,7 +80,7 @@ class FingerprintDecryptionObservable extends FingerprintObservable<FingerprintD
 	private FingerprintDecryptionObservable(Context context, String keyName, String encrypted) {
 		super(context);
 		this.keyName = keyName;
-		encryptedData = CryptoData.fromString(encrypted);
+		encryptedString = encrypted;
 	}
 
 	@Nullable
@@ -88,9 +88,10 @@ class FingerprintDecryptionObservable extends FingerprintObservable<FingerprintD
 	protected FingerprintManagerCompat.CryptoObject initCryptoObject(Subscriber<FingerprintDecryptionResult> subscriber) {
 		CryptoProvider cryptoProvider = new CryptoProvider(context, keyName);
 		try {
-			Cipher cipher = cryptoProvider.initDecryptionCipher(encryptedData.getIv());
+			CryptoData cryptoData = CryptoData.fromString(encryptedString);
+			Cipher cipher = cryptoProvider.initDecryptionCipher(cryptoData.getIv());
 			return new FingerprintManagerCompat.CryptoObject(cipher);
-		} catch (NoSuchAlgorithmException | CertificateException | InvalidKeyException | KeyStoreException | InvalidAlgorithmParameterException | NoSuchPaddingException | IOException | UnrecoverableKeyException e) {
+		} catch (CryptoDataException | NoSuchAlgorithmException | CertificateException | InvalidKeyException | KeyStoreException | InvalidAlgorithmParameterException | NoSuchPaddingException | IOException | UnrecoverableKeyException e) {
 			subscriber.onError(e);
 			return null;
 		}
@@ -99,12 +100,13 @@ class FingerprintDecryptionObservable extends FingerprintObservable<FingerprintD
 	@Override
 	protected void onAuthenticationSucceeded(Subscriber<FingerprintDecryptionResult> subscriber, FingerprintManagerCompat.AuthenticationResult result) {
 		try {
+			CryptoData cryptoData = CryptoData.fromString(encryptedString);
 			Cipher cipher = result.getCryptoObject().getCipher();
-			String decrypted = new String(cipher.doFinal(encryptedData.getMessage()));
+			String decrypted = new String(cipher.doFinal(cryptoData.getMessage()));
 
 			subscriber.onNext(new FingerprintDecryptionResult(FingerprintResult.AUTHENTICATED, null, decrypted));
 			subscriber.onCompleted();
-		} catch (BadPaddingException | IllegalBlockSizeException e) {
+		} catch (CryptoDataException | BadPaddingException | IllegalBlockSizeException e) {
 			subscriber.onError(e);
 		}
 

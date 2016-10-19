@@ -107,11 +107,12 @@ class FingerprintEncryptionObservable extends FingerprintObservable<FingerprintE
 			byte[] encryptedBytes = cipher.doFinal(toEncrypt.getBytes("UTF-8"));
 			byte[] ivBytes = cipher.getParameters().getParameterSpec(IvParameterSpec.class).getIV();
 
-			CryptoData cryptoData = CryptoData.fromBytes(encryptedBytes, ivBytes);
+			String encryptedString = CryptoData.fromBytes(encryptedBytes, ivBytes).toString();
+			CryptoData.verifyCryptoDataString(encryptedString);
 
-			subscriber.onNext(new FingerprintEncryptionResult(FingerprintResult.AUTHENTICATED, null, cryptoData.toString()));
+			subscriber.onNext(new FingerprintEncryptionResult(FingerprintResult.AUTHENTICATED, null, encryptedString));
 			subscriber.onCompleted();
-		} catch (IllegalBlockSizeException | BadPaddingException | InvalidParameterSpecException | UnsupportedEncodingException e) {
+		} catch (CryptoDataException | IllegalBlockSizeException | BadPaddingException | InvalidParameterSpecException | UnsupportedEncodingException e) {
 			subscriber.onError(e);
 		}
 	}

@@ -23,42 +23,48 @@ import android.util.Base64;
  * Data of a cryptographic operation with RxFingerprint.
  */
 class CryptoData {
-    private static final String SEPARATOR = "-_-";
+	static final String SEPARATOR = "-_-";
 
     private final String messageEncoded;
     private final String ivEncoded;
 
     private CryptoData(byte[] messageBytes, byte[] ivBytes) {
-        this.messageEncoded = encode(messageBytes);
-        this.ivEncoded = encode(ivBytes);
+		messageEncoded = encode(messageBytes);
+		ivEncoded = encode(ivBytes);
     }
 
     private CryptoData(String message, String iv) {
-        this.messageEncoded = message;
-        this.ivEncoded = iv;
+		messageEncoded = message;
+		ivEncoded = iv;
     }
 
     /**
-     * Sets up data from an input string.
-     *
-     * @param input input string that was previously encrypted by RxFingerprint
-     * @return parsed data
-     */
-    static CryptoData fromString(String input) {
-        if (input == null) {
-            throw new NullPointerException("Input for decryption is null. Make sure to provide a valid, encrypted String for decryption.");
-        }
+	 * Sets up data from an input string.
+	 *
+	 * @param input input string that was previously encrypted by RxFingerprint
+	 * @return parsed data
+	 */
+	static CryptoData fromString(String input) throws CryptoDataException {
+		verifyCryptoDataString(input);
 
-        if (input.isEmpty() || !input.contains(SEPARATOR)) {
-            throw new IllegalArgumentException("Invalid input given for decryption operation. Make sure you provide a string that was previously encrypted by RxFingerprint.");
-        }
+		String[] inputParams = input.split(SEPARATOR);
+		return new CryptoData(inputParams[0], inputParams[1]);
+	}
 
-        String[] inputParams = input.split(SEPARATOR);
-        return new CryptoData(inputParams[0], inputParams[1]);
-    }
+	/**
+	 * Checks if the given input is a valid encrypted string. Will throw an exception if the input
+	 * is invalid.
+	 *
+	 * @param input input to verify
+	 */
+	static void verifyCryptoDataString(String input) throws CryptoDataException {
+		if (input.isEmpty() || !input.contains(SEPARATOR)) {
+			throw CryptoDataException.fromCryptoDataString(input);
+		}
+	}
 
-    /**
-     * Sets up data from encrypted byte that resulted from encryption operation.
+	/**
+	 * Sets up data from encrypted byte that resulted from encryption operation.
      *
      * @param messageBytes encrypted bytes of message
      * @param ivBytes      initialization vector in bytes
@@ -70,7 +76,7 @@ class CryptoData {
 
     @Override
     public String toString() {
-        return this.messageEncoded + SEPARATOR + this.ivEncoded;
+        return messageEncoded + SEPARATOR + ivEncoded;
     }
 
     /**
@@ -87,12 +93,12 @@ class CryptoData {
         return decode(messageEncoded);
     }
 
-     byte[] decode(String messageEncoded) {
+     private static byte[] decode(String messageEncoded) {
         return Base64.decode(messageEncoded, Base64.DEFAULT);
     }
 
     @NonNull
-    private String encode(byte[] messageBytes) {
+    private static String encode(byte[] messageBytes) {
         return Base64.encodeToString(messageBytes, Base64.DEFAULT);
     }
 }

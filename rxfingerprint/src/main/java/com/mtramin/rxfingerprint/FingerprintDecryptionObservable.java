@@ -18,6 +18,7 @@ package com.mtramin.rxfingerprint;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 
 import com.mtramin.rxfingerprint.data.FingerprintDecryptionResult;
@@ -78,7 +79,8 @@ class FingerprintDecryptionObservable extends FingerprintObservable<FingerprintD
 		return Observable.create(new FingerprintDecryptionObservable(context, null, encrypted, new Base64Provider()));
 	}
 
-	private FingerprintDecryptionObservable(Context context, String keyName, String encrypted, EncodingProvider encodingProvider) {
+	@VisibleForTesting
+	FingerprintDecryptionObservable(Context context, String keyName, String encrypted, EncodingProvider encodingProvider) {
 		super(context);
 		this.keyName = keyName;
 		encryptedString = encrypted;

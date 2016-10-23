@@ -12,17 +12,7 @@ public class CryptoDataTest {
 	private static final String TEST_IV = "testIv";
 	private static final String INPUT = TEST_MESSAGE + CryptoData.SEPARATOR + TEST_IV;
 
-	private EncodingProvider encodingProvider = new EncodingProvider() {
-		@Override
-		public String encode(byte[] toEncode) {
-			return new String(toEncode);
-		}
-
-		@Override
-		public byte[] decode(String toDecode) {
-			return toDecode.getBytes();
-		}
-	};
+	private EncodingProvider encodingProvider = new TestEncodingProvider();
 
 	@Test
 	public void fromString() throws Exception {

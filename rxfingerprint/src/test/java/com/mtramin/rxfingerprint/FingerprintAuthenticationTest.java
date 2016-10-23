@@ -59,6 +59,17 @@ public class FingerprintAuthenticationTest {
     }
 
     @Test
+    public void testFingerprintNotAvailable() throws Exception {
+        when(RxFingerprint.isAvailable(mockContext)).thenReturn(false);
+        FingerprintAuthenticationObservable.create(mockContext).subscribe(testSubscriber);
+
+        testSubscriber.awaitTerminalEvent();
+        testSubscriber.assertNoValues();
+        testSubscriber.assertError(IllegalAccessException.class);
+    }
+
+
+    @Test
     public void testAuthenticationSuccessful() throws Exception {
         FingerprintAuthenticationObservable.create(mockContext).subscribe(testSubscriber);
 

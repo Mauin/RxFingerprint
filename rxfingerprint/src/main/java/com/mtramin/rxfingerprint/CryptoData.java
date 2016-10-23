@@ -16,24 +16,25 @@
 
 package com.mtramin.rxfingerprint;
 
-import android.support.annotation.NonNull;
-import android.util.Base64;
-
 /**
  * Data of a cryptographic operation with RxFingerprint.
  */
 class CryptoData {
 	static final String SEPARATOR = "-_-";
 
+	private final EncodingProvider encodingProvider;
+
     private final String messageEncoded;
     private final String ivEncoded;
 
-    private CryptoData(byte[] messageBytes, byte[] ivBytes) {
-		messageEncoded = encode(messageBytes);
-		ivEncoded = encode(ivBytes);
+    private CryptoData(EncodingProvider encodingProvider, byte[] messageBytes, byte[] ivBytes) {
+		this.encodingProvider = encodingProvider;
+		messageEncoded = encodingProvider.encode(messageBytes);
+		ivEncoded = encodingProvider.encode(ivBytes);
     }
 
-    private CryptoData(String message, String iv) {
+    private CryptoData(EncodingProvider encodingProvider, String message, String iv) {
+		this.encodingProvider = encodingProvider;
 		messageEncoded = message;
 		ivEncoded = iv;
     }
@@ -44,11 +45,22 @@ class CryptoData {
 	 * @param input input string that was previously encrypted by RxFingerprint
 	 * @return parsed data
 	 */
-	static CryptoData fromString(String input) throws CryptoDataException {
+	static CryptoData fromString(EncodingProvider encodingProvider, String input) throws CryptoDataException {
 		verifyCryptoDataString(input);
 
 		String[] inputParams = input.split(SEPARATOR);
-		return new CryptoData(inputParams[0], inputParams[1]);
+		return new CryptoData(encodingProvider, inputParams[0], inputParams[1]);
+	}
+
+	/**
+	 * Sets up data from encrypted byte that resulted from encryption operation.
+	 *
+	 * @param messageBytes encrypted bytes of message
+	 * @param ivBytes      initialization vector in bytes
+	 * @return parsed data
+	 */
+	static CryptoData fromBytes(EncodingProvider encodingProviders, byte[] messageBytes, byte[] ivBytes) {
+		return new CryptoData(encodingProviders, messageBytes, ivBytes);
 	}
 
 	/**
@@ -63,17 +75,6 @@ class CryptoData {
 		}
 	}
 
-	/**
-	 * Sets up data from encrypted byte that resulted from encryption operation.
-     *
-     * @param messageBytes encrypted bytes of message
-     * @param ivBytes      initialization vector in bytes
-     * @return parsed data
-     */
-    static CryptoData fromBytes(byte[] messageBytes, byte[] ivBytes) {
-        return new CryptoData(messageBytes, ivBytes);
-    }
-
     @Override
     public String toString() {
         return messageEncoded + SEPARATOR + ivEncoded;
@@ -83,22 +84,13 @@ class CryptoData {
      * @return initialization vector of the crypto operation
      */
      byte[] getIv() {
-        return decode(ivEncoded);
+        return encodingProvider.decode(ivEncoded);
     }
 
     /**
      * @return message of the crypto operation
      */
      byte[] getMessage() {
-        return decode(messageEncoded);
-    }
-
-     private static byte[] decode(String messageEncoded) {
-        return Base64.decode(messageEncoded, Base64.DEFAULT);
-    }
-
-    @NonNull
-    private static String encode(byte[] messageBytes) {
-        return Base64.encodeToString(messageBytes, Base64.DEFAULT);
+        return encodingProvider.decode(messageEncoded);
     }
 }

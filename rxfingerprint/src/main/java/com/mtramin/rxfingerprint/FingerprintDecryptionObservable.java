@@ -51,6 +51,7 @@ class FingerprintDecryptionObservable extends FingerprintObservable<FingerprintD
 
 	private final String keyName;
 	private final String encryptedString;
+	private final EncodingProvider encodingProvider;
 
 	/**
 	 * Creates a new FingerprintEncryptionObservable that will listen to fingerprint authentication
@@ -62,7 +63,7 @@ class FingerprintDecryptionObservable extends FingerprintObservable<FingerprintD
 	 * @return Observable result of the decryption
 	 */
 	static Observable<FingerprintDecryptionResult> create(Context context, String keyName, String encrypted) {
-		return Observable.create(new FingerprintDecryptionObservable(context, keyName, encrypted));
+		return Observable.create(new FingerprintDecryptionObservable(context, keyName, encrypted, new Base64Provider()));
 	}
 
 	/**
@@ -74,13 +75,14 @@ class FingerprintDecryptionObservable extends FingerprintObservable<FingerprintD
 	 * @return Observable result of the decryption
 	 */
 	static Observable<FingerprintDecryptionResult> create(Context context, String encrypted) {
-		return Observable.create(new FingerprintDecryptionObservable(context, null, encrypted));
+		return Observable.create(new FingerprintDecryptionObservable(context, null, encrypted, new Base64Provider()));
 	}
 
-	private FingerprintDecryptionObservable(Context context, String keyName, String encrypted) {
+	private FingerprintDecryptionObservable(Context context, String keyName, String encrypted, EncodingProvider encodingProvider) {
 		super(context);
 		this.keyName = keyName;
 		encryptedString = encrypted;
+		this.encodingProvider = encodingProvider;
 	}
 
 	@Nullable
@@ -88,7 +90,7 @@ class FingerprintDecryptionObservable extends FingerprintObservable<FingerprintD
 	protected FingerprintManagerCompat.CryptoObject initCryptoObject(Subscriber<FingerprintDecryptionResult> subscriber) {
 		CryptoProvider cryptoProvider = new CryptoProvider(context, keyName);
 		try {
-			CryptoData cryptoData = CryptoData.fromString(encryptedString);
+			CryptoData cryptoData = CryptoData.fromString(encodingProvider, encryptedString);
 			Cipher cipher = cryptoProvider.initDecryptionCipher(cryptoData.getIv());
 			return new FingerprintManagerCompat.CryptoObject(cipher);
 		} catch (CryptoDataException | NoSuchAlgorithmException | CertificateException | InvalidKeyException | KeyStoreException | InvalidAlgorithmParameterException | NoSuchPaddingException | IOException | UnrecoverableKeyException e) {
@@ -100,7 +102,7 @@ class FingerprintDecryptionObservable extends FingerprintObservable<FingerprintD
 	@Override
 	protected void onAuthenticationSucceeded(Subscriber<FingerprintDecryptionResult> subscriber, FingerprintManagerCompat.AuthenticationResult result) {
 		try {
-			CryptoData cryptoData = CryptoData.fromString(encryptedString);
+			CryptoData cryptoData = CryptoData.fromString(encodingProvider, encryptedString);
 			Cipher cipher = result.getCryptoObject().getCipher();
 			String decrypted = new String(cipher.doFinal(cryptoData.getMessage()));
 

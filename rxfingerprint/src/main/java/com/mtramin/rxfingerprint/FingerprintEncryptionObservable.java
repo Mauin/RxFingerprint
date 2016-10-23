@@ -52,6 +52,7 @@ class FingerprintEncryptionObservable extends FingerprintObservable<FingerprintE
 
 	private final String keyName;
 	private final String toEncrypt;
+	private final EncodingProvider encodingProvider;
 
 	/**
 	 * Creates a new FingerprintEncryptionObservable that will listen to fingerprint authentication
@@ -62,7 +63,7 @@ class FingerprintEncryptionObservable extends FingerprintObservable<FingerprintE
 	 * @param toEncrypt data to encrypt  @return Observable {@link FingerprintEncryptionResult}
 	 */
 	static Observable<FingerprintEncryptionResult> create(Context context, String keyName, String toEncrypt) {
-		return Observable.create(new FingerprintEncryptionObservable(context, keyName, toEncrypt));
+		return Observable.create(new FingerprintEncryptionObservable(context, keyName, toEncrypt, new Base64Provider()));
 	}
 
 	/**
@@ -73,10 +74,10 @@ class FingerprintEncryptionObservable extends FingerprintObservable<FingerprintE
 	 * @param toEncrypt data to encrypt  @return Observable {@link FingerprintEncryptionResult}
 	 */
 	static Observable<FingerprintEncryptionResult> create(Context context, String toEncrypt) {
-		return Observable.create(new FingerprintEncryptionObservable(context, null, toEncrypt));
+		return Observable.create(new FingerprintEncryptionObservable(context, null, toEncrypt, new Base64Provider()));
 	}
 
-	private FingerprintEncryptionObservable(Context context, String keyName, String toEncrypt) {
+	private FingerprintEncryptionObservable(Context context, String keyName, String toEncrypt, EncodingProvider encodingProvider) {
 		super(context);
 		this.keyName = keyName;
 
@@ -84,6 +85,7 @@ class FingerprintEncryptionObservable extends FingerprintObservable<FingerprintE
 			throw new NullPointerException("String to be encrypted is null. Can only encrypt valid strings");
 		}
 		this.toEncrypt = toEncrypt;
+		this.encodingProvider = encodingProvider;
 	}
 
 	@Nullable
@@ -107,7 +109,7 @@ class FingerprintEncryptionObservable extends FingerprintObservable<FingerprintE
 			byte[] encryptedBytes = cipher.doFinal(toEncrypt.getBytes("UTF-8"));
 			byte[] ivBytes = cipher.getParameters().getParameterSpec(IvParameterSpec.class).getIV();
 
-			String encryptedString = CryptoData.fromBytes(encryptedBytes, ivBytes).toString();
+			String encryptedString = CryptoData.fromBytes(encodingProvider, encryptedBytes, ivBytes).toString();
 			CryptoData.verifyCryptoDataString(encryptedString);
 
 			subscriber.onNext(new FingerprintEncryptionResult(FingerprintResult.AUTHENTICATED, null, encryptedString));

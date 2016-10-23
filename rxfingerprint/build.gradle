@@ -30,8 +30,6 @@ android {
         versionCode versions.code
         versionName versions.name
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_1_8
             targetCompatibility JavaVersion.VERSION_1_8
@@ -60,10 +58,6 @@ dependencies {
     testCompile "org.mockito:mockito-core:$versions.mockito"
     testCompile "org.powermock:powermock-module-junit4:$versions.powermock"
     testCompile "org.powermock:powermock-api-mockito:$versions.powermock"
-
-    androidTestCompile "com.android.support:support-annotations:$versions.supportLibrary"
-    androidTestCompile "com.android.support.test:runner:$versions.testRunner"
-    androidTestCompile "com.android.support.test:rules:$versions.testRunner"
 }
 
 //apply from: 'publish.gradle'

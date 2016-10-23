@@ -43,7 +43,7 @@ import javax.crypto.spec.IvParameterSpec;
 
 /**
  * Provider class for cryptographic elements used in the encryption/decryption
- * of {@link com.mtramin.rxfingerprint.RxFingerprint}
+ * of {@link RxFingerprint}
  */
 class CryptoProvider {
 
@@ -64,7 +64,7 @@ class CryptoProvider {
      * @param context context to use, may not be null
      * @param keyName keyName to use, can be null
      */
-    public CryptoProvider(@NonNull Context context, @Nullable String keyName) {
+    CryptoProvider(@NonNull Context context, @Nullable String keyName) {
         if (keyName == null) {
             this.keyName = ContextUtils.getPackageName(context) + "." + DEFAULT_KEY_NAME;
         } else {
@@ -76,9 +76,9 @@ class CryptoProvider {
      * @return Initialized cipher for encryption operations in RxFinerprint
      */
     @TargetApi(Build.VERSION_CODES.M)
-    public Cipher initEncryptionCipher() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, NoSuchProviderException, InvalidAlgorithmParameterException, UnrecoverableKeyException, CertificateException, KeyStoreException, IOException {
+    Cipher initEncryptionCipher() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, NoSuchProviderException, InvalidAlgorithmParameterException, UnrecoverableKeyException, CertificateException, KeyStoreException, IOException {
         Cipher cipher = createCipher();
-        SecretKey key = findOrCreateKey(this.keyName);
+        SecretKey key = findOrCreateKey(keyName);
         cipher.init(Cipher.ENCRYPT_MODE, key);
         return cipher;
     }
@@ -87,9 +87,9 @@ class CryptoProvider {
      * @param iv initialization vector used during encryption
      * @return Initialized cipher for decryption operations in RxFingerprint
      */
-    public Cipher initDecryptionCipher(byte[] iv) throws CertificateException, NoSuchAlgorithmException, IOException, InvalidKeyException, UnrecoverableKeyException, KeyStoreException, InvalidAlgorithmParameterException, NoSuchPaddingException {
+    Cipher initDecryptionCipher(byte[] iv) throws CertificateException, NoSuchAlgorithmException, IOException, InvalidKeyException, UnrecoverableKeyException, KeyStoreException, InvalidAlgorithmParameterException, NoSuchPaddingException {
         Cipher cipher = createCipher();
-        SecretKey key = getKey(this.keyName);
+        SecretKey key = getKey(keyName);
         cipher.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(iv));
         return cipher;
     }

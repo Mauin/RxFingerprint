@@ -133,8 +133,8 @@ public class FingerprintAuthenticationTest {
 
         FingerprintAuthenticationResult fingerprintAuthenticationResult = testSubscriber.getOnNextEvents().get(0);
         assertTrue("Authentication should not be successful", !fingerprintAuthenticationResult.isSuccess());
-        assertTrue("Result should be equal FAILED", fingerprintAuthenticationResult.getResult().equals(FingerprintResult.HELP));
-        assertTrue("Should contain no message", fingerprintAuthenticationResult.getMessage().equals(MESSAGE_HELP));
+        assertTrue("Result should be equal HELP", fingerprintAuthenticationResult.getResult().equals(FingerprintResult.HELP));
+        assertTrue("Should contain help message", fingerprintAuthenticationResult.getMessage().equals(MESSAGE_HELP));
     }
 
     @Test
@@ -153,8 +153,8 @@ public class FingerprintAuthenticationTest {
 
         FingerprintAuthenticationResult helpResult = testSubscriber.getOnNextEvents().get(0);
         assertTrue("Authentication should not be successful", !helpResult.isSuccess());
-        assertTrue("Result should be equal FAILED", helpResult.getResult().equals(FingerprintResult.HELP));
-        assertTrue("Should contain no message", helpResult.getMessage().equals(MESSAGE_HELP));
+        assertTrue("Result should be equal HELP", helpResult.getResult().equals(FingerprintResult.HELP));
+        assertTrue("Should contain help message", helpResult.getMessage().equals(MESSAGE_HELP));
 
         callbackCaptor.getValue().onAuthenticationSucceeded(new FingerprintManagerCompat.AuthenticationResult(null));
 

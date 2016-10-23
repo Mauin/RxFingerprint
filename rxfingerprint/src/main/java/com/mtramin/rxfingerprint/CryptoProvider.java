@@ -43,7 +43,7 @@ import javax.crypto.spec.IvParameterSpec;
 
 /**
  * Provider class for cryptographic elements used in the encryption/decryption
- * of {@link com.mtramin.rxfingerprint.RxFingerprint}
+ * of {@link RxFingerprint}
  */
 class CryptoProvider {
 
@@ -78,7 +78,7 @@ class CryptoProvider {
     @TargetApi(Build.VERSION_CODES.M)
     public Cipher initEncryptionCipher() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, NoSuchProviderException, InvalidAlgorithmParameterException, UnrecoverableKeyException, CertificateException, KeyStoreException, IOException {
         Cipher cipher = createCipher();
-        SecretKey key = findOrCreateKey(this.keyName);
+        SecretKey key = findOrCreateKey(keyName);
         cipher.init(Cipher.ENCRYPT_MODE, key);
         return cipher;
     }
@@ -89,7 +89,7 @@ class CryptoProvider {
      */
     public Cipher initDecryptionCipher(byte[] iv) throws CertificateException, NoSuchAlgorithmException, IOException, InvalidKeyException, UnrecoverableKeyException, KeyStoreException, InvalidAlgorithmParameterException, NoSuchPaddingException {
         Cipher cipher = createCipher();
-        SecretKey key = getKey(this.keyName);
+        SecretKey key = getKey(keyName);
         cipher.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(iv));
         return cipher;
     }

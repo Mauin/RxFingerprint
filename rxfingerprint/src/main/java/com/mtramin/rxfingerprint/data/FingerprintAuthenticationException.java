@@ -29,11 +29,11 @@ public class FingerprintAuthenticationException extends Exception {
      * @param errString message of exception
      */
     public FingerprintAuthenticationException(CharSequence errString) {
-        this.message = errString.toString();
+        message = errString.toString();
     }
 
     @Override
     public String getMessage() {
-        return this.message;
+        return message;
     }
 }

@@ -87,7 +87,7 @@ public class RxFingerprintTest {
         when(FingerprintManagerCompat.from(mockContext)).thenReturn(mockFingerprintManager);
         when(mockFingerprintManager.hasEnrolledFingerprints()).thenReturn(true);
 
-        assertTrue("Fingerptint should be available", RxFingerprint.hasEnrolledFingerprints(mockContext));
+        assertTrue("Fingerprint should be available", RxFingerprint.hasEnrolledFingerprints(mockContext));
     }
 
     @Test
@@ -103,7 +103,7 @@ public class RxFingerprintTest {
         when(FingerprintManagerCompat.from(mockContext)).thenReturn(mockFingerprintManager);
         when(mockFingerprintManager.hasEnrolledFingerprints()).thenReturn(false);
 
-        assertFalse("Fingerptint should be unavailable", RxFingerprint.hasEnrolledFingerprints(mockContext));
+        assertFalse("Fingerprint should be unavailable", RxFingerprint.hasEnrolledFingerprints(mockContext));
     }
 
     @Test

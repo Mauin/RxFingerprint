@@ -23,13 +23,17 @@ import android.content.Context;
  */
 class ContextUtils {
 
-    /**
-     * Returns the package name of the current application using this library
-     *
-     * @param context current context
-     * @return Package name of the application
-     */
-    static String getPackageName(Context context) {
-        return context.getPackageName();
-    }
+	/**
+	 * Returns the package name of the current application using this library
+	 *
+	 * @param context current context
+	 * @return Package name of the application
+	 */
+	static String getPackageName(Context context) {
+		return context.getPackageName();
+	}
+
+	private ContextUtils() {
+		// hide
+	}
 }

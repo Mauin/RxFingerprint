@@ -7,6 +7,8 @@ import static com.mtramin.rxfingerprint.CryptoData.SEPARATOR;
  */
 class CryptoDataException extends Exception {
 
+	static final String ERROR_MSG = "Invalid input given for decryption operation. Make sure you provide a string that was previously encrypted by RxFingerprint. empty: %s, correct format: %s";
+
 	private CryptoDataException(String message) {
 		super(message);
 	}
@@ -14,7 +16,7 @@ class CryptoDataException extends Exception {
 	static CryptoDataException fromCryptoDataString(String input) {
 		boolean isEmpty = input.isEmpty();
 		boolean containsSeparator = input.contains(SEPARATOR);
-		String message = String.format("Invalid input given for decryption operation. Make sure you provide a string that was previously encrypted by RxFingerprint. empty: %s, correct format: %s", isEmpty, containsSeparator);
+		String message = String.format(ERROR_MSG, isEmpty, containsSeparator);
 
 		return new CryptoDataException(message);
 	}

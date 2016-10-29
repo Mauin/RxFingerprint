@@ -19,7 +19,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import io.reactivex.observers.TestObserver;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
@@ -59,11 +58,11 @@ public class FingerprintAuthenticationTest {
     @Test
     public void testFingerprintNotAvailable() throws Exception {
         when(RxFingerprint.isAvailable(mockContext)).thenReturn(false);
-        FingerprintAuthenticationObservable.create(mockContext).subscribe(testSubscriber);
+        TestObserver<FingerprintAuthenticationResult> testObserver = FingerprintAuthenticationObservable.create(mockContext).test();
 
-        testSubscriber.awaitTerminalEvent();
-        testSubscriber.assertNoValues();
-        testSubscriber.assertError(IllegalAccessException.class);
+        testObserver.awaitTerminalEvent();
+        testObserver.assertNoValues();
+        testObserver.assertError(IllegalAccessException.class);
     }
 
 

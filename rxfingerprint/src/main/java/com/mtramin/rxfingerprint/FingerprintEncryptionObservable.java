@@ -88,44 +88,44 @@ class FingerprintEncryptionObservable extends FingerprintObservable<FingerprintE
 		this.encodingProvider = encodingProvider;
 	}
 
-    @Nullable
-    @Override
-    protected FingerprintManagerCompat.CryptoObject initCryptoObject(ObservableEmitter<FingerprintEncryptionResult> emitter) {
-        CryptoProvider cryptoProvider = new CryptoProvider(context, keyName);
-        try {
-            Cipher cipher = cryptoProvider.initEncryptionCipher();
-            return new FingerprintManagerCompat.CryptoObject(cipher);
-        } catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchProviderException | NoSuchPaddingException | InvalidAlgorithmParameterException | CertificateException | UnrecoverableKeyException | KeyStoreException | IOException e) {
-            emitter.onError(e);
-            return null;
-        }
+	@Nullable
+	@Override
+	protected FingerprintManagerCompat.CryptoObject initCryptoObject(ObservableEmitter<FingerprintEncryptionResult> emitter) {
+		CryptoProvider cryptoProvider = new CryptoProvider(context, keyName);
+		try {
+			Cipher cipher = cryptoProvider.initEncryptionCipher();
+			return new FingerprintManagerCompat.CryptoObject(cipher);
+		} catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchProviderException | NoSuchPaddingException | InvalidAlgorithmParameterException | CertificateException | UnrecoverableKeyException | KeyStoreException | IOException e) {
+			emitter.onError(e);
+			return null;
+		}
 
 	}
 
-    @Override
-    protected void onAuthenticationSucceeded(ObservableEmitter<FingerprintEncryptionResult> emitter, FingerprintManagerCompat.AuthenticationResult result) {
-        try {
-            Cipher cipher = result.getCryptoObject().getCipher();
-            byte[] encryptedBytes = cipher.doFinal(toEncrypt.getBytes("UTF-8"));
-            byte[] ivBytes = cipher.getParameters().getParameterSpec(IvParameterSpec.class).getIV();
+	@Override
+	protected void onAuthenticationSucceeded(ObservableEmitter<FingerprintEncryptionResult> emitter, FingerprintManagerCompat.AuthenticationResult result) {
+		try {
+			Cipher cipher = result.getCryptoObject().getCipher();
+			byte[] encryptedBytes = cipher.doFinal(toEncrypt.getBytes("UTF-8"));
+			byte[] ivBytes = cipher.getParameters().getParameterSpec(IvParameterSpec.class).getIV();
 
 			String encryptedString = CryptoData.fromBytes(encodingProvider, encryptedBytes, ivBytes).toString();
 			CryptoData.verifyCryptoDataString(encryptedString);
 
-            emitter.onNext(new FingerprintEncryptionResult(FingerprintResult.AUTHENTICATED, null, encryptedString));
-            emitter.onComplete();
-        } catch (CryptoDataException | IllegalBlockSizeException | BadPaddingException | InvalidParameterSpecException | UnsupportedEncodingException e) {
-            emitter.onError(e);
-        }
-    }
+			emitter.onNext(new FingerprintEncryptionResult(FingerprintResult.AUTHENTICATED, null, encryptedString));
+			emitter.onComplete();
+		} catch (CryptoDataException | IllegalBlockSizeException | BadPaddingException | InvalidParameterSpecException | UnsupportedEncodingException e) {
+			emitter.onError(e);
+		}
+	}
 
-    @Override
-    protected void onAuthenticationHelp(ObservableEmitter<FingerprintEncryptionResult> emitter, int helpMessageId, String helpString) {
-        emitter.onNext(new FingerprintEncryptionResult(FingerprintResult.HELP, helpString, null));
-    }
+	@Override
+	protected void onAuthenticationHelp(ObservableEmitter<FingerprintEncryptionResult> emitter, int helpMessageId, String helpString) {
+		emitter.onNext(new FingerprintEncryptionResult(FingerprintResult.HELP, helpString, null));
+	}
 
-    @Override
-    protected void onAuthenticationFailed(ObservableEmitter<FingerprintEncryptionResult> emitter) {
-        emitter.onNext(new FingerprintEncryptionResult(FingerprintResult.FAILED, null, null));
-    }
+	@Override
+	protected void onAuthenticationFailed(ObservableEmitter<FingerprintEncryptionResult> emitter) {
+		emitter.onNext(new FingerprintEncryptionResult(FingerprintResult.FAILED, null, null));
+	}
 }

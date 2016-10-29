@@ -18,7 +18,6 @@ package com.mtramin.rxfingerprint;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 
 import com.mtramin.rxfingerprint.data.FingerprintDecryptionResult;
@@ -100,28 +99,28 @@ class FingerprintDecryptionObservable extends FingerprintObservable<FingerprintD
 		}
 	}
 
-    @Override
-    protected void onAuthenticationSucceeded(ObservableEmitter<FingerprintDecryptionResult> emitter, FingerprintManagerCompat.AuthenticationResult result) {
-        try {
-			CryptoData cryptoData = CryptoData.fromString(encryptedString);
-            Cipher cipher = result.getCryptoObject().getCipher();
-            String decrypted = new String(cipher.doFinal(cryptoData.getMessage()));
+	@Override
+	protected void onAuthenticationSucceeded(ObservableEmitter<FingerprintDecryptionResult> emitter, FingerprintManagerCompat.AuthenticationResult result) {
+		try {
+			CryptoData cryptoData = CryptoData.fromString(encodingProvider, encryptedString);
+			Cipher cipher = result.getCryptoObject().getCipher();
+			String decrypted = new String(cipher.doFinal(cryptoData.getMessage()));
 
-            emitter.onNext(new FingerprintDecryptionResult(FingerprintResult.AUTHENTICATED, null, decrypted));
-            emitter.onComplete();
-        } catch (CryptoDataException | BadPaddingException | IllegalBlockSizeException e) {
-            emitter.onError(e);
-        }
+			emitter.onNext(new FingerprintDecryptionResult(FingerprintResult.AUTHENTICATED, null, decrypted));
+			emitter.onComplete();
+		} catch (CryptoDataException | BadPaddingException | IllegalBlockSizeException e) {
+			emitter.onError(e);
+		}
 
 	}
 
-    @Override
-    protected void onAuthenticationHelp(ObservableEmitter<FingerprintDecryptionResult> emitter, int helpMessageId, String helpString) {
-        emitter.onNext(new FingerprintDecryptionResult(FingerprintResult.HELP, helpString, null));
-    }
+	@Override
+	protected void onAuthenticationHelp(ObservableEmitter<FingerprintDecryptionResult> emitter, int helpMessageId, String helpString) {
+		emitter.onNext(new FingerprintDecryptionResult(FingerprintResult.HELP, helpString, null));
+	}
 
-    @Override
-    protected void onAuthenticationFailed(ObservableEmitter<FingerprintDecryptionResult> emitter) {
-        emitter.onNext(new FingerprintDecryptionResult(FingerprintResult.FAILED, null, null));
-    }
+	@Override
+	protected void onAuthenticationFailed(ObservableEmitter<FingerprintDecryptionResult> emitter) {
+		emitter.onNext(new FingerprintDecryptionResult(FingerprintResult.FAILED, null, null));
+	}
 }

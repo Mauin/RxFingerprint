@@ -17,7 +17,7 @@ see [Encryption/Decryption](#encryption-and-decryption).
 To use RxFingerprint in your project, add the library as a dependency in your `build.gradle` file:
 ```groovy
 dependencies {
-    compile 'com.mtramin:rxfingerprint:1.2.2'
+    compile 'com.mtramin:rxfingerprint:2.0.0'
 }
 ```
 
@@ -34,7 +34,7 @@ Below you will find an overview on how to use the different functionalities of R
 To simply authenticate the user with his fingerprint, call the following:
 
 ``` java
-Subscription subscription = RxFingerprint.authenticate(this)
+Disposable disposable = RxFingerprint.authenticate(this)
                 .subscribe(fingerprintAuthenticationResult -> {
                     switch (fingerprintAuthenticationResult.getResult()) {
                         case FAILED:
@@ -65,7 +65,7 @@ By unsubscribing from the Subscription, the fingerprint sensor will be disabled 
 Usage of the Encryption and decryption features of RxFingerprint are very similar to simple authentication calls. For more details about the cryptography used and it's security, see [Cryptography](#cryptography)
 
 ``` java
-Subscription subscription = RxFingerprint.encrypt(this, stringToEncrypt)
+Disposable disposable = RxFingerprint.encrypt(this, stringToEncrypt)
                 .subscribe(encryptionResult -> {
                     switch (fingerprintEncryptionResult.getResult()) {
                         case FAILED:
@@ -89,7 +89,7 @@ The given String will be encrypted with a key in the Android KeyStore and return
 Store the encrypted String anywhere and use it later to decrypt the original value by calling:
 
 ``` java
-Subscription subscription = RxFingerprint.decrypt(this, encryptedString)
+Disposable disposable = RxFingerprint.decrypt(this, encryptedString)
                 .subscribe(decryptionResult -> {
                     switch (fingerprintDecryptionResult.getResult()) {
                         case FAILED:
@@ -136,7 +136,7 @@ After the encryption step all results will be Base64 encoded for easier transpor
 
 RxFingerprint brings the following dependencies:
 
-- RxJava
+- RxJava2
 - AppCompat-v7 to allow for backwards compability (which will just do nothing)
 
 ## Bugs and Feedback

@@ -29,3 +29,5 @@ proguard/
 *.iml
 .idea
 
+# OSX 
+*.DS_STORE

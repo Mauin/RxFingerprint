@@ -18,7 +18,6 @@ package com.mtramin.rxfingerprint;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 
 import com.mtramin.rxfingerprint.data.FingerprintDecryptionResult;
@@ -38,8 +37,8 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
-import rx.Observable;
-import rx.Subscriber;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
 
 /**
  * Decrypts data with fingerprint authentication. Initializes a {@link Cipher} for decryption which
@@ -79,8 +78,7 @@ class FingerprintDecryptionObservable extends FingerprintObservable<FingerprintD
 		return Observable.create(new FingerprintDecryptionObservable(context, null, encrypted, new Base64Provider()));
 	}
 
-	@VisibleForTesting
-	FingerprintDecryptionObservable(Context context, String keyName, String encrypted, EncodingProvider encodingProvider) {
+	private FingerprintDecryptionObservable(Context context, String keyName, String encrypted, EncodingProvider encodingProvider) {
 		super(context);
 		this.keyName = keyName;
 		encryptedString = encrypted;
@@ -89,7 +87,7 @@ class FingerprintDecryptionObservable extends FingerprintObservable<FingerprintD
 
 	@Nullable
 	@Override
-	protected FingerprintManagerCompat.CryptoObject initCryptoObject(Subscriber<FingerprintDecryptionResult> subscriber) {
+	protected FingerprintManagerCompat.CryptoObject initCryptoObject(ObservableEmitter<FingerprintDecryptionResult> subscriber) {
 		CryptoProvider cryptoProvider = new CryptoProvider(context, keyName);
 		try {
 			CryptoData cryptoData = CryptoData.fromString(encodingProvider, encryptedString);
@@ -102,27 +100,27 @@ class FingerprintDecryptionObservable extends FingerprintObservable<FingerprintD
 	}
 
 	@Override
-	protected void onAuthenticationSucceeded(Subscriber<FingerprintDecryptionResult> subscriber, FingerprintManagerCompat.AuthenticationResult result) {
+	protected void onAuthenticationSucceeded(ObservableEmitter<FingerprintDecryptionResult> emitter, FingerprintManagerCompat.AuthenticationResult result) {
 		try {
 			CryptoData cryptoData = CryptoData.fromString(encodingProvider, encryptedString);
 			Cipher cipher = result.getCryptoObject().getCipher();
 			String decrypted = new String(cipher.doFinal(cryptoData.getMessage()));
 
-			subscriber.onNext(new FingerprintDecryptionResult(FingerprintResult.AUTHENTICATED, null, decrypted));
-			subscriber.onCompleted();
+			emitter.onNext(new FingerprintDecryptionResult(FingerprintResult.AUTHENTICATED, null, decrypted));
+			emitter.onComplete();
 		} catch (CryptoDataException | BadPaddingException | IllegalBlockSizeException e) {
-			subscriber.onError(e);
+			emitter.onError(e);
 		}
 
 	}
 
 	@Override
-	protected void onAuthenticationHelp(Subscriber<FingerprintDecryptionResult> subscriber, int helpMessageId, String helpString) {
-		subscriber.onNext(new FingerprintDecryptionResult(FingerprintResult.HELP, helpString, null));
+	protected void onAuthenticationHelp(ObservableEmitter<FingerprintDecryptionResult> emitter, int helpMessageId, String helpString) {
+		emitter.onNext(new FingerprintDecryptionResult(FingerprintResult.HELP, helpString, null));
 	}
 
 	@Override
-	protected void onAuthenticationFailed(Subscriber<FingerprintDecryptionResult> subscriber) {
-		subscriber.onNext(new FingerprintDecryptionResult(FingerprintResult.FAILED, null, null));
+	protected void onAuthenticationFailed(ObservableEmitter<FingerprintDecryptionResult> emitter) {
+		emitter.onNext(new FingerprintDecryptionResult(FingerprintResult.FAILED, null, null));
 	}
 }

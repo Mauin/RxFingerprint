@@ -20,7 +20,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,8 +27,8 @@ import android.widget.TextView;
 
 import com.mtramin.rxfingerprint.RxFingerprint;
 
-import rx.Subscription;
-import rx.observers.Subscribers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.disposables.Disposables;
 
 /**
  * Shows example usage of RxFingerprint
@@ -42,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText input;
     private ViewGroup layout;
 
-    private Subscription fingerprintSubscription = Subscribers.empty();
+    private Disposable fingerprintDisposable = Disposables.empty();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
 
-        fingerprintSubscription.unsubscribe();
+        fingerprintDisposable.dispose();
     }
 
     private void setStatusText(String text) {
@@ -85,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        fingerprintSubscription = RxFingerprint.authenticate(this)
+        fingerprintDisposable = RxFingerprint.authenticate(this)
                 .subscribe(fingerprintAuthenticationResult -> {
                     switch (fingerprintAuthenticationResult.getResult()) {
                         case FAILED:
@@ -98,9 +97,7 @@ public class MainActivity extends AppCompatActivity {
                             setStatusText("Successfully authenticated!");
                             break;
                     }
-                }, throwable -> {
-                    Log.e("ERROR", "authenticate", throwable);
-                });
+                }, throwable -> Log.e("ERROR", "authenticate", throwable));
     }
 
     private void encrypt() {
@@ -116,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        fingerprintSubscription = RxFingerprint.encrypt(this, SAMPLE_KEY, toEncrypt)
+        fingerprintDisposable = RxFingerprint.encrypt(this, SAMPLE_KEY, toEncrypt)
                 .subscribe(fingerprintEncryptionResult -> {
                     switch (fingerprintEncryptionResult.getResult()) {
                         case FAILED:
@@ -149,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        fingerprintSubscription = RxFingerprint.decrypt(this, SAMPLE_KEY, encrypted)
+        fingerprintDisposable = RxFingerprint.decrypt(this, SAMPLE_KEY, encrypted)
                 .subscribe(fingerprintDecryptionResult -> {
                     switch (fingerprintDecryptionResult.getResult()) {
                         case FAILED:
@@ -176,12 +173,7 @@ public class MainActivity extends AppCompatActivity {
     private void createDecryptionButton(final String encrypted) {
         Button button = new Button(this);
         button.setText(String.format("decrypt %s...", encrypted.substring(0, 6)));
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decrypt(encrypted);
-            }
-        });
+        button.setOnClickListener(v -> decrypt(encrypted));
         layout.addView(button);
     }
 

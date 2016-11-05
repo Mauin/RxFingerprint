@@ -17,9 +17,8 @@ import org.mockito.Mock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import rx.observers.TestSubscriber;
+import io.reactivex.observers.TestObserver;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
@@ -37,8 +36,6 @@ public class FingerprintAuthenticationTest {
 
     private static final String ERROR_MESSAGE = "Error message";
     private static final CharSequence MESSAGE_HELP = "Help message";
-
-    TestSubscriber<FingerprintAuthenticationResult> testSubscriber = TestSubscriber.create();
 
     @Mock
     Context mockContext;
@@ -61,29 +58,28 @@ public class FingerprintAuthenticationTest {
     @Test
     public void testFingerprintNotAvailable() throws Exception {
         when(RxFingerprint.isAvailable(mockContext)).thenReturn(false);
-        FingerprintAuthenticationObservable.create(mockContext).subscribe(testSubscriber);
+        TestObserver<FingerprintAuthenticationResult> testObserver = FingerprintAuthenticationObservable.create(mockContext).test();
 
-        testSubscriber.awaitTerminalEvent();
-        testSubscriber.assertNoValues();
-        testSubscriber.assertError(IllegalAccessException.class);
+        testObserver.awaitTerminalEvent();
+        testObserver.assertNoValues();
+        testObserver.assertError(IllegalAccessException.class);
     }
 
 
     @Test
     public void testAuthenticationSuccessful() throws Exception {
-        FingerprintAuthenticationObservable.create(mockContext).subscribe(testSubscriber);
+        TestObserver<FingerprintAuthenticationResult> testObserver = FingerprintAuthenticationObservable.create(mockContext).test();
 
         ArgumentCaptor<FingerprintManagerCompat.AuthenticationCallback> callbackCaptor = ArgumentCaptor.forClass(FingerprintManagerCompat.AuthenticationCallback.class);
         verify(mockFingerprintManager).authenticate(any(FingerprintManagerCompat.CryptoObject.class), anyInt(), any(CancellationSignal.class), callbackCaptor.capture(), any(Handler.class));
         callbackCaptor.getValue().onAuthenticationSucceeded(new FingerprintManagerCompat.AuthenticationResult(null));
 
-        testSubscriber.awaitTerminalEvent();
-        testSubscriber.assertNoErrors();
-        testSubscriber.assertCompleted();
-        testSubscriber.assertUnsubscribed();
-        testSubscriber.assertValueCount(1);
+        testObserver.awaitTerminalEvent();
+        testObserver.assertNoErrors();
+        testObserver.assertComplete();
+        testObserver.assertValueCount(1);
 
-        FingerprintAuthenticationResult fingerprintAuthenticationResult = testSubscriber.getOnNextEvents().get(0);
+        FingerprintAuthenticationResult fingerprintAuthenticationResult = testObserver.values().get(0);
         assertTrue("Authentication should be successful", fingerprintAuthenticationResult.isSuccess());
         assertTrue("Result should be equal AUTHENTICATED", fingerprintAuthenticationResult.getResult().equals(FingerprintResult.AUTHENTICATED));
         assertTrue("Should contain no message", fingerprintAuthenticationResult.getMessage() == null);
@@ -91,38 +87,36 @@ public class FingerprintAuthenticationTest {
 
     @Test
     public void testAuthenticationError() throws Exception {
-        FingerprintAuthenticationObservable.create(mockContext).subscribe(testSubscriber);
+        TestObserver<FingerprintAuthenticationResult> testObserver = FingerprintAuthenticationObservable.create(mockContext).test();
 
         ArgumentCaptor<FingerprintManagerCompat.AuthenticationCallback> callbackCaptor = ArgumentCaptor.forClass(FingerprintManagerCompat.AuthenticationCallback.class);
         verify(mockFingerprintManager).authenticate(any(FingerprintManagerCompat.CryptoObject.class), anyInt(), any(CancellationSignal.class), callbackCaptor.capture(), any(Handler.class));
         callbackCaptor.getValue().onAuthenticationError(0, ERROR_MESSAGE);
 
-        testSubscriber.awaitTerminalEvent();
-        testSubscriber.assertError(FingerprintAuthenticationException.class);
-        testSubscriber.assertUnsubscribed();
-        testSubscriber.assertValueCount(0);
+        testObserver.awaitTerminalEvent();
+        testObserver.assertError(FingerprintAuthenticationException.class);
+        testObserver.assertValueCount(0);
 
-        assertTrue("Should contain 1 error", testSubscriber.getOnErrorEvents().size() == 1);
+        assertTrue("Should contain 1 error", testObserver.errorCount() == 1);
 
-        Throwable throwable = testSubscriber.getOnErrorEvents().get(0);
+        Throwable throwable = testObserver.errors().get(0);
         assertTrue("Message should equal ERROR_MESSAGE", throwable.getMessage().equals(ERROR_MESSAGE));
     }
 
     @Test
     public void testAuthenticationFailed() throws Exception {
-        FingerprintAuthenticationObservable.create(mockContext).subscribe(testSubscriber);
+        TestObserver<FingerprintAuthenticationResult> testObserver = FingerprintAuthenticationObservable.create(mockContext).test();
 
         ArgumentCaptor<FingerprintManagerCompat.AuthenticationCallback> callbackCaptor = ArgumentCaptor.forClass(FingerprintManagerCompat.AuthenticationCallback.class);
         verify(mockFingerprintManager).authenticate(any(FingerprintManagerCompat.CryptoObject.class), anyInt(), any(CancellationSignal.class), callbackCaptor.capture(), any(Handler.class));
         callbackCaptor.getValue().onAuthenticationFailed();
 
-        testSubscriber.assertNoTerminalEvent();
-        testSubscriber.assertNoErrors();
-        testSubscriber.assertNotCompleted();
-        testSubscriber.assertValueCount(1);
-        assertFalse("Should not be unsubscribed", testSubscriber.isUnsubscribed());
+        testObserver.assertNotTerminated();
+        testObserver.assertNoErrors();
+        testObserver.assertNotComplete();
+        testObserver.assertValueCount(1);
 
-        FingerprintAuthenticationResult fingerprintAuthenticationResult = testSubscriber.getOnNextEvents().get(0);
+        FingerprintAuthenticationResult fingerprintAuthenticationResult = testObserver.values().get(0);
         assertTrue("Authentication should not be successful", !fingerprintAuthenticationResult.isSuccess());
         assertTrue("Result should be equal FAILED", fingerprintAuthenticationResult.getResult().equals(FingerprintResult.FAILED));
         assertTrue("Should contain no message", fingerprintAuthenticationResult.getMessage() == null);
@@ -130,19 +124,18 @@ public class FingerprintAuthenticationTest {
 
     @Test
     public void testAuthenticationHelp() throws Exception {
-        FingerprintAuthenticationObservable.create(mockContext).subscribe(testSubscriber);
+        TestObserver<FingerprintAuthenticationResult> testObserver = FingerprintAuthenticationObservable.create(mockContext).test();
 
         ArgumentCaptor<FingerprintManagerCompat.AuthenticationCallback> callbackCaptor = ArgumentCaptor.forClass(FingerprintManagerCompat.AuthenticationCallback.class);
         verify(mockFingerprintManager).authenticate(any(FingerprintManagerCompat.CryptoObject.class), anyInt(), any(CancellationSignal.class), callbackCaptor.capture(), any(Handler.class));
         callbackCaptor.getValue().onAuthenticationHelp(0, MESSAGE_HELP);
 
-        testSubscriber.assertNoTerminalEvent();
-        testSubscriber.assertNoErrors();
-        testSubscriber.assertNotCompleted();
-        testSubscriber.assertValueCount(1);
-        assertFalse("Should not be unsubscribed", testSubscriber.isUnsubscribed());
+        testObserver.assertNotTerminated();
+        testObserver.assertNoErrors();
+        testObserver.assertNotComplete();
+        testObserver.assertValueCount(1);
 
-        FingerprintAuthenticationResult fingerprintAuthenticationResult = testSubscriber.getOnNextEvents().get(0);
+        FingerprintAuthenticationResult fingerprintAuthenticationResult = testObserver.values().get(0);
         assertTrue("Authentication should not be successful", !fingerprintAuthenticationResult.isSuccess());
         assertTrue("Result should be equal HELP", fingerprintAuthenticationResult.getResult().equals(FingerprintResult.HELP));
         assertTrue("Should contain help message", fingerprintAuthenticationResult.getMessage().equals(MESSAGE_HELP));
@@ -150,32 +143,30 @@ public class FingerprintAuthenticationTest {
 
     @Test
     public void testAuthenticationSuccessfulOnSecondTry() throws Exception {
-        FingerprintAuthenticationObservable.create(mockContext).subscribe(testSubscriber);
+        TestObserver<FingerprintAuthenticationResult> testObserver = FingerprintAuthenticationObservable.create(mockContext).test();
 
         ArgumentCaptor<FingerprintManagerCompat.AuthenticationCallback> callbackCaptor = ArgumentCaptor.forClass(FingerprintManagerCompat.AuthenticationCallback.class);
         verify(mockFingerprintManager).authenticate(any(FingerprintManagerCompat.CryptoObject.class), anyInt(), any(CancellationSignal.class), callbackCaptor.capture(), any(Handler.class));
         callbackCaptor.getValue().onAuthenticationHelp(0, MESSAGE_HELP);
 
-        testSubscriber.assertNoTerminalEvent();
-        testSubscriber.assertNoErrors();
-        testSubscriber.assertNotCompleted();
-        testSubscriber.assertValueCount(1);
-        assertFalse("Should not be unsubscribed", testSubscriber.isUnsubscribed());
+        testObserver.assertNotTerminated();
+        testObserver.assertNoErrors();
+        testObserver.assertNotComplete();
+        testObserver.assertValueCount(1);
 
-        FingerprintAuthenticationResult helpResult = testSubscriber.getOnNextEvents().get(0);
+        FingerprintAuthenticationResult helpResult = testObserver.values().get(0);
         assertTrue("Authentication should not be successful", !helpResult.isSuccess());
         assertTrue("Result should be equal HELP", helpResult.getResult().equals(FingerprintResult.HELP));
         assertTrue("Should contain help message", helpResult.getMessage().equals(MESSAGE_HELP));
 
         callbackCaptor.getValue().onAuthenticationSucceeded(new FingerprintManagerCompat.AuthenticationResult(null));
 
-        testSubscriber.awaitTerminalEvent();
-        testSubscriber.assertNoErrors();
-        testSubscriber.assertCompleted();
-        testSubscriber.assertUnsubscribed();
-        testSubscriber.assertValueCount(2);
+        testObserver.awaitTerminalEvent();
+        testObserver.assertNoErrors();
+        testObserver.assertComplete();
+        testObserver.assertValueCount(2);
 
-        FingerprintAuthenticationResult successResult = testSubscriber.getOnNextEvents().get(1);
+        FingerprintAuthenticationResult successResult = testObserver.values().get(1);
         assertTrue("Authentication should be successful", successResult.isSuccess());
         assertTrue("Result should be equal AUTHENTICATED", successResult.getResult().equals(FingerprintResult.AUTHENTICATED));
         assertTrue("Should contain no message", successResult.getMessage() == null);

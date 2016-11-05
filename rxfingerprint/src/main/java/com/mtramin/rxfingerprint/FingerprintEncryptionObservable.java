@@ -40,8 +40,8 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 
-import rx.Observable;
-import rx.Subscriber;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
 
 /**
  * Encrypts data with fingerprint authentication. Initializes a {@link Cipher} for encryption which
@@ -90,20 +90,20 @@ class FingerprintEncryptionObservable extends FingerprintObservable<FingerprintE
 
 	@Nullable
 	@Override
-	protected FingerprintManagerCompat.CryptoObject initCryptoObject(Subscriber<FingerprintEncryptionResult> subscriber) {
+	protected FingerprintManagerCompat.CryptoObject initCryptoObject(ObservableEmitter<FingerprintEncryptionResult> emitter) {
 		CryptoProvider cryptoProvider = new CryptoProvider(context, keyName);
 		try {
 			Cipher cipher = cryptoProvider.initEncryptionCipher();
 			return new FingerprintManagerCompat.CryptoObject(cipher);
 		} catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchProviderException | NoSuchPaddingException | InvalidAlgorithmParameterException | CertificateException | UnrecoverableKeyException | KeyStoreException | IOException e) {
-			subscriber.onError(e);
+			emitter.onError(e);
 			return null;
 		}
 
 	}
 
 	@Override
-	protected void onAuthenticationSucceeded(Subscriber<FingerprintEncryptionResult> subscriber, FingerprintManagerCompat.AuthenticationResult result) {
+	protected void onAuthenticationSucceeded(ObservableEmitter<FingerprintEncryptionResult> emitter, FingerprintManagerCompat.AuthenticationResult result) {
 		try {
 			Cipher cipher = result.getCryptoObject().getCipher();
 			byte[] encryptedBytes = cipher.doFinal(toEncrypt.getBytes("UTF-8"));
@@ -112,20 +112,20 @@ class FingerprintEncryptionObservable extends FingerprintObservable<FingerprintE
 			String encryptedString = CryptoData.fromBytes(encodingProvider, encryptedBytes, ivBytes).toString();
 			CryptoData.verifyCryptoDataString(encryptedString);
 
-			subscriber.onNext(new FingerprintEncryptionResult(FingerprintResult.AUTHENTICATED, null, encryptedString));
-			subscriber.onCompleted();
+			emitter.onNext(new FingerprintEncryptionResult(FingerprintResult.AUTHENTICATED, null, encryptedString));
+			emitter.onComplete();
 		} catch (CryptoDataException | IllegalBlockSizeException | BadPaddingException | InvalidParameterSpecException | UnsupportedEncodingException e) {
-			subscriber.onError(e);
+			emitter.onError(e);
 		}
 	}
 
 	@Override
-	protected void onAuthenticationHelp(Subscriber<FingerprintEncryptionResult> subscriber, int helpMessageId, String helpString) {
-		subscriber.onNext(new FingerprintEncryptionResult(FingerprintResult.HELP, helpString, null));
+	protected void onAuthenticationHelp(ObservableEmitter<FingerprintEncryptionResult> emitter, int helpMessageId, String helpString) {
+		emitter.onNext(new FingerprintEncryptionResult(FingerprintResult.HELP, helpString, null));
 	}
 
 	@Override
-	protected void onAuthenticationFailed(Subscriber<FingerprintEncryptionResult> subscriber) {
-		subscriber.onNext(new FingerprintEncryptionResult(FingerprintResult.FAILED, null, null));
+	protected void onAuthenticationFailed(ObservableEmitter<FingerprintEncryptionResult> emitter) {
+		emitter.onNext(new FingerprintEncryptionResult(FingerprintResult.FAILED, null, null));
 	}
 }

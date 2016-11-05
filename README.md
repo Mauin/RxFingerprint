@@ -1,4 +1,4 @@
-# RxFingerprint: Android Fingerprint Authentication and Encryption in RxJava
+# RxFingerprint: Android Fingerprint Authentication and Encryption in RxJava2
 
 RxFingerprint wraps the Android Fingerprint APIs (introduced in API 23) to authenticate your users and encrypt their data with their fingerprints!
 

@@ -80,7 +80,9 @@ abstract class FingerprintObservable<T> implements ObservableOnSubscribe<T> {
 			@Override
 			public void onAuthenticationError(int errMsgId, CharSequence errString) {
 				super.onAuthenticationError(errMsgId, errString);
-				emitter.onError(new FingerprintAuthenticationException(errString));
+				if (!emitter.isDisposed()) {
+					emitter.onError(new FingerprintAuthenticationException(errString));
+				}
 			}
 
 			@Override

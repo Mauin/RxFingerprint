@@ -73,7 +73,7 @@ class CryptoProvider {
     }
 
     /**
-     * @return Initialized cipher for encryption operations in RxFinerprint
+     * @return Initialized cipher for encryption operations in RxFingerprint
      */
     @TargetApi(Build.VERSION_CODES.M)
     Cipher initEncryptionCipher() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, NoSuchProviderException, InvalidAlgorithmParameterException, UnrecoverableKeyException, CertificateException, KeyStoreException, IOException {
@@ -139,5 +139,12 @@ class CryptoProvider {
         KeyStore keyStore = KeyStore.getInstance(ANDROID_KEY_STORE);
         keyStore.load(null);
         return (SecretKey) keyStore.getKey(keyName, null);
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    void removeKey(String keyName) throws KeyStoreException, CertificateException, NoSuchAlgorithmException, IOException {
+        KeyStore keyStore = KeyStore.getInstance(ANDROID_KEY_STORE);
+        keyStore.load(null);
+        keyStore.deleteEntry(keyName);
     }
 }

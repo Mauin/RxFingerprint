@@ -68,6 +68,9 @@ Usage of the Encryption and decryption features of RxFingerprint are very simila
 Subscription subscription = RxFingerprint.encrypt(this, stringToEncrypt)
                 .subscribe(encryptionResult -> {
                     switch (fingerprintEncryptionResult.getResult()) {
+                        case INVALIDATED:
+                            setStatusText("New fingerprint added and using same key name. Had to re-authenticate. Please try again.");
+                            break;
                         case FAILED:
                             setStatusText("Fingerprint not recognized, try again!");
                             break;
@@ -105,9 +108,7 @@ Subscription subscription = RxFingerprint.decrypt(this, encryptedString)
                     }
                 }, throwable -> {
                     if (RxFingerprint.keyInvalidated(throwable)) {
-                        // The keys you wanted to use are invalidated because the user has turned off his
-                        // secure lock screen or changed the fingerprints stored on the device
-                        // You have to re-encrypt the data to access it
+                        setStatusText("Invalidated. Key could not be used! Data encrypted with this key is lost!");
                     }
                     Log.e("ERROR", "decrypt", throwable);
                 });

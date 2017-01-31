@@ -141,7 +141,6 @@ class CryptoProvider {
         return (SecretKey) keyStore.getKey(keyName, null);
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
     void removeKey(String keyName) throws KeyStoreException, CertificateException, NoSuchAlgorithmException, IOException {
         KeyStore keyStore = KeyStore.getInstance(ANDROID_KEY_STORE);
         keyStore.load(null);

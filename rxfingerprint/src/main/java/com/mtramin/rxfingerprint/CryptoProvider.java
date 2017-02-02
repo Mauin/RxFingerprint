@@ -20,6 +20,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.security.keystore.KeyGenParameterSpec;
+import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.security.keystore.KeyProperties;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -73,14 +74,19 @@ class CryptoProvider {
     }
 
     /**
-     * @return Initialized cipher for encryption operations in RxFinerprint
+     * @return Initialized cipher for encryption operations in RxFingerprint
      */
     @TargetApi(Build.VERSION_CODES.M)
     Cipher initEncryptionCipher() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, NoSuchProviderException, InvalidAlgorithmParameterException, UnrecoverableKeyException, CertificateException, KeyStoreException, IOException {
-        Cipher cipher = createCipher();
-        SecretKey key = findOrCreateKey(keyName);
-        cipher.init(Cipher.ENCRYPT_MODE, key);
-        return cipher;
+        try {
+            Cipher cipher = createCipher();
+            SecretKey key = findOrCreateKey(keyName);
+            cipher.init(Cipher.ENCRYPT_MODE, key);
+            return cipher;
+        } catch (KeyPermanentlyInvalidatedException e) {
+            removeKey(keyName);
+            return initEncryptionCipher();
+        }
     }
 
     /**
@@ -92,6 +98,14 @@ class CryptoProvider {
         SecretKey key = getKey(keyName);
         cipher.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(iv));
         return cipher;
+    }
+
+    private void removeKey(String keyName) throws KeyStoreException, CertificateException, NoSuchAlgorithmException, IOException {
+        if (keyExists(keyName)) {
+            KeyStore keyStore = KeyStore.getInstance(ANDROID_KEY_STORE);
+            keyStore.load(null);
+            keyStore.deleteEntry(keyName);
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.M)

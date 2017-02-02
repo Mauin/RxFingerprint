@@ -30,6 +30,7 @@ import com.mtramin.rxfingerprint.data.FingerprintAuthenticationException;
 import io.reactivex.Emitter;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.functions.Cancellable;
 
 /**
  * Base observable for Fingerprint authentication. Provides abstract methods that allow
@@ -67,15 +68,18 @@ abstract class FingerprintObservable<T> implements ObservableOnSubscribe<T> {
 		FingerprintManagerCompat.CryptoObject cryptoObject = initCryptoObject(emitter);
 		FingerprintManagerCompat.from(context).authenticate(cryptoObject, 0, cancellationSignal, callback, null);
 
-		emitter.setCancellable(() -> {
-			if (cancellationSignal != null && !cancellationSignal.isCanceled()) {
-				cancellationSignal.cancel();
+		emitter.setCancellable(new Cancellable() {
+			@Override
+			public void cancel() throws Exception {
+				if (cancellationSignal != null && !cancellationSignal.isCanceled()) {
+					cancellationSignal.cancel();
+				}
 			}
 		});
 	}
 
 	@NonNull
-	private AuthenticationCallback createAuthenticationCallback(ObservableEmitter<T> emitter) {
+	private AuthenticationCallback createAuthenticationCallback(final ObservableEmitter<T> emitter) {
 		return new AuthenticationCallback() {
 			@Override
 			public void onAuthenticationError(int errMsgId, CharSequence errString) {

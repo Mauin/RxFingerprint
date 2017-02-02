@@ -29,6 +29,7 @@ import com.mtramin.rxfingerprint.data.FingerprintAuthenticationException;
 
 import rx.Observable;
 import rx.Subscriber;
+import rx.functions.Action0;
 import rx.subscriptions.Subscriptions;
 
 /**
@@ -69,16 +70,18 @@ abstract class FingerprintObservable<T> implements Observable.OnSubscribe<T> {
 		FingerprintManagerCompat.CryptoObject cryptoObject = initCryptoObject(subscriber);
 		FingerprintManagerCompat.from(context).authenticate(cryptoObject, 0, cancellationSignal, callback, null);
 
-		subscriber.add(Subscriptions.create(() -> {
-			if (cancellationSignal != null && !cancellationSignal.isCanceled()) {
-				cancellationSignal.cancel();
+		subscriber.add(Subscriptions.create(new Action0() {
+			@Override
+			public void call() {
+				if (cancellationSignal != null && !cancellationSignal.isCanceled()) {
+					cancellationSignal.cancel();
+				}
 			}
 		}));
-
 	}
 
 	@NonNull
-	private AuthenticationCallback createAuthenticationCallback(Subscriber<T> subscriber) {
+	private AuthenticationCallback createAuthenticationCallback(final Subscriber<T> subscriber) {
 		return new AuthenticationCallback() {
 			@Override
 			public void onAuthenticationError(int errMsgId, CharSequence errString) {

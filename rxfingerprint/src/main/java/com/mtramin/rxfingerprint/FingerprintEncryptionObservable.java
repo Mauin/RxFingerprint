@@ -16,12 +16,11 @@
 
 package com.mtramin.rxfingerprint;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.hardware.fingerprint.FingerprintManager.AuthenticationResult;
 import android.hardware.fingerprint.FingerprintManager.CryptoObject;
-import android.os.Build;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 
 import com.mtramin.rxfingerprint.data.FingerprintEncryptionResult;
 import com.mtramin.rxfingerprint.data.FingerprintResult;
@@ -51,7 +50,7 @@ import io.reactivex.ObservableEmitter;
  * can only be used with fingerprint authentication and uses it once authentication was successful
  * to encrypt the given data.
  */
-@RequiresApi(Build.VERSION_CODES.M)
+@SuppressLint("NewApi")
 class FingerprintEncryptionObservable extends FingerprintObservable<FingerprintEncryptionResult> {
 
 	private final String keyName;

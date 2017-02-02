@@ -19,9 +19,7 @@ package com.mtramin.rxfingerprint;
 import android.content.Context;
 import android.hardware.fingerprint.FingerprintManager.AuthenticationResult;
 import android.hardware.fingerprint.FingerprintManager.CryptoObject;
-import android.os.Build;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 
 import com.mtramin.rxfingerprint.data.FingerprintAuthenticationResult;
 import com.mtramin.rxfingerprint.data.FingerprintResult;
@@ -32,7 +30,6 @@ import io.reactivex.ObservableEmitter;
 /**
  * Authenticates the user with his fingerprint.
  */
-@RequiresApi(Build.VERSION_CODES.M)
 class FingerprintAuthenticationObservable extends FingerprintObservable<FingerprintAuthenticationResult> {
 
     /**

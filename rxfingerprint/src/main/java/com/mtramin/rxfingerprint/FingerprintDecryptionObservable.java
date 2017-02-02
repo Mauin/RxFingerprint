@@ -16,12 +16,11 @@
 
 package com.mtramin.rxfingerprint;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.hardware.fingerprint.FingerprintManager.AuthenticationResult;
 import android.hardware.fingerprint.FingerprintManager.CryptoObject;
-import android.os.Build;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 
 import com.mtramin.rxfingerprint.data.FingerprintDecryptionResult;
 import com.mtramin.rxfingerprint.data.FingerprintEncryptionResult;
@@ -50,7 +49,6 @@ import io.reactivex.ObservableEmitter;
  * <p/>
  * The date handed in must be previously encrypted by a {@link FingerprintEncryptionObservable}.
  */
-@RequiresApi(Build.VERSION_CODES.M)
 class FingerprintDecryptionObservable extends FingerprintObservable<FingerprintDecryptionResult> {
 
 	private final String keyName;
@@ -91,6 +89,7 @@ class FingerprintDecryptionObservable extends FingerprintObservable<FingerprintD
 
 	@Nullable
 	@Override
+	@SuppressLint("NewApi")
 	protected CryptoObject initCryptoObject(ObservableEmitter<FingerprintDecryptionResult> subscriber) {
 		CryptoProvider cryptoProvider = new CryptoProvider(context, keyName);
 		try {
@@ -104,6 +103,7 @@ class FingerprintDecryptionObservable extends FingerprintObservable<FingerprintD
 	}
 
 	@Override
+	@SuppressLint("NewApi")
 	protected void onAuthenticationSucceeded(ObservableEmitter<FingerprintDecryptionResult> emitter, AuthenticationResult result) {
 		try {
 			CryptoData cryptoData = CryptoData.fromString(encodingProvider, encryptedString);

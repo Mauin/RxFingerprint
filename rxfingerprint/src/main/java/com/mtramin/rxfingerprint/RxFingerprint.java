@@ -17,15 +17,22 @@
 package com.mtramin.rxfingerprint;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.hardware.fingerprint.FingerprintManager;
+import android.os.Build;
 import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.support.annotation.NonNull;
-import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
+import android.support.annotation.RequiresApi;
 
 import com.mtramin.rxfingerprint.data.FingerprintAuthenticationResult;
 import com.mtramin.rxfingerprint.data.FingerprintDecryptionResult;
 import com.mtramin.rxfingerprint.data.FingerprintEncryptionResult;
 
+import java.lang.annotation.Target;
+
 import io.reactivex.Observable;
+
+import static android.Manifest.permission.USE_FINGERPRINT;
 
 /**
  * Entry point for RxFingerprint. Contains all the base methods you need to interact with the
@@ -50,6 +57,7 @@ import io.reactivex.Observable;
  * authentication. For fingerprint authentication to be isAvailable, the device needs to contain the
  * necessary hardware (a sensor) and the user has to have enrolled at least one fingerprint.
  */
+@SuppressWarnings("NewApi")
 public class RxFingerprint {
     /**
      * Authenticate the user with his fingerprint. This will enable the fingerprint sensor on the
@@ -200,8 +208,13 @@ public class RxFingerprint {
      * @param context a context
      * @return {@code true} if fingerprint hardware exists in this device.
      */
+    @SuppressWarnings("MissingPermission")
     public static boolean isHardwareDetected(@NonNull Context context) {
-        return getFingerprintManager(context).isHardwareDetected();
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return false;
+        }
+
+        return fingerprintPermissionGranted(context) && getFingerprintManager(context).isHardwareDetected();
     }
 
     /**
@@ -213,13 +226,22 @@ public class RxFingerprint {
      * @param context a context
      * @return {@code true} if at least one fingerprint was enrolled.
      */
+    @SuppressWarnings("MissingPermission")
     public static boolean hasEnrolledFingerprints(@NonNull Context context) {
-        return getFingerprintManager(context).hasEnrolledFingerprints();
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return false;
+        }
+        return fingerprintPermissionGranted(context) && getFingerprintManager(context).hasEnrolledFingerprints();
     }
 
-    @NonNull
-    private static FingerprintManagerCompat getFingerprintManager(Context context) {
-        return FingerprintManagerCompat.from(context);
+    @RequiresApi(Build.VERSION_CODES.M)
+    private static boolean fingerprintPermissionGranted(Context context) {
+        return context.checkSelfPermission(USE_FINGERPRINT) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    static FingerprintManager getFingerprintManager(Context context) {
+        return (FingerprintManager) context.getSystemService(Context.FINGERPRINT_SERVICE);
     }
 
     /**

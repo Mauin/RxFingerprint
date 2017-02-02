@@ -17,8 +17,11 @@
 package com.mtramin.rxfingerprint;
 
 import android.content.Context;
+import android.hardware.fingerprint.FingerprintManager.AuthenticationResult;
+import android.hardware.fingerprint.FingerprintManager.CryptoObject;
+import android.os.Build;
 import android.support.annotation.Nullable;
-import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
+import android.support.annotation.RequiresApi;
 
 import com.mtramin.rxfingerprint.data.FingerprintDecryptionResult;
 import com.mtramin.rxfingerprint.data.FingerprintEncryptionResult;
@@ -47,6 +50,7 @@ import io.reactivex.ObservableEmitter;
  * <p/>
  * The date handed in must be previously encrypted by a {@link FingerprintEncryptionObservable}.
  */
+@RequiresApi(Build.VERSION_CODES.M)
 class FingerprintDecryptionObservable extends FingerprintObservable<FingerprintDecryptionResult> {
 
 	private final String keyName;
@@ -87,12 +91,12 @@ class FingerprintDecryptionObservable extends FingerprintObservable<FingerprintD
 
 	@Nullable
 	@Override
-	protected FingerprintManagerCompat.CryptoObject initCryptoObject(ObservableEmitter<FingerprintDecryptionResult> subscriber) {
+	protected CryptoObject initCryptoObject(ObservableEmitter<FingerprintDecryptionResult> subscriber) {
 		CryptoProvider cryptoProvider = new CryptoProvider(context, keyName);
 		try {
 			CryptoData cryptoData = CryptoData.fromString(encodingProvider, encryptedString);
 			Cipher cipher = cryptoProvider.initDecryptionCipher(cryptoData.getIv());
-			return new FingerprintManagerCompat.CryptoObject(cipher);
+			return new CryptoObject(cipher);
 		} catch (CryptoDataException | NoSuchAlgorithmException | CertificateException | InvalidKeyException | KeyStoreException | InvalidAlgorithmParameterException | NoSuchPaddingException | IOException | UnrecoverableKeyException e) {
 			subscriber.onError(e);
 			return null;
@@ -100,7 +104,7 @@ class FingerprintDecryptionObservable extends FingerprintObservable<FingerprintD
 	}
 
 	@Override
-	protected void onAuthenticationSucceeded(ObservableEmitter<FingerprintDecryptionResult> emitter, FingerprintManagerCompat.AuthenticationResult result) {
+	protected void onAuthenticationSucceeded(ObservableEmitter<FingerprintDecryptionResult> emitter, AuthenticationResult result) {
 		try {
 			CryptoData cryptoData = CryptoData.fromString(encodingProvider, encryptedString);
 			Cipher cipher = result.getCryptoObject().getCipher();

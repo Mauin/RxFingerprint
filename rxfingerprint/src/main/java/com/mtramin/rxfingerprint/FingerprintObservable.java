@@ -18,11 +18,15 @@ package com.mtramin.rxfingerprint;
 
 import android.app.Application;
 import android.content.Context;
-import android.support.annotation.NonNull;
+import android.hardware.fingerprint.FingerprintManager;
+import android.hardware.fingerprint.FingerprintManager.AuthenticationCallback;
+import android.hardware.fingerprint.FingerprintManager.AuthenticationResult;
+import android.hardware.fingerprint.FingerprintManager.CryptoObject;
+import android.os.Build;
+import android.os.CancellationSignal;
 import android.support.annotation.Nullable;
-import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
-import android.support.v4.hardware.fingerprint.FingerprintManagerCompat.AuthenticationCallback;
-import android.support.v4.os.CancellationSignal;
+import android.support.annotation.RequiresApi;
+import android.support.annotation.RequiresPermission;
 import android.util.Log;
 
 import com.mtramin.rxfingerprint.data.FingerprintAuthenticationException;
@@ -33,10 +37,13 @@ import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.functions.Cancellable;
 
+import static android.Manifest.permission.USE_FINGERPRINT;
+
 /**
  * Base observable for Fingerprint authentication. Provides abstract methods that allow
  * to alter the input and result of the authentication.
  */
+@RequiresApi(Build.VERSION_CODES.M)
 abstract class FingerprintObservable<T> implements ObservableOnSubscribe<T> {
 
 	protected final Context context;
@@ -59,15 +66,17 @@ abstract class FingerprintObservable<T> implements ObservableOnSubscribe<T> {
 	}
 
 	@Override
+	@RequiresPermission(USE_FINGERPRINT)
 	public void subscribe(ObservableEmitter<T> emitter) throws Exception {
 		if (RxFingerprint.isUnavailable(context)) {
 			emitter.onError(new FingerprintUnavailableException("Fingerprint authentication is not available on this device! Ensure that the device has a Fingerprint sensor and enrolled Fingerprints by calling RxFingerprint#isAvailable(Context) first"));
+			return;
 		}
 
 		AuthenticationCallback callback = createAuthenticationCallback(emitter);
 		cancellationSignal = new CancellationSignal();
-		FingerprintManagerCompat.CryptoObject cryptoObject = initCryptoObject(emitter);
-		FingerprintManagerCompat.from(context).authenticate(cryptoObject, 0, cancellationSignal, callback, null);
+		CryptoObject cryptoObject = initCryptoObject(emitter);
+		RxFingerprint.getFingerprintManager(context).authenticate(cryptoObject, cancellationSignal, 0, callback, null);
 
 		emitter.setCancellable(new Cancellable() {
 			@Override
@@ -79,12 +88,10 @@ abstract class FingerprintObservable<T> implements ObservableOnSubscribe<T> {
 		});
 	}
 
-	@NonNull
 	private AuthenticationCallback createAuthenticationCallback(final ObservableEmitter<T> emitter) {
 		return new AuthenticationCallback() {
 			@Override
 			public void onAuthenticationError(int errMsgId, CharSequence errString) {
-				super.onAuthenticationError(errMsgId, errString);
 				if (!emitter.isDisposed()) {
 					emitter.onError(new FingerprintAuthenticationException(errString));
 				}
@@ -92,34 +99,31 @@ abstract class FingerprintObservable<T> implements ObservableOnSubscribe<T> {
 
 			@Override
 			public void onAuthenticationFailed() {
-				super.onAuthenticationFailed();
 				FingerprintObservable.this.onAuthenticationFailed(emitter);
 			}
 
 			@Override
 			public void onAuthenticationHelp(int helpMsgId, CharSequence helpString) {
-				super.onAuthenticationHelp(helpMsgId, helpString);
 				FingerprintObservable.this.onAuthenticationHelp(emitter, helpMsgId, helpString.toString());
 			}
 
 			@Override
-			public void onAuthenticationSucceeded(FingerprintManagerCompat.AuthenticationResult result) {
-				super.onAuthenticationSucceeded(result);
+			public void onAuthenticationSucceeded(AuthenticationResult result) {
 				FingerprintObservable.this.onAuthenticationSucceeded(emitter, result);
 			}
 		};
 	}
 
 	/**
-	 * Method to initialize the {@link FingerprintManagerCompat.CryptoObject}
+	 * Method to initialize the {@link FingerprintManager.CryptoObject}
 	 * used for the fingerprint authentication.
 	 *
 	 * @param subscriber current subscriber
-	 * @return a {@link FingerprintManagerCompat.CryptoObject}
+	 * @return a {@link FingerprintManager.CryptoObject}
 	 * that is to be used in the authentication. May be {@code null}.
 	 */
 	@Nullable
-	protected abstract FingerprintManagerCompat.CryptoObject initCryptoObject(ObservableEmitter<T> subscriber);
+	protected abstract CryptoObject initCryptoObject(ObservableEmitter<T> subscriber);
 
 	/**
 	 * Action to execute when fingerprint authentication was successful.
@@ -130,7 +134,7 @@ abstract class FingerprintObservable<T> implements ObservableOnSubscribe<T> {
 	 * @param emitter current subscriber
 	 * @param result  result of the successful fingerprint authentication
 	 */
-	protected abstract void onAuthenticationSucceeded(ObservableEmitter<T> emitter, FingerprintManagerCompat.AuthenticationResult result);
+	protected abstract void onAuthenticationSucceeded(ObservableEmitter<T> emitter, AuthenticationResult result);
 
 	/**
 	 * Action to execute when the fingerprint authentication returned a help result.
@@ -139,8 +143,8 @@ abstract class FingerprintObservable<T> implements ObservableOnSubscribe<T> {
 	 * Should <b>not</b> {@link Emitter#onComplete()}.
 	 *
 	 * @param emitter       current subscriber
-	 * @param helpMessageId ID of the help message returned from the {@link FingerprintManagerCompat}
-	 * @param helpString    Help message string returned by the {@link FingerprintManagerCompat}
+	 * @param helpMessageId ID of the help message returned from the {@link FingerprintManager}
+	 * @param helpString    Help message string returned by the {@link FingerprintManager}
 	 */
 	protected abstract void onAuthenticationHelp(ObservableEmitter<T> emitter, int helpMessageId, String helpString);
 

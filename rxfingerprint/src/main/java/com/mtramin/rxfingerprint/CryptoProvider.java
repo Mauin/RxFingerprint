@@ -74,22 +74,22 @@ class CryptoProvider {
     }
 
     /**
-     * @return Initialized cipher for encryption operations in RxFingerprint
-     */
-    @TargetApi(Build.VERSION_CODES.M)
-    Cipher initEncryptionCipher() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, NoSuchProviderException, InvalidAlgorithmParameterException, UnrecoverableKeyException, CertificateException, KeyStoreException, IOException {
-        try {
-            Cipher cipher = createCipher();
-            SecretKey key = findOrCreateKey(keyName);
-            cipher.init(Cipher.ENCRYPT_MODE, key);
-            return cipher;
-        } catch (KeyPermanentlyInvalidatedException e) {
-            removeKey(keyName);
-            return initEncryptionCipher();
-        }
-    }
+	 * Gets or creates a key and initializes a cipher with it in {@link Cipher.ENCRYPT_MODE}
+	 * In case the key was permanently invalidated the key will be deleted and re-created.
+	 *
+	 * @return Initialized cipher for encryption operations in RxFingerprint
+	 */
+	@TargetApi(Build.VERSION_CODES.M)
+	Cipher initEncryptionCipher() throws IOException, CertificateException, NoSuchAlgorithmException, UnrecoverableKeyException, InvalidKeyException, InvalidAlgorithmParameterException, NoSuchPaddingException, NoSuchProviderException, KeyStoreException {
+		try {
+			return cipherForEncryption();
+		} catch (KeyPermanentlyInvalidatedException e) {
+			removeKey(keyName);
+			return cipherForEncryption();
+		}
+	}
 
-    /**
+	/**
      * @param iv initialization vector used during encryption
      * @return Initialized cipher for decryption operations in RxFingerprint
      */
@@ -99,6 +99,13 @@ class CryptoProvider {
         cipher.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(iv));
         return cipher;
     }
+
+	private Cipher cipherForEncryption() throws NoSuchAlgorithmException, NoSuchPaddingException, CertificateException, UnrecoverableKeyException, KeyStoreException, NoSuchProviderException, InvalidAlgorithmParameterException, IOException, InvalidKeyException {
+		Cipher cipher = createCipher();
+		SecretKey key = findOrCreateKey(keyName);
+		cipher.init(Cipher.ENCRYPT_MODE, key);
+		return cipher;
+	}
 
     private void removeKey(String keyName) throws KeyStoreException, CertificateException, NoSuchAlgorithmException, IOException {
         if (keyExists(keyName)) {

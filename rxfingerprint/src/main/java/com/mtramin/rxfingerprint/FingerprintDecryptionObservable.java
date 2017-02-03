@@ -49,6 +49,7 @@ import io.reactivex.ObservableEmitter;
  * <p/>
  * The date handed in must be previously encrypted by a {@link FingerprintEncryptionObservable}.
  */
+@SuppressLint("NewApi") // SDK check happens in {@link FingerprintObservable#subscribe}
 class FingerprintDecryptionObservable extends FingerprintObservable<FingerprintDecryptionResult> {
 
 	private final String keyName;
@@ -89,7 +90,6 @@ class FingerprintDecryptionObservable extends FingerprintObservable<FingerprintD
 
 	@Nullable
 	@Override
-	@SuppressLint("NewApi")
 	protected CryptoObject initCryptoObject(ObservableEmitter<FingerprintDecryptionResult> subscriber) {
 		CryptoProvider cryptoProvider = new CryptoProvider(context, keyName);
 		try {
@@ -103,7 +103,6 @@ class FingerprintDecryptionObservable extends FingerprintObservable<FingerprintD
 	}
 
 	@Override
-	@SuppressLint("NewApi")
 	protected void onAuthenticationSucceeded(ObservableEmitter<FingerprintDecryptionResult> emitter, AuthenticationResult result) {
 		try {
 			CryptoData cryptoData = CryptoData.fromString(encodingProvider, encryptedString);

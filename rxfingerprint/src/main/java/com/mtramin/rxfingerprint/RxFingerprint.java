@@ -236,6 +236,7 @@ public class RxFingerprint {
         return context.checkSelfPermission(USE_FINGERPRINT) == PackageManager.PERMISSION_GRANTED;
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     static FingerprintManager getFingerprintManager(Context context) {
         return (FingerprintManager) context.getSystemService(Context.FINGERPRINT_SERVICE);
     }

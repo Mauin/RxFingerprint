@@ -50,7 +50,7 @@ import io.reactivex.ObservableEmitter;
  * can only be used with fingerprint authentication and uses it once authentication was successful
  * to encrypt the given data.
  */
-@SuppressLint("NewApi")
+@SuppressLint("NewApi") // SDK check happens in {@link FingerprintObservable#subscribe}
 class FingerprintEncryptionObservable extends FingerprintObservable<FingerprintEncryptionResult> {
 
 	private final String keyName;

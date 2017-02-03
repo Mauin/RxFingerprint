@@ -23,8 +23,10 @@ import android.hardware.fingerprint.FingerprintManager;
 import android.hardware.fingerprint.FingerprintManager.AuthenticationCallback;
 import android.hardware.fingerprint.FingerprintManager.AuthenticationResult;
 import android.hardware.fingerprint.FingerprintManager.CryptoObject;
+import android.os.Build;
 import android.os.CancellationSignal;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.annotation.RequiresPermission;
 import android.util.Log;
 
@@ -42,7 +44,7 @@ import static android.Manifest.permission.USE_FINGERPRINT;
  * Base observable for Fingerprint authentication. Provides abstract methods that allow
  * to alter the input and result of the authentication.
  */
-@SuppressLint("NewApi")
+@SuppressLint("NewApi") // SDK check happens in {@link FingerprintObservable#subscribe}
 abstract class FingerprintObservable<T> implements ObservableOnSubscribe<T> {
 
 	protected final Context context;
@@ -66,6 +68,7 @@ abstract class FingerprintObservable<T> implements ObservableOnSubscribe<T> {
 
 	@Override
 	@RequiresPermission(USE_FINGERPRINT)
+	@RequiresApi(Build.VERSION_CODES.M)
 	public void subscribe(ObservableEmitter<T> emitter) throws Exception {
 		if (RxFingerprint.isUnavailable(context)) {
 			emitter.onError(new FingerprintUnavailableException("Fingerprint authentication is not available on this device! Ensure that the device has a Fingerprint sensor and enrolled Fingerprints by calling RxFingerprint#isAvailable(Context) first"));

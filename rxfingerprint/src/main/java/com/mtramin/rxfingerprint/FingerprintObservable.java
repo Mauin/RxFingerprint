@@ -26,6 +26,7 @@ import android.support.v4.os.CancellationSignal;
 import android.util.Log;
 
 import com.mtramin.rxfingerprint.data.FingerprintAuthenticationException;
+import com.mtramin.rxfingerprint.data.FingerprintUnavailableException;
 
 import io.reactivex.Emitter;
 import io.reactivex.ObservableEmitter;
@@ -59,8 +60,8 @@ abstract class FingerprintObservable<T> implements ObservableOnSubscribe<T> {
 
 	@Override
 	public void subscribe(ObservableEmitter<T> emitter) throws Exception {
-		if (!RxFingerprint.isAvailable(context)) {
-			emitter.onError(new IllegalAccessException("Fingerprint authentication is not available on this device! Ensure that the device has a Fingerprint sensor and enrolled Fingerprints by calling RxFingerprint#available(Context) first"));
+		if (RxFingerprint.isUnavailable(context)) {
+			emitter.onError(new FingerprintUnavailableException("Fingerprint authentication is not available on this device! Ensure that the device has a Fingerprint sensor and enrolled Fingerprints by calling RxFingerprint#isAvailable(Context) first"));
 		}
 
 		AuthenticationCallback callback = createAuthenticationCallback(emitter);

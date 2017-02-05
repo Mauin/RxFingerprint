@@ -85,7 +85,7 @@ class CryptoProvider {
 		try {
 			return cipherForEncryption();
 		} catch (KeyPermanentlyInvalidatedException e) {
-			Log.w("RxFingerprint", "Deleting invalidated key.");
+			Log.w("RxFingerprint", "Renewing invalidated key.");
 			removeKey(keyName);
 			return cipherForEncryption();
 		}

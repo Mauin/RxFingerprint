@@ -8,6 +8,7 @@ import android.support.v4.os.CancellationSignal;
 import com.mtramin.rxfingerprint.data.FingerprintAuthenticationException;
 import com.mtramin.rxfingerprint.data.FingerprintAuthenticationResult;
 import com.mtramin.rxfingerprint.data.FingerprintResult;
+import com.mtramin.rxfingerprint.data.FingerprintUnavailableException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -52,17 +53,17 @@ public class FingerprintAuthenticationTest {
 
         when(mockContext.getApplicationContext()).thenReturn(mockContext);
         when(FingerprintManagerCompat.from(mockContext)).thenReturn(mockFingerprintManager);
-        when(RxFingerprint.isAvailable(mockContext)).thenReturn(true);
+        when(RxFingerprint.isUnavailable(mockContext)).thenReturn(false);
     }
 
     @Test
     public void testFingerprintNotAvailable() throws Exception {
-        when(RxFingerprint.isAvailable(mockContext)).thenReturn(false);
+        when(RxFingerprint.isUnavailable(mockContext)).thenReturn(true);
         TestObserver<FingerprintAuthenticationResult> testObserver = FingerprintAuthenticationObservable.create(mockContext).test();
 
         testObserver.awaitTerminalEvent();
         testObserver.assertNoValues();
-        testObserver.assertError(IllegalAccessException.class);
+        testObserver.assertError(FingerprintUnavailableException.class);
     }
 
 

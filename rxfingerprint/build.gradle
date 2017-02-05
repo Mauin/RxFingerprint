@@ -45,7 +45,7 @@ android {
 
 
 dependencies {
-    compile "com.android.support:support-compat:$versions.supportLibrary"
+    compile "com.android.support:support-annotations:$versions.supportLibrary"
     compile "io.reactivex.rxjava2:rxjava:$versions.rxJava"
 
     testCompile "junit:junit:$versions.jUnit"

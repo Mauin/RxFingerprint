@@ -17,8 +17,9 @@
 package com.mtramin.rxfingerprint;
 
 import android.content.Context;
+import android.hardware.fingerprint.FingerprintManager.AuthenticationResult;
+import android.hardware.fingerprint.FingerprintManager.CryptoObject;
 import android.support.annotation.Nullable;
-import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 
 import com.mtramin.rxfingerprint.data.FingerprintAuthenticationResult;
 import com.mtramin.rxfingerprint.data.FingerprintResult;
@@ -48,13 +49,13 @@ class FingerprintAuthenticationObservable extends FingerprintObservable<Fingerpr
 
     @Nullable
     @Override
-    protected FingerprintManagerCompat.CryptoObject initCryptoObject(ObservableEmitter<FingerprintAuthenticationResult> subscriber) {
+    protected CryptoObject initCryptoObject(ObservableEmitter<FingerprintAuthenticationResult> subscriber) {
         // Simple authentication does not need CryptoObject
         return null;
     }
 
     @Override
-    protected void onAuthenticationSucceeded(ObservableEmitter<FingerprintAuthenticationResult> emitter, FingerprintManagerCompat.AuthenticationResult result) {
+    protected void onAuthenticationSucceeded(ObservableEmitter<FingerprintAuthenticationResult> emitter, AuthenticationResult result) {
         emitter.onNext(new FingerprintAuthenticationResult(FingerprintResult.AUTHENTICATED, null));
         emitter.onComplete();
     }

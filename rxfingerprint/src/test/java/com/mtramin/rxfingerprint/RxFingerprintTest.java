@@ -35,7 +35,7 @@ public class RxFingerprintTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        TestHelper.setFinalStatic(Build.VERSION.class.getField("SDK_INT"), 23);
+        TestHelper.setSdkLevel(23);
         PowerMockito.mockStatic(FingerprintManager.class);
     }
 

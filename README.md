@@ -58,7 +58,7 @@ Should the device not contain a fingerprint sensor or the user has not enrolled 
 After successful authentication or a recoverable error (e.g. the sensor could not read the fingerprint clearly) `onNext` will be called. You can check the result if the authentication was successful.
 In the case of a recoverable error it provides the error message.
 
-By unsubscribing from the Subscription, the fingerprint sensor will be disabled again with no result.
+By disposing the `Disposable`, the fingerprint sensor will be disabled again with no result.
 
 ### Encryption-and-decryption
 
@@ -137,7 +137,7 @@ After the encryption step all results will be Base64 encoded for easier transpor
 RxFingerprint brings the following dependencies:
 
 - RxJava
-- AppCompat-v7 to allow for backwards compability (which will just do nothing)
+- Android Support Annotations
 
 ## Bugs and Feedback
 

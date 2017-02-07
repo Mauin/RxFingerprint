@@ -58,7 +58,7 @@ Should the device not contain a fingerprint sensor or the user has not enrolled 
 After successful authentication or a recoverable error (e.g. the sensor could not read the fingerprint clearly) `onNext` will be called. You can check the result if the authentication was successful.
 In the case of a recoverable error it provides the error message.
 
-By disposing the `Disposable`, the fingerprint sensor will be disabled again with no result.
+By unsubscribing from the Subscription, the fingerprint sensor will be disabled again with no result.
 
 ### Encryption-and-decryption
 

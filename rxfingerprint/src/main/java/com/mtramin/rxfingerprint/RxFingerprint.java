@@ -18,7 +18,6 @@ package com.mtramin.rxfingerprint;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.hardware.fingerprint.FingerprintManager;
 import android.os.Build;
 import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.support.annotation.NonNull;
@@ -60,9 +59,9 @@ public class RxFingerprint {
      * Authenticate the user with his fingerprint. This will enable the fingerprint sensor on the
      * device and wait for the user to touch the sensor with his finger.
      * <p/>
-     * All possible recoverable errors will be provided in {@link org.reactivestreams.Subscriber#onNext(Object)} and
+     * All possible recoverable errors will be provided in {@link rx.Subscriber#onNext(Object)} and
      * should be handled there. Unrecoverable errors will be provided with
-     * {@link org.reactivestreams.Subscriber#onError(Throwable)} calls.
+     * {@link rx.Subscriber#onError(Throwable)} calls.
      *
      * @param context current context
      * @return Observable {@link FingerprintAuthenticationResult}. Will complete once the
@@ -211,7 +210,7 @@ public class RxFingerprint {
             return false;
         }
 
-        return fingerprintPermissionGranted(context) && getFingerprintManager(context).isHardwareDetected();
+        return fingerprintPermissionGranted(context) && FingerprintApiProvider.getFingerprintManager(context).isHardwareDetected();
     }
 
     /**
@@ -228,17 +227,12 @@ public class RxFingerprint {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return false;
         }
-        return fingerprintPermissionGranted(context) && getFingerprintManager(context).hasEnrolledFingerprints();
+        return fingerprintPermissionGranted(context) && FingerprintApiProvider.getFingerprintManager(context).hasEnrolledFingerprints();
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
     private static boolean fingerprintPermissionGranted(Context context) {
         return context.checkSelfPermission(USE_FINGERPRINT) == PackageManager.PERMISSION_GRANTED;
-    }
-
-    @RequiresApi(Build.VERSION_CODES.M)
-    static FingerprintManager getFingerprintManager(Context context) {
-        return (FingerprintManager) context.getSystemService(Context.FINGERPRINT_SERVICE);
     }
 
     /**
@@ -251,7 +245,7 @@ public class RxFingerprint {
      * invalidated by the Android system. To continue using encryption you have to ask the user to
      * encrypt the original data again. The old data is not accessible anymore.
      *
-     * @param throwable Throwable received in {@link org.reactivestreams.Subscriber#onError(Throwable)} from
+     * @param throwable Throwable received in {@link rx.Subscriber#onError(Throwable)} from
      *                  an {@link RxFingerprint} encryption method
      * @return {@code true} if the requested key was permanently invalidated and cannot be used
      * anymore

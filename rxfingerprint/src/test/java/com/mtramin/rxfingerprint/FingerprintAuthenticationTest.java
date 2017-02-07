@@ -37,7 +37,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
  */
 @SuppressWarnings({"NewApi", "MissingPermission"})
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({RxFingerprint.class, FingerprintManager.class})
+@PrepareForTest({RxFingerprint.class, FingerprintApiProvider.class, FingerprintManager.class})
 public class FingerprintAuthenticationTest {
 
     private static final String ERROR_MESSAGE = "Error message";
@@ -56,11 +56,13 @@ public class FingerprintAuthenticationTest {
         initMocks(this);
 
         mockStatic(RxFingerprint.class);
+        mockStatic(FingerprintApiProvider.class);
         mockStatic(FingerprintManager.class);
 
         when(mockContext.getApplicationContext()).thenReturn(mockContext);
         when(mockContext.getSystemService(Context.FINGERPRINT_SERVICE)).thenReturn(mockFingerprintManager);
-        when(RxFingerprint.getFingerprintManager(mockContext)).thenReturn(mockFingerprintManager);
+        when(FingerprintApiProvider.getFingerprintManager(mockContext)).thenReturn(mockFingerprintManager);
+        when(FingerprintApiProvider.createCancellationSignal()).thenReturn(mock(CancellationSignal.class));
 		when(RxFingerprint.isUnavailable(mockContext)).thenReturn(false);
     }
 

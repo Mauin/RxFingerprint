@@ -99,6 +99,6 @@ artifacts {
     archives sourcesJar
 }
 
-task bintrayPublish(dependsOn: [javadocJar, sourcesJar, bintrayUpload]) {
+task bintrayPublish(dependsOn: [javadocJar, sourcesJar, install, bintrayUpload]) {
     // everything is done in the depending tasks
 }

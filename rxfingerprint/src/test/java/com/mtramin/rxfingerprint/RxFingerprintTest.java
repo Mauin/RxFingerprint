@@ -2,8 +2,8 @@ package com.mtramin.rxfingerprint;
 
 import android.content.Context;
 import android.hardware.fingerprint.FingerprintManager;
-import android.os.Build;
 import android.security.keystore.KeyPermanentlyInvalidatedException;
+import android.util.Log;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +23,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
  */
 @SuppressWarnings({"NewApi", "MissingPermission"})
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({FingerprintManager.class})
+@PrepareForTest({FingerprintManager.class, Log.class})
 public class RxFingerprintTest {
 
     @Mock
@@ -37,6 +37,7 @@ public class RxFingerprintTest {
         initMocks(this);
         TestHelper.setSdkLevel(23);
         PowerMockito.mockStatic(FingerprintManager.class);
+        PowerMockito.mockStatic(Log.class);
     }
 
     @Test
@@ -115,5 +116,18 @@ public class RxFingerprintTest {
         when(mockFingerprintManager.isHardwareDetected()).thenReturn(false);
 
         assertFalse("Hardware should be available", RxFingerprint.isHardwareDetected(mockContext));
+    }
+
+    @Test
+    public void apisUnavailable() throws Exception {
+        when(mockContext.getSystemService(Context.FINGERPRINT_SERVICE)).thenThrow(new NoClassDefFoundError());
+
+        assertFalse("RxFingerprint should be unavailable", RxFingerprint.isAvailable(mockContext));
+    }
+
+    @Test
+    public void sdkNotSupported() throws Exception {
+        TestHelper.setSdkLevel(21);
+        assertFalse("RxFingerprint should be unavailable", RxFingerprint.isAvailable(mockContext));
     }
 }

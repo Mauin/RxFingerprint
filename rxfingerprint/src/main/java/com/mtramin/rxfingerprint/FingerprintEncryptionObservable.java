@@ -16,9 +16,12 @@
 
 package com.mtramin.rxfingerprint;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.hardware.fingerprint.FingerprintManager;
+import android.hardware.fingerprint.FingerprintManager.AuthenticationResult;
+import android.hardware.fingerprint.FingerprintManager.CryptoObject;
 import android.support.annotation.Nullable;
-import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 
 import com.mtramin.rxfingerprint.data.FingerprintEncryptionResult;
 import com.mtramin.rxfingerprint.data.FingerprintResult;
@@ -48,6 +51,7 @@ import rx.Subscriber;
  * can only be used with fingerprint authentication and uses it once authentication was successful
  * to encrypt the given data.
  */
+@SuppressLint("NewApi") // SDK check happens in {@link FingerprintObservable#subscribe}
 class FingerprintEncryptionObservable extends FingerprintObservable<FingerprintEncryptionResult> {
 
 	private final String keyName;
@@ -90,11 +94,11 @@ class FingerprintEncryptionObservable extends FingerprintObservable<FingerprintE
 
 	@Nullable
 	@Override
-	protected FingerprintManagerCompat.CryptoObject initCryptoObject(Subscriber<FingerprintEncryptionResult> subscriber) {
+	protected CryptoObject initCryptoObject(Subscriber<FingerprintEncryptionResult> subscriber) {
 		CryptoProvider cryptoProvider = new CryptoProvider(context, keyName);
 		try {
 			Cipher cipher = cryptoProvider.initEncryptionCipher();
-			return new FingerprintManagerCompat.CryptoObject(cipher);
+			return new CryptoObject(cipher);
 		} catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchProviderException | NoSuchPaddingException | InvalidAlgorithmParameterException | CertificateException | UnrecoverableKeyException | KeyStoreException | IOException e) {
 			subscriber.onError(e);
 			return null;
@@ -103,7 +107,7 @@ class FingerprintEncryptionObservable extends FingerprintObservable<FingerprintE
 	}
 
 	@Override
-	protected void onAuthenticationSucceeded(Subscriber<FingerprintEncryptionResult> subscriber, FingerprintManagerCompat.AuthenticationResult result) {
+	protected void onAuthenticationSucceeded(Subscriber<FingerprintEncryptionResult> subscriber, AuthenticationResult result) {
 		try {
 			Cipher cipher = result.getCryptoObject().getCipher();
 			byte[] encryptedBytes = cipher.doFinal(toEncrypt.getBytes("UTF-8"));

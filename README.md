@@ -137,7 +137,7 @@ After the encryption step all results will be Base64 encoded for easier transpor
 RxFingerprint brings the following dependencies:
 
 - RxJava
-- AppCompat-v7 to allow for backwards compability (which will just do nothing)
+- Android Support Annotations
 
 ## Bugs and Feedback
 

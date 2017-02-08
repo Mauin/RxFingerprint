@@ -116,6 +116,8 @@ Subscription subscription = RxFingerprint.decrypt(this, encryptedString)
 Be aware that all encryption keys will be invalidated once the user changes his lockscreen or changes his enrolled fingerprints. If you receive an `onError` event
 during decryption check if the keys were invalidated with `RxFingerprint.keyInvalidated(Throwable)` and prompt the user to authenticate and encrypt his data again.
 
+Once the encryption keys are invalidated RxFingerprint will delete and renew the keys in the Android Keystore on the next call to `RxFingerprint.encrypt(...)`. 
+
 ### Best-practices
 
 To prevent errors and ensure a good user experience, make sure to think of these cases:

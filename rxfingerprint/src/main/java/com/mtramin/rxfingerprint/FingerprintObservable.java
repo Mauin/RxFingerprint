@@ -71,7 +71,9 @@ abstract class FingerprintObservable<T> implements Observable.OnSubscribe<T> {
 	@RequiresApi(Build.VERSION_CODES.M)
 	public void call(Subscriber subscriber) {
 		if (RxFingerprint.isUnavailable(context)) {
-			subscriber.onError(new FingerprintUnavailableException("Fingerprint authentication is not available on this device! Ensure that the device has a Fingerprint sensor and enrolled Fingerprints by calling RxFingerprint#isAvailable(Context) first"));
+			if (!subscriber.isUnsubscribed()) {
+				subscriber.onError(new FingerprintUnavailableException("Fingerprint authentication is not available on this device! Ensure that the device has a Fingerprint sensor and enrolled Fingerprints by calling RxFingerprint#isAvailable(Context) first"));
+			}
 			return;
 		}
 

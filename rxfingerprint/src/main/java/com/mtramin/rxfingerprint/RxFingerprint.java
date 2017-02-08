@@ -22,7 +22,9 @@ import android.hardware.fingerprint.FingerprintManager;
 import android.os.Build;
 import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 
 import com.mtramin.rxfingerprint.data.FingerprintAuthenticationResult;
 import com.mtramin.rxfingerprint.data.FingerprintDecryptionResult;
@@ -211,7 +213,12 @@ public class RxFingerprint {
             return false;
         }
 
-        return fingerprintPermissionGranted(context) && getFingerprintManager(context).isHardwareDetected();
+        FingerprintManager fingerprintManager = getFingerprintManager(context);
+        if (fingerprintManager == null) {
+            return false;
+        }
+
+        return fingerprintPermissionGranted(context) && fingerprintManager.isHardwareDetected();
     }
 
     /**
@@ -228,7 +235,12 @@ public class RxFingerprint {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return false;
         }
-        return fingerprintPermissionGranted(context) && getFingerprintManager(context).hasEnrolledFingerprints();
+
+        FingerprintManager fingerprintManager = getFingerprintManager(context);
+        if (fingerprintManager == null) {
+            return false;
+        }
+        return fingerprintPermissionGranted(context) && fingerprintManager.hasEnrolledFingerprints();
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -236,9 +248,15 @@ public class RxFingerprint {
         return context.checkSelfPermission(USE_FINGERPRINT) == PackageManager.PERMISSION_GRANTED;
     }
 
+    @Nullable
     @RequiresApi(Build.VERSION_CODES.M)
     static FingerprintManager getFingerprintManager(Context context) {
-        return (FingerprintManager) context.getSystemService(Context.FINGERPRINT_SERVICE);
+        try {
+            return (FingerprintManager) context.getSystemService(Context.FINGERPRINT_SERVICE);
+        } catch (Exception | NoClassDefFoundError e) {
+            Log.e("RxFingerprint", "Device with SDK >=23 doesn't provide Fingerprint APIs", e);
+        }
+        return null;
     }
 
     /**

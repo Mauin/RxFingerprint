@@ -33,7 +33,7 @@ ext.versions = [
 
         // Dependency Versions
         supportLibrary         : '24.2.0',
-        rxJava                 : '1.2.1',
+        rxJava                 : '1.2.6',
 
         // Testing dependencies
         jUnit : '4.12',

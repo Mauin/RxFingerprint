@@ -18,6 +18,7 @@ package com.mtramin.rxfingerprint;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.hardware.fingerprint.FingerprintManager;
 import android.os.Build;
 import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.support.annotation.NonNull;
@@ -210,7 +211,12 @@ public class RxFingerprint {
             return false;
         }
 
-        return fingerprintPermissionGranted(context) && FingerprintApiProvider.getFingerprintManager(context).isHardwareDetected();
+        FingerprintManager fingerprintManager = FingerprintApiProvider.getFingerprintManager(context);
+        if (fingerprintManager == null) {
+            return false;
+        }
+
+        return fingerprintPermissionGranted(context) && fingerprintManager.isHardwareDetected();
     }
 
     /**
@@ -227,7 +233,12 @@ public class RxFingerprint {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return false;
         }
-        return fingerprintPermissionGranted(context) && FingerprintApiProvider.getFingerprintManager(context).hasEnrolledFingerprints();
+
+        FingerprintManager fingerprintManager = FingerprintApiProvider.getFingerprintManager(context);
+        if (fingerprintManager == null) {
+            return false;
+        }
+        return fingerprintPermissionGranted(context) && fingerprintManager.hasEnrolledFingerprints();
     }
 
     @RequiresApi(Build.VERSION_CODES.M)

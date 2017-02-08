@@ -26,9 +26,11 @@ import android.support.v4.os.CancellationSignal;
 import android.util.Log;
 
 import com.mtramin.rxfingerprint.data.FingerprintAuthenticationException;
+import com.mtramin.rxfingerprint.data.FingerprintAuthenticationResult;
 
 import rx.Observable;
 import rx.Subscriber;
+import rx.functions.Action0;
 import rx.subscriptions.Subscriptions;
 
 /**
@@ -112,6 +114,20 @@ abstract class FingerprintObservable<T> implements Observable.OnSubscribe<T> {
 				}
 			}
 		};
+	}
+
+	/**
+	 * Required to catch errors from certain phones. See:
+	 * http://stackoverflow.com/questions/36043912/error-after-fingerprint-touched-on-samsung-phones-android-security-keystoreexce
+	 * @param e Exception caught
+	 * @param subscriber Subscriber for fingerprint result
+     */
+	void checkKey(Exception e, Subscriber<? extends FingerprintAuthenticationResult> subscriber, Action0 action0) {
+		if(e.getCause().getClass().getCanonicalName().equals("android.security.KeyStoreException")) {
+			action0.call();
+		} else {
+			subscriber.onError(e);
+		}
 	}
 
 	/**

@@ -16,7 +16,10 @@
 
 package com.mtramin.rxfingerprint;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
+import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.support.annotation.Nullable;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 
@@ -93,13 +96,23 @@ class FingerprintEncryptionObservable extends FingerprintObservable<FingerprintE
 	protected FingerprintManagerCompat.CryptoObject initCryptoObject(Subscriber<FingerprintEncryptionResult> subscriber) {
 		CryptoProvider cryptoProvider = new CryptoProvider(context, keyName);
 		try {
-			Cipher cipher = cryptoProvider.initEncryptionCipher();
+			Cipher cipher = getCipher(cryptoProvider);
 			return new FingerprintManagerCompat.CryptoObject(cipher);
 		} catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchProviderException | NoSuchPaddingException | InvalidAlgorithmParameterException | CertificateException | UnrecoverableKeyException | KeyStoreException | IOException e) {
 			subscriber.onError(e);
 			return null;
 		}
 
+	}
+
+	@TargetApi(Build.VERSION_CODES.M)
+	private Cipher getCipher(CryptoProvider cryptoProvider) throws IOException, CertificateException, NoSuchAlgorithmException, UnrecoverableKeyException, InvalidKeyException, InvalidAlgorithmParameterException, NoSuchPaddingException, KeyStoreException, NoSuchProviderException {
+		try {
+			return cryptoProvider.initEncryptionCipher();
+		} catch (KeyPermanentlyInvalidatedException e) {
+			cryptoProvider.removeKey(keyName);
+			return cryptoProvider.initEncryptionCipher();
+		}
 	}
 
 	@Override
@@ -115,7 +128,7 @@ class FingerprintEncryptionObservable extends FingerprintObservable<FingerprintE
 			subscriber.onNext(new FingerprintEncryptionResult(FingerprintResult.AUTHENTICATED, null, encryptedString));
 			subscriber.onCompleted();
 		} catch (CryptoDataException | IllegalBlockSizeException | BadPaddingException | InvalidParameterSpecException | UnsupportedEncodingException e) {
-			subscriber.onError(e);
+			checkKey(e, subscriber, () -> subscriber.onNext(new FingerprintEncryptionResult(FingerprintResult.INVALIDATED, null, null)));
 		}
 	}
 

@@ -16,7 +16,10 @@
 
 package com.mtramin.rxfingerprint;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
+import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
@@ -102,6 +105,7 @@ class FingerprintDecryptionObservable extends FingerprintObservable<FingerprintD
 	}
 
 	@Override
+	@TargetApi(Build.VERSION_CODES.M)
 	protected void onAuthenticationSucceeded(Subscriber<FingerprintDecryptionResult> subscriber, FingerprintManagerCompat.AuthenticationResult result) {
 		try {
 			CryptoData cryptoData = CryptoData.fromString(encodingProvider, encryptedString);
@@ -111,9 +115,8 @@ class FingerprintDecryptionObservable extends FingerprintObservable<FingerprintD
 			subscriber.onNext(new FingerprintDecryptionResult(FingerprintResult.AUTHENTICATED, null, decrypted));
 			subscriber.onCompleted();
 		} catch (CryptoDataException | BadPaddingException | IllegalBlockSizeException e) {
-			subscriber.onError(e);
+			checkKey(e, subscriber, () -> subscriber.onError(new KeyPermanentlyInvalidatedException()));
 		}
-
 	}
 
 	@Override

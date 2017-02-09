@@ -23,7 +23,7 @@ ext.versions = [
         compileSdk             : 24,
         targetSdk              : 24,
         minSdk                 : 15,
-        buildTools             : '24.0.3',
+        buildTools             : '25.0.1',
 
         // Gradle Versions
         androidGradlePlugin    : '2.2.1',

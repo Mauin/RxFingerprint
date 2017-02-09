@@ -20,8 +20,8 @@ ext.versions = [
         name                   : '2.0.3',
 
         // Android Versions
-        compileSdk             : 24,
-        targetSdk              : 24,
+        compileSdk             : 25,
+        targetSdk              : 25,
         minSdk                 : 15,
         buildTools             : '25.0.1',
 

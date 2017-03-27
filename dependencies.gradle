@@ -32,7 +32,7 @@ ext.versions = [
         bintrayGradlePlugin    : '1.7.1',
 
         // Dependency Versions
-        supportLibrary         : '25.1.1',
+        supportLibrary         : '25.3.0',
         rxJava                 : '2.0.7',
 
         // Testing dependencies

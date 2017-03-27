@@ -287,13 +287,6 @@ public class RxFingerprint {
     }
 
     /**
-     * Disables logging for RxFingerprint
-     */
-    public void disableLogging() {
-        Logger.disableLogging();
-    }
-
-    /**
      * Set a custom logger for RxFingerprint.
      * @param logger Logger implementation to use for custom logging.
      */
@@ -301,6 +294,14 @@ public class RxFingerprint {
         Logger.setLogger(logger);
     }
 
+    /**
+     * Disables all logging in RxFingerprint. This also affects any custom logger set by
+     * {@link #setLogger(RxFingerprintLogger)}.
+     */
+    public void disableLogging() {
+        Logger.disableLogging();
+    }
+    
     /**
      * Checks if the provided {@link Throwable} is of type {@link KeyPermanentlyInvalidatedException}
      * <p/>

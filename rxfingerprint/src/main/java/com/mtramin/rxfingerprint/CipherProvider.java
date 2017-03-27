@@ -22,7 +22,6 @@ import android.os.Build;
 import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -66,7 +65,7 @@ abstract class CipherProvider {
 		try {
 			return cipherForEncryption();
 		} catch (KeyPermanentlyInvalidatedException e) {
-			Log.w("RxFingerprint", "Renewing invalidated key.");
+			Logger.warn("Renewing invalidated key.");
 			removeKey(keyName);
 			return cipherForEncryption();
 		}

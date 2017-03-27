@@ -25,7 +25,6 @@ import android.os.Build;
 import android.os.CancellationSignal;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import static android.Manifest.permission.USE_FINGERPRINT;
 
@@ -43,7 +42,7 @@ class FingerprintApiWrapper {
 		// authentication action which will immediately onError and unsubscribe the 2nd
 		// authentication action.
 		if (context instanceof Application) {
-			Log.w("RxFingerprint", "Passing an Application Context to RxFingerprint might cause issues when the authentication is active and the application changes orientation. Consider passing an Activity Context.");
+			Logger.warn("Passing an Application Context to RxFingerprint might cause issues when the authentication is active and the application changes orientation. Consider passing an Activity Context.");
 		}
 
 		this.context = context;
@@ -100,7 +99,7 @@ class FingerprintApiWrapper {
 		try {
 			return (FingerprintManager) context.getSystemService(Context.FINGERPRINT_SERVICE);
 		} catch (Exception | NoClassDefFoundError e) {
-			Log.e("RxFingerprint", "Device with SDK >=23 doesn't provide Fingerprint APIs", e);
+			Logger.error("Device with SDK >=23 doesn't provide Fingerprint APIs", e);
 		}
 		return null;
 	}

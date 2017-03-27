@@ -21,7 +21,6 @@ import android.content.Context;
 import android.hardware.fingerprint.FingerprintManager.AuthenticationResult;
 import android.hardware.fingerprint.FingerprintManager.CryptoObject;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.mtramin.rxfingerprint.data.FingerprintDecryptionResult;
 import com.mtramin.rxfingerprint.data.FingerprintEncryptionResult;
@@ -32,7 +31,8 @@ import javax.crypto.Cipher;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 
-@SuppressLint("NewApi") // SDK check happens in {@link FingerprintObservable#subscribe}
+@SuppressLint("NewApi")
+		// SDK check happens in {@link FingerprintObservable#subscribe}
 class RsaDecryptionObservable extends FingerprintObservable<FingerprintDecryptionResult> {
 
 	private final RsaCipherProvider cipherProvider;
@@ -91,7 +91,7 @@ class RsaDecryptionObservable extends FingerprintObservable<FingerprintDecryptio
 			emitter.onNext(new FingerprintDecryptionResult(FingerprintResult.AUTHENTICATED, null, decrypted));
 			emitter.onComplete();
 		} catch (Exception e) {
-			Log.e("RxFingerprint", "Unable to decrypt given value. RxFingerprint is only able to decrypt values previously encrypted by RxFingerprint with the same encryption mode.");
+			Logger.error("Unable to decrypt given value. RxFingerprint is only able to decrypt values previously encrypted by RxFingerprint with the same encryption mode.", e);
 			emitter.onError(e);
 		}
 

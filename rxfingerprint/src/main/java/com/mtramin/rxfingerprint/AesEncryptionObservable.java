@@ -25,21 +25,7 @@ import android.support.annotation.Nullable;
 import com.mtramin.rxfingerprint.data.FingerprintEncryptionResult;
 import com.mtramin.rxfingerprint.data.FingerprintResult;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.UnrecoverableKeyException;
-import java.security.cert.CertificateException;
-import java.security.spec.InvalidParameterSpecException;
-
-import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 
 import io.reactivex.Observable;
@@ -51,14 +37,14 @@ import io.reactivex.ObservableEmitter;
  * to encrypt the given data.
  */
 @SuppressLint("NewApi") // SDK check happens in {@link FingerprintObservable#subscribe}
-class FingerprintEncryptionObservable extends FingerprintObservable<FingerprintEncryptionResult> {
+class AesEncryptionObservable extends FingerprintObservable<FingerprintEncryptionResult> {
 
 	private final String keyName;
 	private final String toEncrypt;
 	private final EncodingProvider encodingProvider;
 
 	/**
-	 * Creates a new FingerprintEncryptionObservable that will listen to fingerprint authentication
+	 * Creates a new AesEncryptionObservable that will listen to fingerprint authentication
 	 * to encrypt the given data.
 	 *
 	 * @param context   context to use
@@ -66,21 +52,10 @@ class FingerprintEncryptionObservable extends FingerprintObservable<FingerprintE
 	 * @param toEncrypt data to encrypt  @return Observable {@link FingerprintEncryptionResult}
 	 */
 	static Observable<FingerprintEncryptionResult> create(Context context, String keyName, String toEncrypt) {
-		return Observable.create(new FingerprintEncryptionObservable(context, keyName, toEncrypt, new Base64Provider()));
+		return Observable.create(new AesEncryptionObservable(context, keyName, toEncrypt, new Base64Provider()));
 	}
 
-	/**
-	 * Creates a new FingerprintEncryptionObservable that will listen to fingerprint authentication
-	 * to encrypt the given data.
-	 *
-	 * @param context   context to use
-	 * @param toEncrypt data to encrypt  @return Observable {@link FingerprintEncryptionResult}
-	 */
-	static Observable<FingerprintEncryptionResult> create(Context context, String toEncrypt) {
-		return Observable.create(new FingerprintEncryptionObservable(context, null, toEncrypt, new Base64Provider()));
-	}
-
-	private FingerprintEncryptionObservable(Context context, String keyName, String toEncrypt, EncodingProvider encodingProvider) {
+	private AesEncryptionObservable(Context context, String keyName, String toEncrypt, EncodingProvider encodingProvider) {
 		super(context);
 		this.keyName = keyName;
 
@@ -94,15 +69,13 @@ class FingerprintEncryptionObservable extends FingerprintObservable<FingerprintE
 	@Nullable
 	@Override
 	protected CryptoObject initCryptoObject(ObservableEmitter<FingerprintEncryptionResult> emitter) {
-		CryptoProvider cryptoProvider = new CryptoProvider(context, keyName);
 		try {
-			Cipher cipher = cryptoProvider.initEncryptionCipher();
+			Cipher cipher = AesCipherProvider.forEncyption(context, keyName);
 			return new CryptoObject(cipher);
-		} catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchProviderException | NoSuchPaddingException | InvalidAlgorithmParameterException | CertificateException | UnrecoverableKeyException | KeyStoreException | IOException e) {
+		} catch (Exception e) {
 			emitter.onError(e);
 			return null;
 		}
-
 	}
 
 	@Override
@@ -117,7 +90,7 @@ class FingerprintEncryptionObservable extends FingerprintObservable<FingerprintE
 
 			emitter.onNext(new FingerprintEncryptionResult(FingerprintResult.AUTHENTICATED, null, encryptedString));
 			emitter.onComplete();
-		} catch (CryptoDataException | IllegalBlockSizeException | BadPaddingException | InvalidParameterSpecException | UnsupportedEncodingException e) {
+		} catch (Exception e) {
 			emitter.onError(e);
 		}
 	}

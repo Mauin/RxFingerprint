@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.mtramin.rxfingerprint.EncryptionMethod;
 import com.mtramin.rxfingerprint.RxFingerprint;
 
 import io.reactivex.disposables.Disposable;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewGroup layout;
 
     private Disposable fingerprintDisposable = Disposables.empty();
+    private String encrypted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
         setStatusText();
 
         if (RxFingerprint.isUnavailable(this)) {
+            setStatusText("RxFingerprint unavailable");
             return;
         }
 
@@ -116,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        fingerprintDisposable = RxFingerprint.encrypt(this, SAMPLE_KEY, toEncrypt)
+        fingerprintDisposable = RxFingerprint.encrypt(EncryptionMethod.RSA,this, SAMPLE_KEY, toEncrypt)
                 .subscribe(fingerprintEncryptionResult -> {
                     switch (fingerprintEncryptionResult.getResult()) {
                         case FAILED:
@@ -150,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        fingerprintDisposable = RxFingerprint.decrypt(this, SAMPLE_KEY, encrypted)
+        fingerprintDisposable = RxFingerprint.decrypt(EncryptionMethod.RSA,this, SAMPLE_KEY, this.encrypted)
                 .subscribe(fingerprintDecryptionResult -> {
                     switch (fingerprintDecryptionResult.getResult()) {
                         case FAILED:
@@ -176,6 +179,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createDecryptionButton(final String encrypted) {
+        this.encrypted = encrypted;
         Button button = new Button(this);
         button.setText(String.format("decrypt %s...", encrypted.substring(0, 6)));
         button.setOnClickListener(v -> decrypt(encrypted));

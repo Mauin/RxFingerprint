@@ -26,18 +26,7 @@ import com.mtramin.rxfingerprint.data.FingerprintDecryptionResult;
 import com.mtramin.rxfingerprint.data.FingerprintEncryptionResult;
 import com.mtramin.rxfingerprint.data.FingerprintResult;
 
-import java.io.IOException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableKeyException;
-import java.security.cert.CertificateException;
-
-import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -47,17 +36,17 @@ import io.reactivex.ObservableEmitter;
  * can only be used with fingerprint authentication and uses it once authentication was successful
  * to encrypt the given data.
  * <p/>
- * The date handed in must be previously encrypted by a {@link FingerprintEncryptionObservable}.
+ * The date handed in must be previously encrypted by a {@link AesEncryptionObservable}.
  */
 @SuppressLint("NewApi") // SDK check happens in {@link FingerprintObservable#subscribe}
-class FingerprintDecryptionObservable extends FingerprintObservable<FingerprintDecryptionResult> {
+class AesDecryptionObservable extends FingerprintObservable<FingerprintDecryptionResult> {
 
 	private final String keyName;
 	private final String encryptedString;
 	private final EncodingProvider encodingProvider;
 
 	/**
-	 * Creates a new FingerprintEncryptionObservable that will listen to fingerprint authentication
+	 * Creates a new AesEncryptionObservable that will listen to fingerprint authentication
 	 * to encrypt the given data.
 	 *
 	 * @param context   context to use
@@ -66,22 +55,10 @@ class FingerprintDecryptionObservable extends FingerprintObservable<FingerprintD
 	 * @return Observable result of the decryption
 	 */
 	static Observable<FingerprintDecryptionResult> create(Context context, String keyName, String encrypted) {
-		return Observable.create(new FingerprintDecryptionObservable(context, keyName, encrypted, new Base64Provider()));
+		return Observable.create(new AesDecryptionObservable(context, keyName, encrypted, new Base64Provider()));
 	}
 
-	/**
-	 * Creates a new FingerprintEncryptionObservable that will listen to fingerprint authentication
-	 * to encrypt the given data.
-	 *
-	 * @param context   context to use
-	 * @param encrypted data to encrypt  @return Observable {@link FingerprintEncryptionResult}
-	 * @return Observable result of the decryption
-	 */
-	static Observable<FingerprintDecryptionResult> create(Context context, String encrypted) {
-		return Observable.create(new FingerprintDecryptionObservable(context, null, encrypted, new Base64Provider()));
-	}
-
-	private FingerprintDecryptionObservable(Context context, String keyName, String encrypted, EncodingProvider encodingProvider) {
+	private AesDecryptionObservable(Context context, String keyName, String encrypted, EncodingProvider encodingProvider) {
 		super(context);
 		this.keyName = keyName;
 		encryptedString = encrypted;
@@ -91,12 +68,11 @@ class FingerprintDecryptionObservable extends FingerprintObservable<FingerprintD
 	@Nullable
 	@Override
 	protected CryptoObject initCryptoObject(ObservableEmitter<FingerprintDecryptionResult> subscriber) {
-		CryptoProvider cryptoProvider = new CryptoProvider(context, keyName);
 		try {
 			CryptoData cryptoData = CryptoData.fromString(encodingProvider, encryptedString);
-			Cipher cipher = cryptoProvider.initDecryptionCipher(cryptoData.getIv());
+			Cipher cipher = AesCipherProvider.forDecryption(context, keyName, cryptoData.getIv());
 			return new CryptoObject(cipher);
-		} catch (CryptoDataException | NoSuchAlgorithmException | CertificateException | InvalidKeyException | KeyStoreException | InvalidAlgorithmParameterException | NoSuchPaddingException | IOException | UnrecoverableKeyException e) {
+		} catch (Exception e) {
 			subscriber.onError(e);
 			return null;
 		}
@@ -111,7 +87,7 @@ class FingerprintDecryptionObservable extends FingerprintObservable<FingerprintD
 
 			emitter.onNext(new FingerprintDecryptionResult(FingerprintResult.AUTHENTICATED, null, decrypted));
 			emitter.onComplete();
-		} catch (CryptoDataException | BadPaddingException | IllegalBlockSizeException e) {
+		} catch (Exception e) {
 			emitter.onError(e);
 		}
 

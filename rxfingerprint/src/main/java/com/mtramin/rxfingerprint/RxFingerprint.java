@@ -98,7 +98,7 @@ public class RxFingerprint {
      * Will complete once the authentication and encryption were successful or have failed entirely.
      */
     public static Observable<FingerprintEncryptionResult> encrypt(Context context, String toEncrypt) {
-        return FingerprintEncryptionObservable.create(context, toEncrypt);
+        return encrypt(EncryptionMethod.AES, context, null, toEncrypt);
     }
 
     /**
@@ -121,7 +121,7 @@ public class RxFingerprint {
      * decrypted string if decryption was successful.
      */
     public static Observable<FingerprintDecryptionResult> decrypt(Context context, String encrypted) {
-        return FingerprintDecryptionObservable.create(context, encrypted);
+        return decrypt(EncryptionMethod.AES, context, null, encrypted);
     }
 
     /**
@@ -145,7 +145,7 @@ public class RxFingerprint {
      * Will complete once the authentication and encryption were successful or have failed entirely.
      */
     public static Observable<FingerprintEncryptionResult> encrypt(Context context, @NonNull String keyName, @NonNull String toEncrypt) {
-        return FingerprintEncryptionObservable.create(context, keyName, toEncrypt);
+        return encrypt(EncryptionMethod.AES, context, keyName, toEncrypt);
     }
 
     /**
@@ -169,8 +169,36 @@ public class RxFingerprint {
      * @return Observable result of the decryption
      */
     public static Observable<FingerprintDecryptionResult> decrypt(Context context, @NonNull String keyName, @NonNull String encrypted) {
-        return FingerprintDecryptionObservable.create(context, keyName, encrypted);
+        return decrypt(EncryptionMethod.AES, context, keyName, encrypted);
     }
+
+	public static Observable<FingerprintEncryptionResult> encrypt(EncryptionMethod method,
+																  Context context,
+																  @Nullable String keyName,
+																  @NonNull String toEncrypt) {
+		switch (method) {
+			case AES:
+				return AesEncryptionObservable.create(context, keyName, toEncrypt);
+			case RSA:
+				return RsaEncryptionObservable.create(context, keyName, toEncrypt);
+			default:
+				return Observable.error(new IllegalArgumentException("Unknown encryption method: " + method));
+		}
+	}
+
+	public static Observable<FingerprintDecryptionResult> decrypt(EncryptionMethod method,
+																  Context context,
+																  @Nullable String keyName,
+																  @NonNull String toDecrypt) {
+		switch (method) {
+			case AES:
+				return AesDecryptionObservable.create(context, keyName, toDecrypt);
+			case RSA:
+				return RsaDecryptionObservable.create(context, keyName, toDecrypt);
+			default:
+				return Observable.error(new IllegalArgumentException("Unknown decryption method: " + method));
+		}
+	}
 
     /**
      * Provides information if fingerprint authentication is currently available.

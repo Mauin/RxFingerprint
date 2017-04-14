@@ -14,6 +14,4 @@
   ~ limitations under the License.
   -->
 
-<manifest
-    package="com.mtramin.rxfingerprint">
-</manifest>
+<manifest package="com.mtramin.rxfingerprint"/>

@@ -97,7 +97,10 @@ public class MainActivity extends AppCompatActivity {
                             setStatusText("Successfully authenticated!");
                             break;
                     }
-                }, throwable -> Log.e("ERROR", "authenticate", throwable));
+                }, throwable -> {
+                    Log.e("ERROR", "authenticate", throwable);
+                    setStatusText(throwable.getMessage());
+                });
     }
 
     private void encrypt() {
@@ -136,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
                         // You have to re-encrypt the data to access it
                     }
                     Log.e("ERROR", "encrypt", throwable);
+                    setStatusText(throwable.getMessage());
                 });
     }
 
@@ -167,6 +171,7 @@ public class MainActivity extends AppCompatActivity {
                         // You have to re-encrypt the data to access it
                     }
                     Log.e("ERROR", "decrypt", throwable);
+                    setStatusText(throwable.getMessage());
                 });
     }
 

@@ -38,22 +38,10 @@ import javax.crypto.NoSuchPaddingException;
 abstract class CipherProvider {
 	static final String ANDROID_KEY_STORE = "AndroidKeyStore";
 	private static final String DEFAULT_KEY_NAME = "rxfingerprint_default";
-	static final int AES_KEY_SIZE = 256;
 
 	final String keyName;
 	final KeyStore keyStore;
 
-	/**
-	 * Creates a new AesCryptoProvider. If a keyName is provided, uses the given key in the KeyStore
-	 * for cryptographic operations. The given key name is {@code null} a default key name will be
-	 * used.
-	 * <p/>
-	 * The default key name will consist of the applications package name appended with
-	 * {@link AesCryptoProvider#DEFAULT_KEY_NAME}.
-	 *
-	 * @param context context to use, may not be null
-	 * @param keyName keyName to use, can be null
-	 */
 	CipherProvider(@NonNull Context context, @Nullable String keyName) throws KeyStoreException, CertificateException, NoSuchAlgorithmException, IOException {
 		if (keyName == null) {
 			this.keyName = ContextUtils.getPackageName(context) + "." + DEFAULT_KEY_NAME;
@@ -70,12 +58,6 @@ abstract class CipherProvider {
 	@TargetApi(Build.VERSION_CODES.M)
 	abstract Cipher createCipher() throws NoSuchPaddingException, NoSuchAlgorithmException;
 
-	/**
-	 * Gets or creates a key and initializes a cipher with it in {@link Cipher.ENCRYPT_MODE}
-	 * In case the key was permanently invalidated the key will be deleted and re-created.
-	 *
-	 * @return Initialized cipher for encryption operations in RxFingerprint
-	 */
 	@TargetApi(Build.VERSION_CODES.M)
 	Cipher getCipherForEncryption() throws IOException, GeneralSecurityException {
 		try {

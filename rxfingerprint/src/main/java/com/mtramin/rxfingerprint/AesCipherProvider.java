@@ -41,6 +41,8 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 
 class AesCipherProvider extends CipherProvider {
+	private static final int AES_KEY_SIZE = 256;
+
 	static Cipher forEncyption(@NonNull Context context, @Nullable String keyName) throws IOException, GeneralSecurityException {
 		return new AesCipherProvider(context, keyName).getCipherForEncryption();
 	}

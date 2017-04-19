@@ -42,16 +42,10 @@ import static android.Manifest.permission.USE_FINGERPRINT;
  * To just authenticate the user with his fingerprint, use {@link #authenticate(Context)}.
  * <p/>
  * To encrypt given data and authenticate the user with his fingerprint,
- * call {@link #encrypt(Context, String)}
+ * call {@link #encrypt(EncryptionMethod, Context, String, String)}
  * <p/>
- * To decrypt previously encrypted data via the {@link #encrypt(Context, String)} method,
- * call {@link #decrypt(Context, String)}
- * <p/>
- * The {@link #encrypt(Context, String, String)} and {@link #decrypt(Context, String, String)}
- * methods use the custom keyName provided as an argument to store the encryption keys in the
- * Android {@link java.security.KeyStore}. {@link #encrypt(Context, String)} and
- * {@link #decrypt(Context, String)} will generate a default key name which contains the
- * applications package name.
+ * To decrypt previously encrypted data via the {@link #encrypt(EncryptionMethod, Context, String, String)}
+ * method, call {@link #decrypt(EncryptionMethod, Context, String, String)}
  * <p/>
  * Helper methods provide information about the devices capability to handle fingerprint
  * authentication. For fingerprint authentication to be isAvailable, the device needs to contain the
@@ -158,7 +152,7 @@ public class RxFingerprint {
      * The resulting {@link FingerprintDecryptionResult} will contain the decrypted string as a
      * String and is accessible via {@link FingerprintDecryptionResult#getDecrypted()} if the
      * authentication and decryption was successful.
-     *
+	 *
      * @param context   context to use.
      * @param keyName   name of the key in the keystore to use
      * @param encrypted String of encrypted data previously encrypted with
@@ -172,6 +166,27 @@ public class RxFingerprint {
         return decrypt(EncryptionMethod.AES, context, keyName, encrypted);
     }
 
+	/**
+	 * Encrypt data with the given {@link EncryptionMethod}. Depending on the given method, the
+	 * fingerprint sensor might be enabled and waiting for the user to authenticate before the
+	 * encryption step. All encrypted data can only be accessed again by calling
+	 * {@link #decrypt(EncryptionMethod, Context, String, String)} with the same
+	 * {@link EncryptionMethod} that was used for encryption of the given value.
+	 * <p>
+	 * Take more details about the encryption method and how they behave from {@link EncryptionMethod}
+	 * <p>
+	 * The resulting {@link FingerprintEncryptionResult} will contain the encrypted data as a String
+	 * and is accessible via {@link FingerprintEncryptionResult#getEncrypted()} if the
+	 * operation was successful. Save this data where you please, but don't change it if you
+	 * want to decrypt it again!
+	 *
+	 * @param method    the encryption method to use
+	 * @param context   context to use
+	 * @param keyName   name of the key to store in the Android {@link java.security.KeyStore}
+	 * @param toEncrypt data to encrypt
+	 * @return Observable {@link FingerprintEncryptionResult} that will contain the encrypted data.
+	 * Will complete once the operation was successful or failed entirely.
+	 */
 	public static Observable<FingerprintEncryptionResult> encrypt(EncryptionMethod method,
 																  Context context,
 																  @Nullable String keyName,
@@ -186,6 +201,30 @@ public class RxFingerprint {
 		}
 	}
 
+	/**
+	 * Decrypt data previously encrypted with {@link #encrypt(EncryptionMethod, Context, String, String)}.
+	 * Make sure the {@link EncryptionMethod} matches to one that was used for encryption of this value.
+	 * To decrypt, you have to provide the same keyName that you used for encryption.
+	 * <p/>
+	 * The encrypted string should be exactly the one you previously received as a result of the
+	 * {@link #encrypt(EncryptionMethod, Context, String, String)} method.
+	 * <p/>
+	 * The resulting {@link FingerprintDecryptionResult} will contain the decrypted string as a
+	 * String and is accessible via {@link FingerprintDecryptionResult#getDecrypted()} if the
+	 * authentication and decryption was successful.
+	 * <p>
+	 * This operation will require the user to authenticate with their fingerprint.
+	 *
+	 * @param method    the encryption method to use
+	 * @param context   context to use.
+	 * @param keyName   name of the key in the keystore to use
+	 * @param encrypted String of encrypted data previously encrypted with
+	 *                  {@link #encrypt(EncryptionMethod, Context, String, String)}.
+	 * @return Observable  {@link FingerprintDecryptionResult} that will contain the decrypted data.
+	 *                  Will complete once the authentication and decryption were successful or
+	 *                  have failed entirely.
+	 * @return Observable result of the decryption
+	 */
 	public static Observable<FingerprintDecryptionResult> decrypt(EncryptionMethod method,
 																  Context context,
 																  @Nullable String keyName,

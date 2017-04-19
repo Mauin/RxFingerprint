@@ -40,6 +40,15 @@ android {
     lintOptions {
         textReport true
     }
+
+    testOptions {
+		unitTests.all {
+			testLogging {
+				events 'passed', 'skipped', 'failed'
+				exceptionFormat 'full'
+			}
+		}
+	}
 }
 
 

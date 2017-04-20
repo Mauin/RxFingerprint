@@ -17,22 +17,15 @@
 package com.mtramin.rxfingerprint;
 
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.hardware.fingerprint.FingerprintManager;
-import android.os.Build;
 import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.util.Log;
 
 import com.mtramin.rxfingerprint.data.FingerprintAuthenticationResult;
 import com.mtramin.rxfingerprint.data.FingerprintDecryptionResult;
 import com.mtramin.rxfingerprint.data.FingerprintEncryptionResult;
 
 import io.reactivex.Observable;
-
-import static android.Manifest.permission.USE_FINGERPRINT;
 
 /**
  * Entry point for RxFingerprint. Contains all the base methods you need to interact with the
@@ -218,7 +211,7 @@ public class RxFingerprint {
 	 * @param method    the encryption method to use
 	 * @param context   context to use.
 	 * @param keyName   name of the key in the keystore to use
-	 * @param encrypted String of encrypted data previously encrypted with
+	 * @param toDecrypt String of encrypted data previously encrypted with
 	 *                  {@link #encrypt(EncryptionMethod, Context, String, String)}.
 	 * @return Observable  {@link FingerprintDecryptionResult} that will contain the decrypted data.
 	 *                  Will complete once the authentication and decryption were successful or
@@ -249,7 +242,7 @@ public class RxFingerprint {
      * @return {@code true} if fingerprint authentication is isAvailable
      */
     public static boolean isAvailable(@NonNull Context context) {
-        return isHardwareDetected(context) && hasEnrolledFingerprints(context);
+        return new FingerprintApiWrapper(context).isAvailable();
     }
 
     /**
@@ -276,16 +269,7 @@ public class RxFingerprint {
      */
     @SuppressWarnings("MissingPermission")
     public static boolean isHardwareDetected(@NonNull Context context) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            return false;
-        }
-
-        FingerprintManager fingerprintManager = getFingerprintManager(context);
-        if (fingerprintManager == null) {
-            return false;
-        }
-
-        return fingerprintPermissionGranted(context) && fingerprintManager.isHardwareDetected();
+        return new FingerprintApiWrapper(context).isHardwareDetected();
     }
 
     /**
@@ -299,31 +283,7 @@ public class RxFingerprint {
      */
     @SuppressWarnings("MissingPermission")
     public static boolean hasEnrolledFingerprints(@NonNull Context context) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            return false;
-        }
-
-        FingerprintManager fingerprintManager = getFingerprintManager(context);
-        if (fingerprintManager == null) {
-            return false;
-        }
-        return fingerprintPermissionGranted(context) && fingerprintManager.hasEnrolledFingerprints();
-    }
-
-    @RequiresApi(Build.VERSION_CODES.M)
-    private static boolean fingerprintPermissionGranted(Context context) {
-        return context.checkSelfPermission(USE_FINGERPRINT) == PackageManager.PERMISSION_GRANTED;
-    }
-
-    @Nullable
-    @RequiresApi(Build.VERSION_CODES.M)
-    static FingerprintManager getFingerprintManager(Context context) {
-        try {
-            return (FingerprintManager) context.getSystemService(Context.FINGERPRINT_SERVICE);
-        } catch (Exception | NoClassDefFoundError e) {
-            Log.e("RxFingerprint", "Device with SDK >=23 doesn't provide Fingerprint APIs", e);
-        }
-        return null;
+        return new FingerprintApiWrapper(context).hasEnrolledFingerprints();
     }
 
     /**

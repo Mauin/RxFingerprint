@@ -21,6 +21,7 @@ import android.content.Context;
 import android.hardware.fingerprint.FingerprintManager.AuthenticationResult;
 import android.hardware.fingerprint.FingerprintManager.CryptoObject;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 
 import com.mtramin.rxfingerprint.data.FingerprintEncryptionResult;
 import com.mtramin.rxfingerprint.data.FingerprintResult;
@@ -39,9 +40,9 @@ import io.reactivex.ObservableEmitter;
 @SuppressLint("NewApi") // SDK check happens in {@link FingerprintObservable#subscribe}
 class AesEncryptionObservable extends FingerprintObservable<FingerprintEncryptionResult> {
 
-	private final String keyName;
 	private final String toEncrypt;
 	private final EncodingProvider encodingProvider;
+	private final AesCipherProvider cipherProvider;
 
 	/**
 	 * Creates a new AesEncryptionObservable that will listen to fingerprint authentication
@@ -52,12 +53,23 @@ class AesEncryptionObservable extends FingerprintObservable<FingerprintEncryptio
 	 * @param toEncrypt data to encrypt  @return Observable {@link FingerprintEncryptionResult}
 	 */
 	static Observable<FingerprintEncryptionResult> create(Context context, String keyName, String toEncrypt) {
-		return Observable.create(new AesEncryptionObservable(context, keyName, toEncrypt, new Base64Provider()));
+		try {
+			return Observable.create(new AesEncryptionObservable(new FingerprintApiWrapper(context),
+					new AesCipherProvider(context, keyName),
+					toEncrypt,
+					new Base64Provider()));
+		} catch (Exception e) {
+			return Observable.error(e);
+		}
 	}
 
-	private AesEncryptionObservable(Context context, String keyName, String toEncrypt, EncodingProvider encodingProvider) {
-		super(context);
-		this.keyName = keyName;
+	@VisibleForTesting
+	AesEncryptionObservable(FingerprintApiWrapper fingerprintApiWrapper,
+							AesCipherProvider cipherProvider,
+							String toEncrypt,
+							EncodingProvider encodingProvider) {
+		super(fingerprintApiWrapper);
+		this.cipherProvider = cipherProvider;
 
 		if (toEncrypt == null) {
 			throw new NullPointerException("String to be encrypted is null. Can only encrypt valid strings");
@@ -70,7 +82,7 @@ class AesEncryptionObservable extends FingerprintObservable<FingerprintEncryptio
 	@Override
 	protected CryptoObject initCryptoObject(ObservableEmitter<FingerprintEncryptionResult> emitter) {
 		try {
-			Cipher cipher = AesCipherProvider.forEncyption(context, keyName);
+			Cipher cipher = cipherProvider.getCipherForEncryption();
 			return new CryptoObject(cipher);
 		} catch (Exception e) {
 			emitter.onError(e);

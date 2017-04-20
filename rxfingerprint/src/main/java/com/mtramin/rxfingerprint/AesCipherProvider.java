@@ -25,7 +25,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.KeyStoreException;
@@ -43,15 +42,7 @@ import javax.crypto.spec.IvParameterSpec;
 class AesCipherProvider extends CipherProvider {
 	private static final int AES_KEY_SIZE = 256;
 
-	static Cipher forEncyption(@NonNull Context context, @Nullable String keyName) throws IOException, GeneralSecurityException {
-		return new AesCipherProvider(context, keyName).getCipherForEncryption();
-	}
-
-	static Cipher forDecryption(@NonNull Context context, @Nullable String keyName, byte[] iv) throws CertificateException, NoSuchPaddingException, UnrecoverableKeyException, NoSuchAlgorithmException, IOException, KeyStoreException, InvalidAlgorithmParameterException, InvalidKeyException {
-		return new AesCipherProvider(context, keyName).getCipherForDecryption(iv);
-	}
-
-	private AesCipherProvider(@NonNull Context context, @Nullable String keyName) throws CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException {
+	AesCipherProvider(@NonNull Context context, @Nullable String keyName) throws CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException {
 		super(context, keyName);
 	}
 

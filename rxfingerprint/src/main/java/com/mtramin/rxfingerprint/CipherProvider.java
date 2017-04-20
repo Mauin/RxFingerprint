@@ -53,6 +53,9 @@ abstract class CipherProvider {
 		keyStore.load(null);
 	}
 
+	/**
+	 * call {@link #getCipherForEncryption()} instead
+	 */
 	abstract Cipher cipherForEncryption() throws GeneralSecurityException, IOException;
 
 	@TargetApi(Build.VERSION_CODES.M)

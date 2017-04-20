@@ -41,7 +41,7 @@ import io.reactivex.ObservableEmitter;
 @SuppressLint("NewApi") // SDK check happens in {@link FingerprintObservable#subscribe}
 class AesDecryptionObservable extends FingerprintObservable<FingerprintDecryptionResult> {
 
-	private final String keyName;
+	private final AesCipherProvider cipherProvider;
 	private final String encryptedString;
 	private final EncodingProvider encodingProvider;
 
@@ -55,12 +55,22 @@ class AesDecryptionObservable extends FingerprintObservable<FingerprintDecryptio
 	 * @return Observable result of the decryption
 	 */
 	static Observable<FingerprintDecryptionResult> create(Context context, String keyName, String encrypted) {
-		return Observable.create(new AesDecryptionObservable(context, keyName, encrypted, new Base64Provider()));
+		try {
+			return Observable.create(new AesDecryptionObservable(new FingerprintApiWrapper(context),
+					new AesCipherProvider(context, keyName),
+					encrypted,
+					new Base64Provider()));
+		} catch (Exception e) {
+			return Observable.error(e);
+		}
 	}
 
-	private AesDecryptionObservable(Context context, String keyName, String encrypted, EncodingProvider encodingProvider) {
-		super(context);
-		this.keyName = keyName;
+	private AesDecryptionObservable(FingerprintApiWrapper fingerprintApiWrapper,
+									AesCipherProvider cipherProvider,
+									String encrypted,
+									EncodingProvider encodingProvider) {
+		super(fingerprintApiWrapper);
+		this.cipherProvider = cipherProvider;
 		encryptedString = encrypted;
 		this.encodingProvider = encodingProvider;
 	}
@@ -70,7 +80,7 @@ class AesDecryptionObservable extends FingerprintObservable<FingerprintDecryptio
 	protected CryptoObject initCryptoObject(ObservableEmitter<FingerprintDecryptionResult> subscriber) {
 		try {
 			CryptoData cryptoData = CryptoData.fromString(encodingProvider, encryptedString);
-			Cipher cipher = AesCipherProvider.forDecryption(context, keyName, cryptoData.getIv());
+			Cipher cipher = cipherProvider.getCipherForDecryption(cryptoData.getIv());
 			return new CryptoObject(cipher);
 		} catch (Exception e) {
 			subscriber.onError(e);

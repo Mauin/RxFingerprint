@@ -41,16 +41,7 @@ import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
 
 class RsaCipherProvider extends CipherProvider {
-
-	static Cipher forEncryption(@NonNull Context context, @Nullable String keyName) throws IOException, GeneralSecurityException {
-		return new RsaCipherProvider(context, keyName).getCipherForEncryption();
-	}
-
-	static Cipher forDecryption(@NonNull Context context, @Nullable String keyName) throws GeneralSecurityException, IOException {
-		return new RsaCipherProvider(context, keyName).getCipherForDecryption();
-	}
-
-	private RsaCipherProvider(@NonNull Context context, @Nullable String keyName) throws CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException {
+	RsaCipherProvider(@NonNull Context context, @Nullable String keyName) throws CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException {
 		super(context, keyName);
 	}
 
@@ -75,7 +66,7 @@ class RsaCipherProvider extends CipherProvider {
 		return cipher;
 	}
 
-	private Cipher getCipherForDecryption() throws GeneralSecurityException {
+	Cipher getCipherForDecryption() throws GeneralSecurityException {
 		Cipher cipher = createCipher();
 		cipher.init(Cipher.DECRYPT_MODE, getPrivateKey(keyStore, keyName));
 		return cipher;

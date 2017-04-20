@@ -47,30 +47,23 @@ import static android.Manifest.permission.USE_FINGERPRINT;
 @SuppressLint("NewApi") // SDK check happens in {@link FingerprintObservable#subscribe}
 abstract class FingerprintObservable<T> implements ObservableOnSubscribe<T> {
 
-	protected final Context context;
-	private CancellationSignal cancellationSignal;
+	private final FingerprintApiWrapper fingerprintApiWrapper;
+	CancellationSignal cancellationSignal;
 
 	/**
 	 * Default constructor for fingerprint authentication
 	 *
 	 * @param context Context to be used for the fingerprint authentication
 	 */
-	FingerprintObservable(Context context) {
-		// If this is an Application Context, it causes issues when rotating the device while
-		// the sensor is active. The 2nd callback will receive the cancellation error of the first
-		// authentication action which will immediately onError and unsubscribe the 2nd
-		// authentication action.
-		if (context instanceof Application) {
-			Log.w("RxFingerprint", "Passing an Application Context to RxFingerprint might cause issues when the authentication is active and the application changes orientation. Consider passing an Activity Context.");
-		}
-		this.context = context;
+	FingerprintObservable(FingerprintApiWrapper fingerprintApiWrapper) {
+		this.fingerprintApiWrapper = fingerprintApiWrapper;
 	}
 
 	@Override
 	@RequiresPermission(USE_FINGERPRINT)
 	@RequiresApi(Build.VERSION_CODES.M)
 	public void subscribe(ObservableEmitter<T> emitter) throws Exception {
-		if (RxFingerprint.isUnavailable(context)) {
+		if (fingerprintApiWrapper.isUnavailable()) {
 			emitter.onError(new FingerprintUnavailableException("Fingerprint authentication is not available on this device! Ensure that the device has a Fingerprint sensor and enrolled Fingerprints by calling RxFingerprint#isAvailable(Context) first"));
 			return;
 		}
@@ -78,7 +71,7 @@ abstract class FingerprintObservable<T> implements ObservableOnSubscribe<T> {
 		AuthenticationCallback callback = createAuthenticationCallback(emitter);
 		cancellationSignal = new CancellationSignal();
 		CryptoObject cryptoObject = initCryptoObject(emitter);
-		RxFingerprint.getFingerprintManager(context).authenticate(cryptoObject, cancellationSignal, 0, callback, null);
+		fingerprintApiWrapper.getFingerprintManager().authenticate(cryptoObject, cancellationSignal, 0, callback, null);
 
 		emitter.setCancellable(new Cancellable() {
 			@Override

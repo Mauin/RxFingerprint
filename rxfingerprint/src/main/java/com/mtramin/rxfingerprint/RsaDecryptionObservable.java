@@ -35,7 +35,7 @@ import io.reactivex.ObservableEmitter;
 @SuppressLint("NewApi") // SDK check happens in {@link FingerprintObservable#subscribe}
 class RsaDecryptionObservable extends FingerprintObservable<FingerprintDecryptionResult> {
 
-	private final String keyName;
+	private final RsaCipherProvider cipherProvider;
 	private final String encryptedString;
 	private final EncodingProvider encodingProvider;
 
@@ -49,12 +49,22 @@ class RsaDecryptionObservable extends FingerprintObservable<FingerprintDecryptio
 	 * @return Observable result of the decryption
 	 */
 	static Observable<FingerprintDecryptionResult> create(Context context, String keyName, String encrypted) {
-		return Observable.create(new RsaDecryptionObservable(context, keyName, encrypted, new Base64Provider()));
+		try {
+			return Observable.create(new RsaDecryptionObservable(new FingerprintApiWrapper(context),
+					new RsaCipherProvider(context, keyName),
+					encrypted,
+					new Base64Provider()));
+		} catch (Exception e) {
+			return Observable.error(e);
+		}
 	}
 
-	private RsaDecryptionObservable(Context context, String keyName, String encrypted, EncodingProvider encodingProvider) {
-		super(context);
-		this.keyName = keyName;
+	private RsaDecryptionObservable(FingerprintApiWrapper fingerprintApiWrapper,
+									RsaCipherProvider cipherProvider,
+									String encrypted,
+									EncodingProvider encodingProvider) {
+		super(fingerprintApiWrapper);
+		this.cipherProvider = cipherProvider;
 		encryptedString = encrypted;
 		this.encodingProvider = encodingProvider;
 	}
@@ -63,7 +73,7 @@ class RsaDecryptionObservable extends FingerprintObservable<FingerprintDecryptio
 	@Override
 	protected CryptoObject initCryptoObject(ObservableEmitter<FingerprintDecryptionResult> subscriber) {
 		try {
-			Cipher cipher = RsaCipherProvider.forDecryption(context, keyName);
+			Cipher cipher = cipherProvider.getCipherForDecryption();
 			return new CryptoObject(cipher);
 		} catch (Exception e) {
 			subscriber.onError(e);

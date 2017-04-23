@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        fingerprintDisposable = RxFingerprint.encrypt(EncryptionMethod.RSA,this, SAMPLE_KEY, toEncrypt)
+        fingerprintDisposable = RxFingerprint.encrypt(EncryptionMethod.RSA, this, SAMPLE_KEY, toEncrypt)
                 .subscribe(fingerprintEncryptionResult -> {
                     switch (fingerprintEncryptionResult.getResult()) {
                         case FAILED:
@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        fingerprintDisposable = RxFingerprint.decrypt(EncryptionMethod.RSA,this, SAMPLE_KEY, encrypted)
+        fingerprintDisposable = RxFingerprint.decrypt(EncryptionMethod.RSA, this, SAMPLE_KEY, encrypted)
                 .subscribe(fingerprintDecryptionResult -> {
                     switch (fingerprintDecryptionResult.getResult()) {
                         case FAILED:

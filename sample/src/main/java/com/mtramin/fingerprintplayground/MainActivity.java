@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
     private ViewGroup layout;
 
     private Disposable fingerprintDisposable = Disposables.empty();
-    private String encrypted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        fingerprintDisposable = RxFingerprint.decrypt(EncryptionMethod.RSA,this, SAMPLE_KEY, this.encrypted)
+        fingerprintDisposable = RxFingerprint.decrypt(EncryptionMethod.RSA,this, SAMPLE_KEY, encrypted)
                 .subscribe(fingerprintDecryptionResult -> {
                     switch (fingerprintDecryptionResult.getResult()) {
                         case FAILED:
@@ -179,7 +178,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createDecryptionButton(final String encrypted) {
-        this.encrypted = encrypted;
         Button button = new Button(this);
         button.setText(String.format("decrypt %s...", encrypted.substring(0, 6)));
         button.setOnClickListener(v -> decrypt(encrypted));

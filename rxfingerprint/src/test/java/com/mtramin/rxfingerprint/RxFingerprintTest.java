@@ -14,7 +14,6 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -123,7 +122,6 @@ public class RxFingerprintTest {
     public void apisUnavailable() throws Exception {
         when(mockContext.getSystemService(Context.FINGERPRINT_SERVICE)).thenThrow(new NoClassDefFoundError());
 
-        assertNull("FingerprintManager should be null", RxFingerprint.getFingerprintManager(mockContext));
         assertFalse("RxFingerprint should be unavailable", RxFingerprint.isAvailable(mockContext));
     }
 

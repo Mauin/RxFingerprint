@@ -17,6 +17,7 @@
 package com.mtramin.rxfingerprint;
 
 import android.content.Context;
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import com.mtramin.rxfingerprint.data.FingerprintEncryptionResult;
@@ -51,19 +52,22 @@ class RsaEncryptionObservable implements ObservableOnSubscribe<FingerprintEncryp
 		try {
 			return Observable.create(new RsaEncryptionObservable(new FingerprintApiWrapper(context),
 					new RsaCipherProvider(context, keyName),
-					toEncrypt));
+					toEncrypt,
+					new Base64Provider()));
 		} catch (Exception e) {
 			return Observable.error(e);
 		}
 	}
 
-	private RsaEncryptionObservable(FingerprintApiWrapper fingerprintApiWrapper,
-									RsaCipherProvider cipherProvider,
-									String toEncrypt) {
+	@VisibleForTesting
+	RsaEncryptionObservable(FingerprintApiWrapper fingerprintApiWrapper,
+							RsaCipherProvider cipherProvider,
+							String toEncrypt,
+							EncodingProvider encodingProvider) {
 		this.fingerprintApiWrapper = fingerprintApiWrapper;
 		this.cipherProvider = cipherProvider;
 		this.toEncrypt = toEncrypt;
-		this.encodingProvider = new Base64Provider();
+		this.encodingProvider = encodingProvider;
 	}
 
 	@Override

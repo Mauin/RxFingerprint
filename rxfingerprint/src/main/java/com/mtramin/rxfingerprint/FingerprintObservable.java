@@ -69,7 +69,7 @@ abstract class FingerprintObservable<T> implements ObservableOnSubscribe<T> {
 		}
 
 		AuthenticationCallback callback = createAuthenticationCallback(emitter);
-		cancellationSignal = new CancellationSignal();
+		cancellationSignal = fingerprintApiWrapper.createCancellationSignal();
 		CryptoObject cryptoObject = initCryptoObject(emitter);
 		fingerprintApiWrapper.getFingerprintManager().authenticate(cryptoObject, cancellationSignal, 0, callback, null);
 

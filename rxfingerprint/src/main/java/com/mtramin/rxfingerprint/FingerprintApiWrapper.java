@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.fingerprint.FingerprintManager;
 import android.os.Build;
+import android.os.CancellationSignal;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -50,7 +51,7 @@ class FingerprintApiWrapper {
 
 		hasApis = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
 		if (hasApis) {
-			this.fingerprintManager = getFingerprintManager();
+			this.fingerprintManager = getSystemFingerprintManager();
 		} else {
 			this.fingerprintManager = null;
 		}
@@ -77,7 +78,7 @@ class FingerprintApiWrapper {
 	@SuppressLint("NewApi")
 	@SuppressWarnings("MissingPermission")
 	boolean hasEnrolledFingerprints() {
-		if (!hasApis || fingerprintPermissionGranted()) {
+		if (!hasApis || !fingerprintPermissionGranted()) {
 			return false;
 		}
 
@@ -89,6 +90,11 @@ class FingerprintApiWrapper {
 			throw new IllegalStateException("Device does not support or use Fingerprint APIs. Call isAvailable() before getting FingerprintManager.");
 		}
 		return fingerprintManager;
+	}
+
+	@SuppressLint("NewApi")
+	CancellationSignal createCancellationSignal() {
+		return new CancellationSignal();
 	}
 
 	@RequiresApi(Build.VERSION_CODES.M)

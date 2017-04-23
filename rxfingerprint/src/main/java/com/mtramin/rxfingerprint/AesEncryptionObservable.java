@@ -21,7 +21,6 @@ import android.content.Context;
 import android.hardware.fingerprint.FingerprintManager.AuthenticationResult;
 import android.hardware.fingerprint.FingerprintManager.CryptoObject;
 import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
 
 import com.mtramin.rxfingerprint.data.FingerprintEncryptionResult;
 import com.mtramin.rxfingerprint.data.FingerprintResult;
@@ -63,8 +62,7 @@ class AesEncryptionObservable extends FingerprintObservable<FingerprintEncryptio
 		}
 	}
 
-	@VisibleForTesting
-	AesEncryptionObservable(FingerprintApiWrapper fingerprintApiWrapper,
+	private AesEncryptionObservable(FingerprintApiWrapper fingerprintApiWrapper,
 							AesCipherProvider cipherProvider,
 							String toEncrypt,
 							EncodingProvider encodingProvider) {

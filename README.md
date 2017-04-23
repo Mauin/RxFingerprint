@@ -2,7 +2,7 @@
 
 RxFingerprint wraps the Android Fingerprint APIs (introduced in Android Marshmallow) and makes it easy to:
 - Authenticate your users with their fingerprint
-- Encrypt and decrypt their data with fingerprint
+- Encrypt and decrypt their data with fingerprint authentication
 
 Learn more about the Android Fingerprint APIs at <a href="https://developer.android.com/about/versions/marshmallow/android-6.0.html#fingerprint-authentication">developer.android.com</a>.
 

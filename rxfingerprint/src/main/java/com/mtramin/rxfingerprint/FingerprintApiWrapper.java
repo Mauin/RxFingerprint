@@ -25,11 +25,12 @@ import android.os.Build;
 import android.os.CancellationSignal;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.util.Log;
 
 import static android.Manifest.permission.USE_FINGERPRINT;
 
+@SuppressLint("NewApi")
+@SuppressWarnings("MissingPermission")
 class FingerprintApiWrapper {
 
 	@NonNull
@@ -37,7 +38,6 @@ class FingerprintApiWrapper {
 	private final boolean hasApis;
 	@Nullable private final FingerprintManager fingerprintManager;
 
-	@SuppressLint("NewApi")
 	FingerprintApiWrapper(@NonNull Context context) {
 		// If this is an Application Context, it causes issues when rotating the device while
 		// the sensor is active. The 2nd callback will receive the cancellation error of the first
@@ -65,8 +65,6 @@ class FingerprintApiWrapper {
 		return !isAvailable();
 	}
 
-	@SuppressLint("NewApi")
-	@SuppressWarnings("MissingPermission")
 	boolean isHardwareDetected() {
 		if (!hasApis || !fingerprintPermissionGranted()) {
 			return false;
@@ -75,8 +73,6 @@ class FingerprintApiWrapper {
 		return fingerprintManager != null && fingerprintManager.isHardwareDetected();
 	}
 
-	@SuppressLint("NewApi")
-	@SuppressWarnings("MissingPermission")
 	boolean hasEnrolledFingerprints() {
 		if (!hasApis || !fingerprintPermissionGranted()) {
 			return false;
@@ -92,17 +88,14 @@ class FingerprintApiWrapper {
 		return fingerprintManager;
 	}
 
-	@SuppressLint("NewApi")
 	CancellationSignal createCancellationSignal() {
 		return new CancellationSignal();
 	}
 
-	@RequiresApi(Build.VERSION_CODES.M)
 	private boolean fingerprintPermissionGranted() {
 		return context.checkSelfPermission(USE_FINGERPRINT) == PackageManager.PERMISSION_GRANTED;
 	}
 
-	@RequiresApi(api = Build.VERSION_CODES.M)
 	@Nullable
 	private FingerprintManager getSystemFingerprintManager() {
 		try {

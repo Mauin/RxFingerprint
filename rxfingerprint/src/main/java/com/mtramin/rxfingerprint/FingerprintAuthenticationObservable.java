@@ -20,6 +20,7 @@ import android.content.Context;
 import android.hardware.fingerprint.FingerprintManager.AuthenticationResult;
 import android.hardware.fingerprint.FingerprintManager.CryptoObject;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 
 import com.mtramin.rxfingerprint.data.FingerprintAuthenticationResult;
 import com.mtramin.rxfingerprint.data.FingerprintResult;
@@ -40,11 +41,12 @@ class FingerprintAuthenticationObservable extends FingerprintObservable<Fingerpr
      * @return Observable {@link FingerprintAuthenticationResult}
      */
     static Observable<FingerprintAuthenticationResult> create(Context context) {
-        return Observable.create(new FingerprintAuthenticationObservable(context));
+        return Observable.create(new FingerprintAuthenticationObservable(new FingerprintApiWrapper(context)));
     }
 
-	private FingerprintAuthenticationObservable(Context context) {
-		super(context);
+    @VisibleForTesting
+	FingerprintAuthenticationObservable(FingerprintApiWrapper fingerprintApiWrapper) {
+		super(fingerprintApiWrapper);
 	}
 
     @Nullable

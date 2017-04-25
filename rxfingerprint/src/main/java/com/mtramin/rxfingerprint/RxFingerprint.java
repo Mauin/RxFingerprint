@@ -17,22 +17,15 @@
 package com.mtramin.rxfingerprint;
 
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.hardware.fingerprint.FingerprintManager;
-import android.os.Build;
 import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.util.Log;
 
 import com.mtramin.rxfingerprint.data.FingerprintAuthenticationResult;
 import com.mtramin.rxfingerprint.data.FingerprintDecryptionResult;
 import com.mtramin.rxfingerprint.data.FingerprintEncryptionResult;
 
 import io.reactivex.Observable;
-
-import static android.Manifest.permission.USE_FINGERPRINT;
 
 /**
  * Entry point for RxFingerprint. Contains all the base methods you need to interact with the
@@ -42,16 +35,10 @@ import static android.Manifest.permission.USE_FINGERPRINT;
  * To just authenticate the user with his fingerprint, use {@link #authenticate(Context)}.
  * <p/>
  * To encrypt given data and authenticate the user with his fingerprint,
- * call {@link #encrypt(Context, String)}
+ * call {@link #encrypt(EncryptionMethod, Context, String, String)}
  * <p/>
- * To decrypt previously encrypted data via the {@link #encrypt(Context, String)} method,
- * call {@link #decrypt(Context, String)}
- * <p/>
- * The {@link #encrypt(Context, String, String)} and {@link #decrypt(Context, String, String)}
- * methods use the custom keyName provided as an argument to store the encryption keys in the
- * Android {@link java.security.KeyStore}. {@link #encrypt(Context, String)} and
- * {@link #decrypt(Context, String)} will generate a default key name which contains the
- * applications package name.
+ * To decrypt previously encrypted data via the {@link #encrypt(EncryptionMethod, Context, String, String)}
+ * method, call {@link #decrypt(EncryptionMethod, Context, String, String)}
  * <p/>
  * Helper methods provide information about the devices capability to handle fingerprint
  * authentication. For fingerprint authentication to be isAvailable, the device needs to contain the
@@ -98,7 +85,7 @@ public class RxFingerprint {
      * Will complete once the authentication and encryption were successful or have failed entirely.
      */
     public static Observable<FingerprintEncryptionResult> encrypt(Context context, String toEncrypt) {
-        return FingerprintEncryptionObservable.create(context, toEncrypt);
+        return encrypt(EncryptionMethod.AES, context, null, toEncrypt);
     }
 
     /**
@@ -121,7 +108,7 @@ public class RxFingerprint {
      * decrypted string if decryption was successful.
      */
     public static Observable<FingerprintDecryptionResult> decrypt(Context context, String encrypted) {
-        return FingerprintDecryptionObservable.create(context, encrypted);
+        return decrypt(EncryptionMethod.AES, context, null, encrypted);
     }
 
     /**
@@ -145,7 +132,7 @@ public class RxFingerprint {
      * Will complete once the authentication and encryption were successful or have failed entirely.
      */
     public static Observable<FingerprintEncryptionResult> encrypt(Context context, @NonNull String keyName, @NonNull String toEncrypt) {
-        return FingerprintEncryptionObservable.create(context, keyName, toEncrypt);
+        return encrypt(EncryptionMethod.AES, context, keyName, toEncrypt);
     }
 
     /**
@@ -158,7 +145,7 @@ public class RxFingerprint {
      * The resulting {@link FingerprintDecryptionResult} will contain the decrypted string as a
      * String and is accessible via {@link FingerprintDecryptionResult#getDecrypted()} if the
      * authentication and decryption was successful.
-     *
+	 *
      * @param context   context to use.
      * @param keyName   name of the key in the keystore to use
      * @param encrypted String of encrypted data previously encrypted with
@@ -169,8 +156,81 @@ public class RxFingerprint {
      * @return Observable result of the decryption
      */
     public static Observable<FingerprintDecryptionResult> decrypt(Context context, @NonNull String keyName, @NonNull String encrypted) {
-        return FingerprintDecryptionObservable.create(context, keyName, encrypted);
+        return decrypt(EncryptionMethod.AES, context, keyName, encrypted);
     }
+
+	/**
+	 * Encrypt data with the given {@link EncryptionMethod}. Depending on the given method, the
+	 * fingerprint sensor might be enabled and waiting for the user to authenticate before the
+	 * encryption step. All encrypted data can only be accessed again by calling
+	 * {@link #decrypt(EncryptionMethod, Context, String, String)} with the same
+	 * {@link EncryptionMethod} that was used for encryption of the given value.
+	 * <p>
+	 * Take more details about the encryption method and how they behave from {@link EncryptionMethod}
+	 * <p>
+	 * The resulting {@link FingerprintEncryptionResult} will contain the encrypted data as a String
+	 * and is accessible via {@link FingerprintEncryptionResult#getEncrypted()} if the
+	 * operation was successful. Save this data where you please, but don't change it if you
+	 * want to decrypt it again!
+	 *
+	 * @param method    the encryption method to use
+	 * @param context   context to use
+	 * @param keyName   name of the key to store in the Android {@link java.security.KeyStore}
+	 * @param toEncrypt data to encrypt
+	 * @return Observable {@link FingerprintEncryptionResult} that will contain the encrypted data.
+	 * Will complete once the operation was successful or failed entirely.
+	 */
+	public static Observable<FingerprintEncryptionResult> encrypt(EncryptionMethod method,
+																  Context context,
+																  @Nullable String keyName,
+																  @NonNull String toEncrypt) {
+		switch (method) {
+			case AES:
+				return AesEncryptionObservable.create(context, keyName, toEncrypt);
+			case RSA:
+				return RsaEncryptionObservable.create(context, keyName, toEncrypt);
+			default:
+				return Observable.error(new IllegalArgumentException("Unknown encryption method: " + method));
+		}
+	}
+
+	/**
+	 * Decrypt data previously encrypted with {@link #encrypt(EncryptionMethod, Context, String, String)}.
+	 * Make sure the {@link EncryptionMethod} matches to one that was used for encryption of this value.
+	 * To decrypt, you have to provide the same keyName that you used for encryption.
+	 * <p/>
+	 * The encrypted string should be exactly the one you previously received as a result of the
+	 * {@link #encrypt(EncryptionMethod, Context, String, String)} method.
+	 * <p/>
+	 * The resulting {@link FingerprintDecryptionResult} will contain the decrypted string as a
+	 * String and is accessible via {@link FingerprintDecryptionResult#getDecrypted()} if the
+	 * authentication and decryption was successful.
+	 * <p>
+	 * This operation will require the user to authenticate with their fingerprint.
+	 *
+	 * @param method    the encryption method to use
+	 * @param context   context to use.
+	 * @param keyName   name of the key in the keystore to use
+	 * @param toDecrypt String of encrypted data previously encrypted with
+	 *                  {@link #encrypt(EncryptionMethod, Context, String, String)}.
+	 * @return Observable  {@link FingerprintDecryptionResult} that will contain the decrypted data.
+	 *                  Will complete once the authentication and decryption were successful or
+	 *                  have failed entirely.
+	 * @return Observable result of the decryption
+	 */
+	public static Observable<FingerprintDecryptionResult> decrypt(EncryptionMethod method,
+																  Context context,
+																  @Nullable String keyName,
+																  @NonNull String toDecrypt) {
+		switch (method) {
+			case AES:
+				return AesDecryptionObservable.create(context, keyName, toDecrypt);
+			case RSA:
+				return RsaDecryptionObservable.create(context, keyName, toDecrypt);
+			default:
+				return Observable.error(new IllegalArgumentException("Unknown decryption method: " + method));
+		}
+	}
 
     /**
      * Provides information if fingerprint authentication is currently available.
@@ -182,7 +242,7 @@ public class RxFingerprint {
      * @return {@code true} if fingerprint authentication is isAvailable
      */
     public static boolean isAvailable(@NonNull Context context) {
-        return isHardwareDetected(context) && hasEnrolledFingerprints(context);
+        return new FingerprintApiWrapper(context).isAvailable();
     }
 
     /**
@@ -209,16 +269,7 @@ public class RxFingerprint {
      */
     @SuppressWarnings("MissingPermission")
     public static boolean isHardwareDetected(@NonNull Context context) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            return false;
-        }
-
-        FingerprintManager fingerprintManager = getFingerprintManager(context);
-        if (fingerprintManager == null) {
-            return false;
-        }
-
-        return fingerprintPermissionGranted(context) && fingerprintManager.isHardwareDetected();
+        return new FingerprintApiWrapper(context).isHardwareDetected();
     }
 
     /**
@@ -232,31 +283,7 @@ public class RxFingerprint {
      */
     @SuppressWarnings("MissingPermission")
     public static boolean hasEnrolledFingerprints(@NonNull Context context) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            return false;
-        }
-
-        FingerprintManager fingerprintManager = getFingerprintManager(context);
-        if (fingerprintManager == null) {
-            return false;
-        }
-        return fingerprintPermissionGranted(context) && fingerprintManager.hasEnrolledFingerprints();
-    }
-
-    @RequiresApi(Build.VERSION_CODES.M)
-    private static boolean fingerprintPermissionGranted(Context context) {
-        return context.checkSelfPermission(USE_FINGERPRINT) == PackageManager.PERMISSION_GRANTED;
-    }
-
-    @Nullable
-    @RequiresApi(Build.VERSION_CODES.M)
-    static FingerprintManager getFingerprintManager(Context context) {
-        try {
-            return (FingerprintManager) context.getSystemService(Context.FINGERPRINT_SERVICE);
-        } catch (Exception | NoClassDefFoundError e) {
-            Log.e("RxFingerprint", "Device with SDK >=23 doesn't provide Fingerprint APIs", e);
-        }
-        return null;
+        return new FingerprintApiWrapper(context).hasEnrolledFingerprints();
     }
 
     /**

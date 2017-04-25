@@ -33,10 +33,9 @@ import static android.Manifest.permission.USE_FINGERPRINT;
 @SuppressWarnings("MissingPermission")
 class FingerprintApiWrapper {
 
-	@NonNull
-	private final Context context;
-	private final boolean hasApis;
+	@NonNull private final Context context;
 	@Nullable private final FingerprintManager fingerprintManager;
+	private final boolean hasApis;
 
 	FingerprintApiWrapper(@NonNull Context context) {
 		// If this is an Application Context, it causes issues when rotating the device while

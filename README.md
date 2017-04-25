@@ -36,7 +36,7 @@ if (RxFingerprint.isAvailable(this)) {
 
 Reasons for `RxFingerprint` to report that it is not available include:
 - The current device doesn't have a fingerprint sensor
-- The user doesn't use their fingerprint sensor
+- The user is not using the fingerprint sensor of the device
 - The device is running an Android version that doesn't support the Android Fingerprint APIs
 
 ### Authenticating a user with their fingerprint
@@ -97,7 +97,7 @@ The usage flow for AES is as follows:
 
 #### RSA
 
-[RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) encryption allows you to encrypt a value without any user action. The data to encrypt can be encrypted and a user won't need to authenticate oneself by touching the fingerprint.
+[RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) encryption allows you to encrypt a value without any user action. The data to encrypt can be encrypted and a user won't need to authenticate oneself by touching the fingerprint sensor.
 The encrypted data can only be decrypted again when the user authenticates by using the fingerprint sensor on their device.
 
 
@@ -188,7 +188,7 @@ For bugs, questions and discussions please use the [Github Issues](https://githu
  
 ## LICENSE
 
-Copyright 2017 Marvin Ramin.
+Copyright 2015-2017 Marvin Ramin.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

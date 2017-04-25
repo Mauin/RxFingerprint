@@ -36,11 +36,10 @@ import io.reactivex.disposables.Disposables;
  */
 public class MainActivity extends AppCompatActivity {
 
-    public static final String SAMPLE_KEY = "RxFingerprint_Key";
-
     private TextView statusText;
     private EditText input;
     private ViewGroup layout;
+    private int key;
 
     private Disposable fingerprintDisposable = Disposables.empty();
 
@@ -52,8 +51,8 @@ public class MainActivity extends AppCompatActivity {
         this.statusText = (TextView) findViewById(R.id.status);
 
         findViewById(R.id.authenticate).setOnClickListener(v -> authenticate());
-
         findViewById(R.id.encrypt).setOnClickListener(v -> encrypt());
+
         input = (EditText) findViewById(R.id.input);
         layout = (ViewGroup) findViewById(R.id.layout);
     }
@@ -118,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        fingerprintDisposable = RxFingerprint.encrypt(EncryptionMethod.RSA, this, SAMPLE_KEY, toEncrypt)
+        fingerprintDisposable = RxFingerprint.encrypt(EncryptionMethod.AES, this, String.valueOf(key), toEncrypt)
                 .subscribe(fingerprintEncryptionResult -> {
                     switch (fingerprintEncryptionResult.getResult()) {
                         case FAILED:
@@ -131,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
                             String encrypted = fingerprintEncryptionResult.getEncrypted();
                             setStatusText("encryption successful");
                             createDecryptionButton(encrypted);
+                            key++;
                             break;
                     }
                 }, throwable -> {
@@ -145,14 +145,14 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    private void decrypt(String encrypted) {
+    private void decrypt(String key, String encrypted) {
         setStatusText();
 
         if (!RxFingerprint.isAvailable(this)) {
             return;
         }
 
-        fingerprintDisposable = RxFingerprint.decrypt(EncryptionMethod.RSA, this, SAMPLE_KEY, encrypted)
+        fingerprintDisposable = RxFingerprint.decrypt(EncryptionMethod.AES, this, key, encrypted)
                 .subscribe(fingerprintDecryptionResult -> {
                     switch (fingerprintDecryptionResult.getResult()) {
                         case FAILED:
@@ -179,9 +179,23 @@ public class MainActivity extends AppCompatActivity {
 
     private void createDecryptionButton(final String encrypted) {
         Button button = new Button(this);
-        button.setText(String.format("decrypt %s...", encrypted.substring(0, 6)));
-        button.setOnClickListener(v -> decrypt(encrypted));
+        button.setText(String.format("decrypt %d", key));
+        button.setTag(new EncryptedData(key, encrypted));
+        button.setOnClickListener(v -> {
+            EncryptedData encryptedData = (EncryptedData) v.getTag();
+            decrypt(encryptedData.key, encryptedData.encrypted);
+        });
         layout.addView(button);
+    }
+
+    private static class EncryptedData {
+        final String key;
+        final String encrypted;
+
+        EncryptedData(int key, String encrypted) {
+            this.key = String.valueOf(key);
+            this.encrypted = encrypted;
+        }
     }
 
 }

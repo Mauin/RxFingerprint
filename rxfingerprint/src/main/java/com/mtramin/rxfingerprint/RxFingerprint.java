@@ -290,7 +290,7 @@ public class RxFingerprint {
      * Set a custom logger for RxFingerprint.
      * @param logger Logger implementation to use for custom logging.
      */
-    public void setLogger(RxFingerprintLogger logger) {
+    public static void setLogger(RxFingerprintLogger logger) {
         Logger.setLogger(logger);
     }
 
@@ -298,7 +298,7 @@ public class RxFingerprint {
      * Disables all logging in RxFingerprint. This also affects any custom logger set by
      * {@link #setLogger(RxFingerprintLogger)}.
      */
-    public void disableLogging() {
+    public static void disableLogging() {
         Logger.disableLogging();
     }
     

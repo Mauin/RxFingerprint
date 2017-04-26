@@ -17,8 +17,6 @@
 package com.mtramin.rxfingerprint;
 
 import android.annotation.SuppressLint;
-import android.app.Application;
-import android.content.Context;
 import android.hardware.fingerprint.FingerprintManager;
 import android.hardware.fingerprint.FingerprintManager.AuthenticationCallback;
 import android.hardware.fingerprint.FingerprintManager.AuthenticationResult;
@@ -28,7 +26,6 @@ import android.os.CancellationSignal;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.annotation.RequiresPermission;
-import android.util.Log;
 
 import com.mtramin.rxfingerprint.data.FingerprintAuthenticationException;
 import com.mtramin.rxfingerprint.data.FingerprintUnavailableException;

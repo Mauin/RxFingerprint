@@ -18,7 +18,6 @@ package com.mtramin.rxfingerprint;
 
 import android.content.Context;
 import android.support.annotation.VisibleForTesting;
-import android.util.Log;
 
 import com.mtramin.rxfingerprint.data.FingerprintEncryptionResult;
 import com.mtramin.rxfingerprint.data.FingerprintResult;
@@ -85,7 +84,7 @@ class RsaEncryptionObservable implements ObservableOnSubscribe<FingerprintEncryp
 			emitter.onNext(new FingerprintEncryptionResult(FingerprintResult.AUTHENTICATED, null, encryptedString));
 			emitter.onComplete();
 		} catch (Exception e) {
-			Log.w("RxFingerprint", String.format("Error writing value for key: %s", cipherProvider.keyName), e);
+			Logger.error(String.format("Error writing value for key: %s", cipherProvider.keyName), e);
 			emitter.onError(e);
 		}
 	}

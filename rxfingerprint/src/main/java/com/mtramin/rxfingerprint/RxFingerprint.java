@@ -287,6 +287,22 @@ public class RxFingerprint {
     }
 
     /**
+     * Set a custom logger for RxFingerprint.
+     * @param logger Logger implementation to use for custom logging.
+     */
+    public static void setLogger(RxFingerprintLogger logger) {
+        Logger.setLogger(logger);
+    }
+
+    /**
+     * Disables all logging in RxFingerprint. This also affects any custom logger set by
+     * {@link #setLogger(RxFingerprintLogger)}.
+     */
+    public static void disableLogging() {
+        Logger.disableLogging();
+    }
+    
+    /**
      * Checks if the provided {@link Throwable} is of type {@link KeyPermanentlyInvalidatedException}
      * <p/>
      * This would mean that the user has disabled the lock screen on his device or changed the

@@ -16,8 +16,6 @@
 
 package com.mtramin.rxfingerprint;
 
-import android.util.Log;
-
 import com.mtramin.rxfingerprint.data.FingerprintEncryptionResult;
 import com.mtramin.rxfingerprint.data.FingerprintUnavailableException;
 
@@ -38,24 +36,22 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({Log.class, Cipher.class})
+@PrepareForTest(Cipher.class)
 public class RsaEncryptionObservableTest {
 
 	private static final String INPUT = "TEST";
 
-	@Mock
-	FingerprintApiWrapper fingerprintApiWrapper;
-	@Mock
-	RsaCipherProvider cipherProvider;
+	@Mock FingerprintApiWrapper fingerprintApiWrapper;
+	@Mock RsaCipherProvider cipherProvider;
 	Cipher cipher;
 
 	private Observable<FingerprintEncryptionResult> observable;
 
 	@Before
 	public void setUp() throws Exception {
-		mockStatic(Log.class);
 		mockStatic(Cipher.class);
 		cipher = mock(Cipher.class);
+		RxFingerprint.disableLogging();
 
 		observable = Observable.create(new RsaEncryptionObservable(fingerprintApiWrapper, cipherProvider, INPUT, new TestEncodingProvider()));
 	}

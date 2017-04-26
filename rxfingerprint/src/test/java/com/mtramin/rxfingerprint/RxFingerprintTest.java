@@ -23,17 +23,15 @@ import static org.mockito.MockitoAnnotations.initMocks;
  */
 @SuppressWarnings({"NewApi", "MissingPermission"})
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({FingerprintManager.class, Log.class})
+@PrepareForTest(FingerprintManager.class)
 public class RxFingerprintTest {
 
-    @Mock
-    Context mockContext;
-
-    @Mock
-    FingerprintManager mockFingerprintManager;
+    @Mock Context mockContext;
+    @Mock FingerprintManager mockFingerprintManager;
 
     @Before
     public void setUp() throws Exception {
+        RxFingerprint.disableLogging();
         initMocks(this);
         TestHelper.setSdkLevel(23);
         PowerMockito.mockStatic(FingerprintManager.class);

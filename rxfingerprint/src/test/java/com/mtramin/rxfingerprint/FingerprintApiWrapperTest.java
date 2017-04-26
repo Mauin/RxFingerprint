@@ -20,38 +20,29 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.fingerprint.FingerprintManager;
-import android.util.Log;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import static android.Manifest.permission.USE_FINGERPRINT;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @SuppressLint("MissingPermission")
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(Log.class)
+@RunWith(MockitoJUnitRunner.class)
 public class FingerprintApiWrapperTest {
 
-	@Mock
-	Context context;
-
-	@Mock
-	FingerprintManager fingerprintManager;
+	@Mock Context context;
+	@Mock FingerprintManager fingerprintManager;
 
 	@Before
 	public void setUp() throws Exception {
-		initMocks(this);
-		mockStatic(Log.class);
+		RxFingerprint.disableLogging();
 	}
 
 	@Test

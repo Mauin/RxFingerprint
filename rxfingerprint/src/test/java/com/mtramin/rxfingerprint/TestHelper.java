@@ -5,7 +5,7 @@ import android.os.Build;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
-public class TestHelper {
+class TestHelper {
 	static void setSdkLevel(int level) throws Exception {
 		Field field = Build.VERSION.class.getField("SDK_INT");
 

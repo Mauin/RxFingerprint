@@ -20,28 +20,28 @@ group 'com.mtramin'
 version versions.name
 
 android {
-    compileSdkVersion versions.compileSdk
-    buildToolsVersion versions.buildTools
+	compileSdkVersion versions.compileSdk
+	buildToolsVersion versions.buildTools
 
-    defaultConfig {
-        minSdkVersion versions.minSdk
-        targetSdkVersion versions.targetSdk
-        versionCode versions.code
-        versionName versions.name
-    }
+	defaultConfig {
+		minSdkVersion versions.minSdk
+		targetSdkVersion versions.targetSdk
+		versionCode versions.code
+		versionName versions.name
+	}
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
+	buildTypes {
+		release {
+			minifyEnabled false
+			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+		}
+	}
 
-    lintOptions {
-        textReport true
-    }
+	lintOptions {
+		textReport true
+	}
 
-    testOptions {
+	testOptions {
 		unitTests.all {
 			testLogging {
 				events 'passed', 'skipped', 'failed'
@@ -51,16 +51,14 @@ android {
 	}
 }
 
-
-
 dependencies {
-    compile "com.android.support:support-annotations:$versions.supportLibrary"
-    compile "io.reactivex.rxjava2:rxjava:$versions.rxJava"
+	compile libraries.supportAnnotations
+	compile libraries.rxJava
 
-    testCompile "junit:junit:$versions.jUnit"
-    testCompile "org.mockito:mockito-core:$versions.mockito"
-    testCompile "org.powermock:powermock-module-junit4:$versions.powermock"
-    testCompile "org.powermock:powermock-api-mockito:$versions.powermock"
+	testCompile libraries.jUnit
+	testCompile libraries.mockito
+	testCompile libraries.powermockJUnit
+	testCompile libraries.powermockMockito
 }
 
 //apply from: 'publish.gradle'

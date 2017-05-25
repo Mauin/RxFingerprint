@@ -16,6 +16,7 @@
 
 package com.mtramin.rxfingerprint.data;
 
+import android.support.annotation.Nullable;
 
 /**
  * Result of a fingerprint based authentication.
@@ -42,6 +43,7 @@ public class FingerprintAuthenticationResult {
      * Will only return a message if {@link FingerprintAuthenticationResult#result} is of type
      * {@link FingerprintResult#HELP}. <b>Returns {@code null} otherwise!</b>
      */
+    @Nullable
     public String getMessage() {
         return message;
     }

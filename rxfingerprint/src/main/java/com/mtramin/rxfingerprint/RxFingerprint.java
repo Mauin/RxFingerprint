@@ -57,7 +57,7 @@ public class RxFingerprint {
      * @return Observable {@link FingerprintAuthenticationResult}. Will complete once the
      * authentication was successful or has failed entirely.
      */
-    public static Observable<FingerprintAuthenticationResult> authenticate(Context context) {
+    public static Observable<FingerprintAuthenticationResult> authenticate(@NonNull Context context) {
         return FingerprintAuthenticationObservable.create(context);
     }
 
@@ -84,7 +84,7 @@ public class RxFingerprint {
      * @return Observable {@link FingerprintEncryptionResult} that will contain the encrypted data.
      * Will complete once the authentication and encryption were successful or have failed entirely.
      */
-    public static Observable<FingerprintEncryptionResult> encrypt(Context context, String toEncrypt) {
+    public static Observable<FingerprintEncryptionResult> encrypt(@NonNull Context context, @NonNull String toEncrypt) {
         return encrypt(EncryptionMethod.AES, context, null, toEncrypt);
     }
 
@@ -107,7 +107,7 @@ public class RxFingerprint {
      * @return Observable result of the decryption operation. Will contain the
      * decrypted string if decryption was successful.
      */
-    public static Observable<FingerprintDecryptionResult> decrypt(Context context, String encrypted) {
+    public static Observable<FingerprintDecryptionResult> decrypt(@NonNull Context context, @NonNull String encrypted) {
         return decrypt(EncryptionMethod.AES, context, null, encrypted);
     }
 
@@ -131,7 +131,7 @@ public class RxFingerprint {
      * @return Observable {@link FingerprintEncryptionResult} that will contain the encrypted data.
      * Will complete once the authentication and encryption were successful or have failed entirely.
      */
-    public static Observable<FingerprintEncryptionResult> encrypt(Context context, @NonNull String keyName, @NonNull String toEncrypt) {
+    public static Observable<FingerprintEncryptionResult> encrypt(@NonNull Context context, @Nullable String keyName, @NonNull String toEncrypt) {
         return encrypt(EncryptionMethod.AES, context, keyName, toEncrypt);
     }
 
@@ -155,7 +155,7 @@ public class RxFingerprint {
      *                  successful or have failed entirely.
      * @return Observable result of the decryption
      */
-    public static Observable<FingerprintDecryptionResult> decrypt(Context context, @NonNull String keyName, @NonNull String encrypted) {
+    public static Observable<FingerprintDecryptionResult> decrypt(@NonNull Context context, @Nullable String keyName, @NonNull String encrypted) {
         return decrypt(EncryptionMethod.AES, context, keyName, encrypted);
     }
 
@@ -180,8 +180,8 @@ public class RxFingerprint {
 	 * @return Observable {@link FingerprintEncryptionResult} that will contain the encrypted data.
 	 * Will complete once the operation was successful or failed entirely.
 	 */
-	public static Observable<FingerprintEncryptionResult> encrypt(EncryptionMethod method,
-																  Context context,
+	public static Observable<FingerprintEncryptionResult> encrypt(@NonNull EncryptionMethod method,
+																  @NonNull Context context,
 																  @Nullable String keyName,
 																  @NonNull String toEncrypt) {
 		switch (method) {
@@ -218,8 +218,8 @@ public class RxFingerprint {
 	 *                  have failed entirely.
 	 * @return Observable result of the decryption
 	 */
-	public static Observable<FingerprintDecryptionResult> decrypt(EncryptionMethod method,
-																  Context context,
+	public static Observable<FingerprintDecryptionResult> decrypt(@NonNull EncryptionMethod method,
+																  @NonNull Context context,
 																  @Nullable String keyName,
 																  @NonNull String toDecrypt) {
 		switch (method) {
@@ -290,7 +290,7 @@ public class RxFingerprint {
      * Set a custom logger for RxFingerprint.
      * @param logger Logger implementation to use for custom logging.
      */
-    public static void setLogger(RxFingerprintLogger logger) {
+    public static void setLogger(@NonNull RxFingerprintLogger logger) {
         Logger.setLogger(logger);
     }
 

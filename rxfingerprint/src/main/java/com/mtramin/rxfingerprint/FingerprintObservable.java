@@ -84,9 +84,9 @@ abstract class FingerprintObservable<T> implements ObservableOnSubscribe<T> {
 	private AuthenticationCallback createAuthenticationCallback(final ObservableEmitter<T> emitter) {
 		return new AuthenticationCallback() {
 			@Override
-			public void onAuthenticationError(int errMsgId, CharSequence errString) {
+			public void onAuthenticationError(int errorCode, CharSequence errString) {
 				if (!emitter.isDisposed()) {
-					emitter.onError(new FingerprintAuthenticationException(errString));
+					emitter.onError(new FingerprintAuthenticationException(errorCode, errString));
 				}
 			}
 
@@ -96,8 +96,8 @@ abstract class FingerprintObservable<T> implements ObservableOnSubscribe<T> {
 			}
 
 			@Override
-			public void onAuthenticationHelp(int helpMsgId, CharSequence helpString) {
-				FingerprintObservable.this.onAuthenticationHelp(emitter, helpMsgId, helpString.toString());
+			public void onAuthenticationHelp(int helpCode, CharSequence helpString) {
+				FingerprintObservable.this.onAuthenticationHelp(emitter, helpCode, helpString.toString());
 			}
 
 			@Override
@@ -136,10 +136,10 @@ abstract class FingerprintObservable<T> implements ObservableOnSubscribe<T> {
 	 * Should <b>not</b> {@link Emitter#onComplete()}.
 	 *
 	 * @param emitter       current subscriber
-	 * @param helpMessageId ID of the help message returned from the {@link FingerprintManager}
+	 * @param helpCode ID of the help message returned from the {@link FingerprintManager}
 	 * @param helpString    Help message string returned by the {@link FingerprintManager}
 	 */
-	protected abstract void onAuthenticationHelp(ObservableEmitter<T> emitter, int helpMessageId, String helpString);
+	protected abstract void onAuthenticationHelp(ObservableEmitter<T> emitter, int helpCode, String helpString);
 
 	/**
 	 * Action to execute when the fingerprint authentication failed.

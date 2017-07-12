@@ -16,6 +16,7 @@
 
 package com.mtramin.rxfingerprint.data;
 
+import android.support.annotation.Nullable;
 
 /**
  * Result of a fingerprint authenticated encryption operation
@@ -31,8 +32,8 @@ public class FingerprintEncryptionResult extends FingerprintAuthenticationResult
      * @param message   message to be displayed to the user
      * @param encrypted encrypted data
      */
-    public FingerprintEncryptionResult(FingerprintResult result, String message, String encrypted) {
-        super(result, message);
+    public FingerprintEncryptionResult(FingerprintResult result, String message, @Nullable Integer messageCode, String encrypted) {
+        super(result, message, messageCode);
         this.encrypted = encrypted;
     }
 

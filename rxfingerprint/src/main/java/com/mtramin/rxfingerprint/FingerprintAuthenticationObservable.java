@@ -58,17 +58,17 @@ class FingerprintAuthenticationObservable extends FingerprintObservable<Fingerpr
 
     @Override
     protected void onAuthenticationSucceeded(ObservableEmitter<FingerprintAuthenticationResult> emitter, AuthenticationResult result) {
-        emitter.onNext(new FingerprintAuthenticationResult(FingerprintResult.AUTHENTICATED, null));
+        emitter.onNext(new FingerprintAuthenticationResult(FingerprintResult.AUTHENTICATED, null, null));
         emitter.onComplete();
     }
 
     @Override
-    protected void onAuthenticationHelp(ObservableEmitter<FingerprintAuthenticationResult> emitter, int helpMessageId, String helpString) {
-        emitter.onNext(new FingerprintAuthenticationResult(FingerprintResult.HELP, helpString));
+    protected void onAuthenticationHelp(ObservableEmitter<FingerprintAuthenticationResult> emitter, int helpCode, String helpString) {
+        emitter.onNext(new FingerprintAuthenticationResult(FingerprintResult.HELP, helpString, helpCode));
     }
 
     @Override
     protected void onAuthenticationFailed(ObservableEmitter<FingerprintAuthenticationResult> emitter) {
-        emitter.onNext(new FingerprintAuthenticationResult(FingerprintResult.FAILED, null));
+        emitter.onNext(new FingerprintAuthenticationResult(FingerprintResult.FAILED, null, null));
     }
 }

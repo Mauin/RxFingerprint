@@ -81,7 +81,7 @@ class RsaEncryptionObservable implements ObservableOnSubscribe<FingerprintEncryp
 			byte[] encryptedBytes = cipher.doFinal(toEncrypt.getBytes("UTF-8"));
 
 			String encryptedString = encodingProvider.encode(encryptedBytes);
-			emitter.onNext(new FingerprintEncryptionResult(FingerprintResult.AUTHENTICATED, null, encryptedString));
+			emitter.onNext(new FingerprintEncryptionResult(FingerprintResult.AUTHENTICATED, null, null, encryptedString));
 			emitter.onComplete();
 		} catch (Exception e) {
 			Logger.error(String.format("Error writing value for key: %s", cipherProvider.keyName), e);

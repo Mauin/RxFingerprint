@@ -21,19 +21,26 @@ package com.mtramin.rxfingerprint.data;
  */
 public class FingerprintAuthenticationException extends Exception {
 
-    private final String message;
+	private final int errorCode;
+	private final String message;
 
     /**
      * Creates exception that occurs during fingerprint authentication with message
      *
-     * @param errString message of exception
-     */
-    public FingerprintAuthenticationException(CharSequence errString) {
-        message = errString.toString();
+	 * @param errorCode
+	 * @param errString message of exception
+	 */
+    public FingerprintAuthenticationException(int errorCode, CharSequence errString) {
+		this.errorCode = errorCode;
+		message = errString.toString();
     }
 
     @Override
     public String getMessage() {
         return message;
     }
+
+	public int getErrorCode() {
+		return errorCode;
+	}
 }

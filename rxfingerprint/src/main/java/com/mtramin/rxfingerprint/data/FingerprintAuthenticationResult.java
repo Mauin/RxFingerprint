@@ -23,7 +23,8 @@ import android.support.annotation.Nullable;
  */
 public class FingerprintAuthenticationResult {
     private final FingerprintResult result;
-    private final String message;
+    @Nullable private final String message;
+    @Nullable private final Integer errorCode;
 
     /**
      * Default constructor
@@ -31,9 +32,10 @@ public class FingerprintAuthenticationResult {
      * @param result  result of the fingerprint authentication
      * @param message optional message to be displayed to the user
      */
-    public FingerprintAuthenticationResult(FingerprintResult result, String message) {
+    public FingerprintAuthenticationResult(FingerprintResult result, @Nullable String message, @Nullable Integer errorCode) {
         this.result = result;
         this.message = message;
+        this.errorCode = errorCode;
     }
 
     /**
@@ -60,5 +62,17 @@ public class FingerprintAuthenticationResult {
      */
     public boolean isSuccess() {
         return result == FingerprintResult.AUTHENTICATED;
+    }
+
+    /**
+     * @return the Id of the error that occurred during the fingerprint authentication operation
+     *
+     * Will only return a valid id if {@link FingerprintAuthenticationResult#result} is of type
+     * {@link FingerprintResult#HELP} or {@link FingerprintResult#FAILED}.
+     * <b>Returns {@code null} otherwise!</b>
+     */
+    @Nullable
+    public Integer getErrorCode() {
+        return errorCode;
     }
 }

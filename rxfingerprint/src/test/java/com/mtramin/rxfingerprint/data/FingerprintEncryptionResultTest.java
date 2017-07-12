@@ -10,7 +10,7 @@ public class FingerprintEncryptionResultTest {
 	@Test
 	public void getResultSuccess() throws Exception {
 		String decrypted = "decrypted";
-		FingerprintEncryptionResult result = new FingerprintEncryptionResult(FingerprintResult.AUTHENTICATED, null, decrypted);
+		FingerprintEncryptionResult result = new FingerprintEncryptionResult(FingerprintResult.AUTHENTICATED, null, null, decrypted);
 
 		assertNull(result.getMessage());
 		assertEquals(decrypted, result.getEncrypted());
@@ -19,7 +19,7 @@ public class FingerprintEncryptionResultTest {
 	@Test(expected = IllegalAccessError.class)
 	public void getResultFailure() throws Exception {
 		String message = "some error happened";
-		FingerprintEncryptionResult result = new FingerprintEncryptionResult(FingerprintResult.FAILED, message, null);
+		FingerprintEncryptionResult result = new FingerprintEncryptionResult(FingerprintResult.FAILED, message, null, null);
 
 		assertEquals(message, result.getMessage());
 		result.getEncrypted();
@@ -28,7 +28,7 @@ public class FingerprintEncryptionResultTest {
 	@Test(expected = IllegalAccessError.class)
 	public void getResultHelp() throws Exception {
 		String message = "help";
-		FingerprintEncryptionResult result = new FingerprintEncryptionResult(FingerprintResult.HELP, message, null);
+		FingerprintEncryptionResult result = new FingerprintEncryptionResult(FingerprintResult.HELP, message, null, null);
 
 		assertEquals(message, result.getMessage());
 		result.getEncrypted();

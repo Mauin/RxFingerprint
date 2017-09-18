@@ -85,8 +85,36 @@ public class RxFingerprint {
      * Will complete once the authentication and encryption were successful or have failed entirely.
      */
     public static Observable<FingerprintEncryptionResult> encrypt(@NonNull Context context, @NonNull String toEncrypt) {
-        return encrypt(EncryptionMethod.AES, context, null, toEncrypt);
+        return encrypt(EncryptionMethod.AES, context, null, toEncrypt, true);
     }
+
+	/**
+	 * Encrypt data and authenticate the user with his fingerprint. The encrypted data can only be
+	 * accessed again by calling {@link #decrypt(Context, String)}. Will use a default keyName in
+	 * the Android keystore unique to this applications package name.
+	 * If you want to provide a custom key name use {@link #encrypt(Context, String, String)}
+	 * instead.
+	 * <p/>
+	 * Encrypted data is only accessible after the user has authenticated with
+	 * fingerprint authentication.
+	 * <p/>
+	 * Encryption uses AES encryption with CBC blocksize and PKCS7 padding.
+	 * The key-length for AES encryption is set to 265 bits by default.
+	 * <p/>
+	 * The resulting {@link FingerprintEncryptionResult} will contain the encrypted data as a String
+	 * and is accessible via {@link FingerprintEncryptionResult#getEncrypted()} if the
+	 * authentication was successful. Save this data where you please, but don't change it if you
+	 * want to decrypt it again!
+	 *
+	 * @param context   context to use
+	 * @param toEncrypt data to encrypt
+	 * @param keyInvalidatedByBiometricEnrollment whether or not the key will be invalidated when fingerprints are added or changed.
+	 * @return Observable {@link FingerprintEncryptionResult} that will contain the encrypted data.
+	 * Will complete once the authentication and encryption were successful or have failed entirely.
+	 */
+	public static Observable<FingerprintEncryptionResult> encrypt(@NonNull Context context, @NonNull String toEncrypt, boolean keyInvalidatedByBiometricEnrollment) {
+		return encrypt(EncryptionMethod.AES, context, null, toEncrypt, keyInvalidatedByBiometricEnrollment);
+	}
 
     /**
      * Decrypt data previously encrypted with {@link #encrypt(Context, String)}.
@@ -132,7 +160,7 @@ public class RxFingerprint {
      * Will complete once the authentication and encryption were successful or have failed entirely.
      */
     public static Observable<FingerprintEncryptionResult> encrypt(@NonNull Context context, @Nullable String keyName, @NonNull String toEncrypt) {
-        return encrypt(EncryptionMethod.AES, context, keyName, toEncrypt);
+        return encrypt(EncryptionMethod.AES, context, keyName, toEncrypt, true);
     }
 
     /**
@@ -184,11 +212,41 @@ public class RxFingerprint {
 																  @NonNull Context context,
 																  @Nullable String keyName,
 																  @NonNull String toEncrypt) {
+		return encrypt(method, context, keyName, toEncrypt, true);
+	}
+
+	/**
+	 * Encrypt data with the given {@link EncryptionMethod}. Depending on the given method, the
+	 * fingerprint sensor might be enabled and waiting for the user to authenticate before the
+	 * encryption step. All encrypted data can only be accessed again by calling
+	 * {@link #decrypt(EncryptionMethod, Context, String, String)} with the same
+	 * {@link EncryptionMethod} that was used for encryption of the given value.
+	 * <p>
+	 * Take more details about the encryption method and how they behave from {@link EncryptionMethod}
+	 * <p>
+	 * The resulting {@link FingerprintEncryptionResult} will contain the encrypted data as a String
+	 * and is accessible via {@link FingerprintEncryptionResult#getEncrypted()} if the
+	 * operation was successful. Save this data where you please, but don't change it if you
+	 * want to decrypt it again!
+	 *
+	 * @param method    the encryption method to use
+	 * @param context   context to use
+	 * @param keyName   name of the key to store in the Android {@link java.security.KeyStore}
+	 * @param toEncrypt data to encrypt
+	 * @param keyInvalidatedByBiometricEnrollment whether or not the key will be invalidated when fingerprints are added or changed.
+	 * @return Observable {@link FingerprintEncryptionResult} that will contain the encrypted data.
+	 * Will complete once the operation was successful or failed entirely.
+	 */
+	public static Observable<FingerprintEncryptionResult> encrypt(@NonNull EncryptionMethod method,
+																  @NonNull Context context,
+																  @Nullable String keyName,
+																  @NonNull String toEncrypt,
+																  boolean keyInvalidatedByBiometricEnrollment) {
 		switch (method) {
 			case AES:
-				return AesEncryptionObservable.create(context, keyName, toEncrypt);
+				return AesEncryptionObservable.create(context, keyName, toEncrypt, keyInvalidatedByBiometricEnrollment);
 			case RSA:
-				return RsaEncryptionObservable.create(context, keyName, toEncrypt);
+				return RsaEncryptionObservable.create(context, keyName, toEncrypt, keyInvalidatedByBiometricEnrollment);
 			default:
 				return Observable.error(new IllegalArgumentException("Unknown encryption method: " + method));
 		}

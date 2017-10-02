@@ -108,7 +108,8 @@ public class RxFingerprint {
 	 *
 	 * @param context   context to use
 	 * @param toEncrypt data to encrypt
-	 * @param keyInvalidatedByBiometricEnrollment whether or not the key will be invalidated when fingerprints are added or changed.
+	 * @param keyInvalidatedByBiometricEnrollment whether or not the key will be invalidated when fingerprints are added
+	 *                                            or changed. Works only on Android N(API 24) and above.
 	 * @return Observable {@link FingerprintEncryptionResult} that will contain the encrypted data.
 	 * Will complete once the authentication and encryption were successful or have failed entirely.
 	 */
@@ -233,7 +234,8 @@ public class RxFingerprint {
 	 * @param context   context to use
 	 * @param keyName   name of the key to store in the Android {@link java.security.KeyStore}
 	 * @param toEncrypt data to encrypt
-	 * @param keyInvalidatedByBiometricEnrollment whether or not the key will be invalidated when fingerprints are added or changed.
+	 * @param keyInvalidatedByBiometricEnrollment whether or not the key will be invalidated when fingerprints are added
+	 *                                            or changed. Works only on Android N(API 24) and above.
 	 * @return Observable {@link FingerprintEncryptionResult} that will contain the encrypted data.
 	 * Will complete once the operation was successful or failed entirely.
 	 */

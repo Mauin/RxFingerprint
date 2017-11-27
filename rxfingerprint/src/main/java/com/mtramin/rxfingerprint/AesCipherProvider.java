@@ -19,7 +19,6 @@ package com.mtramin.rxfingerprint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
-import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -43,32 +42,32 @@ class AesCipherProvider extends CipherProvider {
 	private static final int AES_KEY_SIZE = 256;
 
 	AesCipherProvider(@NonNull Context context, @Nullable String keyName) throws CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException {
-		super(context, keyName);
-	}
+               this(context, keyName, true);
+       }
+
+       AesCipherProvider(@NonNull Context context, @Nullable String keyName, boolean keyInvalidatedByBiometricEnrollment) throws CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException {
+               super(context, keyName, keyInvalidatedByBiometricEnrollment);
+       }
 
 	private SecretKey findOrCreateKey(String keyName) throws NoSuchProviderException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, UnrecoverableKeyException, CertificateException, KeyStoreException, IOException {
 		if (keyExists(keyName)) {
 			return getKey(keyName);
 		}
-		return createKey(keyName);
-	}
+               return createKey(keyName, invalidatedByBiometricEnrollment);
+       }
 
 	private SecretKey getKey(String keyName) throws KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException {
 		return (SecretKey) keyStore.getKey(keyName, null);
 	}
 
 	@TargetApi(Build.VERSION_CODES.M)
-	private static SecretKey createKey(String keyName) throws NoSuchAlgorithmException, NoSuchProviderException, InvalidAlgorithmParameterException {
-		KeyGenerator keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, ANDROID_KEY_STORE);
-		keyGenerator.init(new KeyGenParameterSpec.Builder(keyName,
-				KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
-				.setKeySize(AES_KEY_SIZE)
-				.setBlockModes(KeyProperties.BLOCK_MODE_CBC)
-				.setUserAuthenticationRequired(true)
-				.setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
-				.build());
-		return keyGenerator.generateKey();
-	}
+       private static SecretKey createKey(String keyName, boolean invalidatedByBiometricEnrollment) throws NoSuchAlgorithmException, NoSuchProviderException, InvalidAlgorithmParameterException {
+               KeyGenerator keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, ANDROID_KEY_STORE);
+               keyGenerator.init(getKeyGenParameterSpecBuilder(keyName, KeyProperties.BLOCK_MODE_CBC, KeyProperties.ENCRYPTION_PADDING_PKCS7, invalidatedByBiometricEnrollment)
+                       .setKeySize(AES_KEY_SIZE)
+                       .build());
+               return keyGenerator.generateKey();
+       }
 
 	@Override
 	Cipher cipherForEncryption() throws NoSuchAlgorithmException, NoSuchPaddingException, CertificateException, UnrecoverableKeyException, KeyStoreException, NoSuchProviderException, InvalidAlgorithmParameterException, IOException, InvalidKeyException {

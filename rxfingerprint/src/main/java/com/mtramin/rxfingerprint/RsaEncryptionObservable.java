@@ -44,13 +44,13 @@ class RsaEncryptionObservable implements ObservableOnSubscribe<FingerprintEncryp
 	 * @param keyName   name of the key in the keystore
 	 * @param toEncrypt data to encrypt  @return Observable {@link FingerprintEncryptionResult}
 	 */
-	static Observable<FingerprintEncryptionResult> create(Context context, String keyName, String toEncrypt) {
+	static Observable<FingerprintEncryptionResult> create(Context context, String keyName, String toEncrypt, boolean keyInvalidatedByBiometricEnrollment) {
 		if (toEncrypt == null) {
 			return Observable.error(new IllegalArgumentException("String to be encrypted is null. Can only encrypt valid strings"));
 		}
 		try {
 			return Observable.create(new RsaEncryptionObservable(new FingerprintApiWrapper(context),
-					new RsaCipherProvider(context, keyName),
+					new RsaCipherProvider(context, keyName, keyInvalidatedByBiometricEnrollment),
 					toEncrypt,
 					new Base64Provider()));
 		} catch (Exception e) {

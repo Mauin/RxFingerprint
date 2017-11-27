@@ -19,7 +19,6 @@ package com.mtramin.rxfingerprint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
-import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -42,19 +41,18 @@ import javax.crypto.NoSuchPaddingException;
 
 class RsaCipherProvider extends CipherProvider {
 	RsaCipherProvider(@NonNull Context context, @Nullable String keyName) throws CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException {
-		super(context, keyName);
+		this(context, keyName, true);
 	}
 
+	RsaCipherProvider(@NonNull Context context, @Nullable String keyName, boolean keyInvalidatedByBiometricEnrollment) throws CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException {
+		super(context, keyName, keyInvalidatedByBiometricEnrollment);
+	}
 	@Override
 	@TargetApi(Build.VERSION_CODES.M)
 	Cipher cipherForEncryption() throws GeneralSecurityException, IOException {
 		KeyPairGenerator keyGenerator = KeyPairGenerator.getInstance(KeyProperties.KEY_ALGORITHM_RSA, ANDROID_KEY_STORE);
 
-		keyGenerator.initialize(new KeyGenParameterSpec.Builder(keyName,
-				KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
-				.setBlockModes(KeyProperties.BLOCK_MODE_ECB)
-				.setUserAuthenticationRequired(true)
-				.setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_RSA_PKCS1)
+		keyGenerator.initialize(getKeyGenParameterSpecBuilder(keyName, KeyProperties.BLOCK_MODE_ECB, KeyProperties.ENCRYPTION_PADDING_RSA_PKCS1, invalidatedByBiometricEnrollment)
 				.build());
 
 		keyGenerator.generateKeyPair();

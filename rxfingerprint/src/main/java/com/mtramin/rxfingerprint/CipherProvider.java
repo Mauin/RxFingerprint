@@ -19,7 +19,9 @@ package com.mtramin.rxfingerprint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
+import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyPermanentlyInvalidatedException;
+import android.security.keystore.KeyProperties;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -40,14 +42,15 @@ abstract class CipherProvider {
 
 	final String keyName;
 	final KeyStore keyStore;
+	final boolean invalidatedByBiometricEnrollment;
 
-	CipherProvider(@NonNull Context context, @Nullable String keyName) throws KeyStoreException, CertificateException, NoSuchAlgorithmException, IOException {
+	CipherProvider(@NonNull Context context, @Nullable String keyName, boolean keyInvalidatedByBiometricEnrollment) throws KeyStoreException, CertificateException, NoSuchAlgorithmException, IOException {
 		if (keyName == null) {
 			this.keyName = ContextUtils.getPackageName(context) + "." + DEFAULT_KEY_NAME;
 		} else {
 			this.keyName = keyName;
 		}
-
+		invalidatedByBiometricEnrollment = keyInvalidatedByBiometricEnrollment;
 		keyStore = KeyStore.getInstance(ANDROID_KEY_STORE);
 		keyStore.load(null);
 	}
@@ -59,6 +62,20 @@ abstract class CipherProvider {
 
 	@TargetApi(Build.VERSION_CODES.M)
 	abstract Cipher createCipher() throws NoSuchPaddingException, NoSuchAlgorithmException;
+
+	@NonNull
+	@TargetApi(Build.VERSION_CODES.M)
+	static KeyGenParameterSpec.Builder getKeyGenParameterSpecBuilder(String keyName, String blockModes, String encryptionPaddings, boolean invalidatedByBiometricEnrollment) {
+		KeyGenParameterSpec.Builder builder = new KeyGenParameterSpec.Builder(keyName,
+				KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
+				.setBlockModes(blockModes)
+				.setUserAuthenticationRequired(true)
+				.setEncryptionPaddings(encryptionPaddings);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+			builder.setInvalidatedByBiometricEnrollment(invalidatedByBiometricEnrollment);
+		}
+		return builder;
+	}
 
 	@TargetApi(Build.VERSION_CODES.M)
 	Cipher getCipherForEncryption() throws IOException, GeneralSecurityException {

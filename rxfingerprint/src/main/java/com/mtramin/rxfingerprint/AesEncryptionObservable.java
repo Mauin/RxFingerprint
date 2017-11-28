@@ -36,82 +36,83 @@ import io.reactivex.ObservableEmitter;
  * can only be used with fingerprint authentication and uses it once authentication was successful
  * to encrypt the given data.
  */
-@SuppressLint("NewApi") // SDK check happens in {@link FingerprintObservable#subscribe}
+@SuppressLint("NewApi")
+        // SDK check happens in {@link FingerprintObservable#subscribe}
 class AesEncryptionObservable extends FingerprintObservable<FingerprintEncryptionResult> {
 
-	private final String toEncrypt;
-	private final EncodingProvider encodingProvider;
-	private final AesCipherProvider cipherProvider;
+    private final String toEncrypt;
+    private final EncodingProvider encodingProvider;
+    private final AesCipherProvider cipherProvider;
 
-	/**
-	 * Creates a new AesEncryptionObservable that will listen to fingerprint authentication
-	 * to encrypt the given data.
-	 *
-	 * @param context   context to use
-	 * @param keyName   name of the key in the keystore
-	 * @param toEncrypt data to encrypt  @return Observable {@link FingerprintEncryptionResult}
-	 */
-	static Observable<FingerprintEncryptionResult> create(Context context, String keyName, String toEncrypt, boolean keyInvalidatedByBiometricEnrollment) {
-		try {
-			return Observable.create(new AesEncryptionObservable(new FingerprintApiWrapper(context),
-					new AesCipherProvider(context, keyName, keyInvalidatedByBiometricEnrollment),
-					toEncrypt,
-					new Base64Provider()));
-		} catch (Exception e) {
-			return Observable.error(e);
-		}
-	}
+    /**
+     * Creates a new AesEncryptionObservable that will listen to fingerprint authentication
+     * to encrypt the given data.
+     *
+     * @param context   context to use
+     * @param keyName   name of the key in the keystore
+     * @param toEncrypt data to encrypt  @return Observable {@link FingerprintEncryptionResult}
+     */
+    static Observable<FingerprintEncryptionResult> create(Context context, String keyName, String toEncrypt, boolean keyInvalidatedByBiometricEnrollment) {
+        try {
+            return Observable.create(new AesEncryptionObservable(new FingerprintApiWrapper(context),
+                    new AesCipherProvider(context, keyName, keyInvalidatedByBiometricEnrollment),
+                    toEncrypt,
+                    new Base64Provider()));
+        } catch (Exception e) {
+            return Observable.error(e);
+        }
+    }
 
-	private AesEncryptionObservable(FingerprintApiWrapper fingerprintApiWrapper,
-							AesCipherProvider cipherProvider,
-							String toEncrypt,
-							EncodingProvider encodingProvider) {
-		super(fingerprintApiWrapper);
-		this.cipherProvider = cipherProvider;
+    private AesEncryptionObservable(FingerprintApiWrapper fingerprintApiWrapper,
+                                    AesCipherProvider cipherProvider,
+                                    String toEncrypt,
+                                    EncodingProvider encodingProvider) {
+        super(fingerprintApiWrapper);
+        this.cipherProvider = cipherProvider;
 
-		if (toEncrypt == null) {
-			throw new NullPointerException("String to be encrypted is null. Can only encrypt valid strings");
-		}
-		this.toEncrypt = toEncrypt;
-		this.encodingProvider = encodingProvider;
-	}
+        if (toEncrypt == null) {
+            throw new NullPointerException("String to be encrypted is null. Can only encrypt valid strings");
+        }
+        this.toEncrypt = toEncrypt;
+        this.encodingProvider = encodingProvider;
+    }
 
-	@Nullable
-	@Override
-	protected CryptoObject initCryptoObject(ObservableEmitter<FingerprintEncryptionResult> emitter) {
-		try {
-			Cipher cipher = cipherProvider.getCipherForEncryption();
-			return new CryptoObject(cipher);
-		} catch (Exception e) {
-			emitter.onError(e);
-			return null;
-		}
-	}
+    @Nullable
+    @Override
+    protected CryptoObject initCryptoObject(ObservableEmitter<FingerprintEncryptionResult> emitter) {
+        try {
+            Cipher cipher = cipherProvider.getCipherForEncryption();
+            return new CryptoObject(cipher);
+        } catch (Exception e) {
+            emitter.onError(e);
+            return null;
+        }
+    }
 
-	@Override
-	protected void onAuthenticationSucceeded(ObservableEmitter<FingerprintEncryptionResult> emitter, AuthenticationResult result) {
-		try {
-			Cipher cipher = result.getCryptoObject().getCipher();
-			byte[] encryptedBytes = cipher.doFinal(toEncrypt.getBytes("UTF-8"));
-			byte[] ivBytes = cipher.getParameters().getParameterSpec(IvParameterSpec.class).getIV();
+    @Override
+    protected void onAuthenticationSucceeded(ObservableEmitter<FingerprintEncryptionResult> emitter, AuthenticationResult result) {
+        try {
+            Cipher cipher = result.getCryptoObject().getCipher();
+            byte[] encryptedBytes = cipher.doFinal(toEncrypt.getBytes("UTF-8"));
+            byte[] ivBytes = cipher.getParameters().getParameterSpec(IvParameterSpec.class).getIV();
 
-			String encryptedString = CryptoData.fromBytes(encodingProvider, encryptedBytes, ivBytes).toString();
-			CryptoData.verifyCryptoDataString(encryptedString);
+            String encryptedString = CryptoData.fromBytes(encodingProvider, encryptedBytes, ivBytes).toString();
+            CryptoData.verifyCryptoDataString(encryptedString);
 
-			emitter.onNext(new FingerprintEncryptionResult(FingerprintResult.AUTHENTICATED, null, encryptedString));
-			emitter.onComplete();
-		} catch (Exception e) {
-			emitter.onError(e);
-		}
-	}
+            emitter.onNext(FingerprintEncryptionResult.create(FingerprintResult.AUTHENTICATED, null, encryptedString));
+            emitter.onComplete();
+        } catch (Exception e) {
+            emitter.onError(e);
+        }
+    }
 
-	@Override
-	protected void onAuthenticationHelp(ObservableEmitter<FingerprintEncryptionResult> emitter, int helpMessageId, String helpString) {
-		emitter.onNext(new FingerprintEncryptionResult(FingerprintResult.HELP, helpString, null));
-	}
+    @Override
+    protected void onAuthenticationHelp(ObservableEmitter<FingerprintEncryptionResult> emitter, int helpMessageId, String helpString) {
+        emitter.onNext(FingerprintEncryptionResult.create(FingerprintResult.HELP, helpString, null));
+    }
 
-	@Override
-	protected void onAuthenticationFailed(ObservableEmitter<FingerprintEncryptionResult> emitter) {
-		emitter.onNext(new FingerprintEncryptionResult(FingerprintResult.FAILED, null, null));
-	}
+    @Override
+    protected void onAuthenticationFailed(ObservableEmitter<FingerprintEncryptionResult> emitter) {
+        emitter.onNext(FingerprintEncryptionResult.create(FingerprintResult.FAILED, null, null));
+    }
 }

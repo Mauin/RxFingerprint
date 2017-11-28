@@ -88,7 +88,7 @@ class RsaDecryptionObservable extends FingerprintObservable<FingerprintDecryptio
 			byte[] bytes = cipher.doFinal(encodingProvider.decode(encryptedString));
 			String decrypted = new String(bytes, "UTF-8");
 
-			emitter.onNext(new FingerprintDecryptionResult(FingerprintResult.AUTHENTICATED, null, decrypted));
+			emitter.onNext(FingerprintDecryptionResult.create(FingerprintResult.AUTHENTICATED, null, decrypted));
 			emitter.onComplete();
 		} catch (Exception e) {
 			Logger.error("Unable to decrypt given value. RxFingerprint is only able to decrypt values previously encrypted by RxFingerprint with the same encryption mode.", e);
@@ -99,11 +99,11 @@ class RsaDecryptionObservable extends FingerprintObservable<FingerprintDecryptio
 
 	@Override
 	protected void onAuthenticationHelp(ObservableEmitter<FingerprintDecryptionResult> emitter, int helpMessageId, String helpString) {
-		emitter.onNext(new FingerprintDecryptionResult(FingerprintResult.HELP, helpString, null));
+		emitter.onNext(FingerprintDecryptionResult.create(FingerprintResult.HELP, helpString, null));
 	}
 
 	@Override
 	protected void onAuthenticationFailed(ObservableEmitter<FingerprintDecryptionResult> emitter) {
-		emitter.onNext(new FingerprintDecryptionResult(FingerprintResult.FAILED, null, null));
+		emitter.onNext(FingerprintDecryptionResult.create(FingerprintResult.FAILED, null, null));
 	}
 }

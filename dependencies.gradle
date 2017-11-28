@@ -15,50 +15,56 @@
  */
 
 ext.versions = [
-		// Version
-		code                   : 1,
-		name                   : '2.2.0',
+    // Version
+    code                : 1,
+    name                : '2.2.0',
 
-		// Android Versions
-		compileSdk             : 25,
-		targetSdk              : 25,
-		minSdk                 : 15,
-		buildTools             : '26.0.2',
+    // Android Versions
+    compileSdk          : 25,
+    targetSdk           : 25,
+    minSdk              : 15,
+    buildTools          : '26.0.2',
 
-		// Gradle Versions
-		androidGradlePlugin    : '3.0.1',
-		mavenGradlePlugin      : '1.4.1',
-		bintrayGradlePlugin    : '1.7.1',
+    // Gradle Versions
+    androidGradlePlugin : '3.0.1',
+    mavenGradlePlugin   : '1.4.1',
+    bintrayGradlePlugin : '1.7.1',
 
-		// Dependency Versions
-		supportLibrary         : '25.3.0',
-		rxJava                 : '2.1.7',
+    // Dependency Versions
+    supportLibrary      : '25.3.0',
+    rxJava              : '2.1.7',
+    autoValue           : '1.5.2',
+    autoValueAnnotations: '1.5',
+    autoValueRedacted   : '1.0.1',
 
-		// Testing dependencies
-		jUnit                  : '4.12',
-		mockito                : '1.10.19',
-		powermock              : '1.6.4',
-		testRunner             : '0.5'
+    // Testing dependencies
+    jUnit               : '4.12',
+    mockito             : '1.10.19',
+    powermock           : '1.6.4',
+    testRunner          : '0.5'
 ]
 
 ext.gradlePlugins = [
-		android    : "com.android.tools.build:gradle:$versions.androidGradlePlugin",
-		maven      : "com.github.dcendents:android-maven-gradle-plugin:$versions.mavenGradlePlugin",
-		bintray    : "com.jfrog.bintray.gradle:gradle-bintray-plugin:$versions.bintrayGradlePlugin"
+    android: "com.android.tools.build:gradle:$versions.androidGradlePlugin",
+    maven  : "com.github.dcendents:android-maven-gradle-plugin:$versions.mavenGradlePlugin",
+    bintray: "com.jfrog.bintray.gradle:gradle-bintray-plugin:$versions.bintrayGradlePlugin"
 ]
 
 ext.libraries = [
-		// RxFingerprint dependencies
-		supportAnnotations: "com.android.support:support-annotations:$versions.supportLibrary",
-		rxJava            : "io.reactivex.rxjava2:rxjava:$versions.rxJava",
+    // RxFingerprint dependencies
+    supportAnnotations  : "com.android.support:support-annotations:$versions.supportLibrary",
+    rxJava              : "io.reactivex.rxjava2:rxjava:$versions.rxJava",
+    autoValue           : "com.google.auto.value:auto-value:$versions.autoValue",
+    autoValueAnnotations: "com.jakewharton.auto.value:auto-value-annotations:$versions.autoValueAnnotations",
+    autoValueRedacted   : "com.squareup.auto.value:auto-value-redacted:$versions.autoValueRedacted",
 
-		// Sample dependencies
-		appCompat         : "com.android.support:appcompat-v7:$versions.supportLibrary",
+    // Sample dependencies
+    appCompat           : "com.android.support:appcompat-v7:$versions.supportLibrary",
 
-		// Test dependencies
-		jUnit             : "junit:junit:$versions.jUnit",
-		mockito           : "org.mockito:mockito-core:$versions.mockito",
-		powermockJUnit    : "org.powermock:powermock-api-mockito:$versions.powermock",
-		powermockMockito  : "org.powermock:powermock-module-junit4:$versions.powermock",
+    // Test dependencies
+    jUnit               : "junit:junit:$versions.jUnit",
+    mockito             : "org.mockito:mockito-core:$versions.mockito",
+    powermockJUnit      : "org.powermock:powermock-api-mockito:$versions.powermock",
+    powermockMockito    : "org.powermock:powermock-module-junit4:$versions.powermock",
 
 ]

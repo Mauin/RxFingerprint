@@ -16,49 +16,23 @@
 
 package com.mtramin.rxfingerprint.data;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+
+import com.google.auto.value.AutoValue;
 
 /**
  * Result of a fingerprint based authentication.
  */
-public class FingerprintAuthenticationResult {
-    private final FingerprintResult result;
-    private final String message;
-
+@AutoValue
+public abstract class FingerprintAuthenticationResult extends FingerprintExpressionResult {
     /**
-     * Default constructor
+     * Creates a new instance of {@linkplain FingerprintAuthenticationResult}.
      *
      * @param result  result of the fingerprint authentication
      * @param message optional message to be displayed to the user
      */
-    public FingerprintAuthenticationResult(FingerprintResult result, String message) {
-        this.result = result;
-        this.message = message;
-    }
-
-    /**
-     * @return message that can be displayed to the user to help him guide through the
-     * authentication process
-     *
-     * Will only return a message if {@link FingerprintAuthenticationResult#result} is of type
-     * {@link FingerprintResult#HELP}. <b>Returns {@code null} otherwise!</b>
-     */
-    @Nullable
-    public String getMessage() {
-        return message;
-    }
-
-    /**
-     * @return result of fingerprint authentication operation
-     */
-    public FingerprintResult getResult() {
-        return result;
-    }
-
-    /**
-     * @return {@code true} if authentication was successful
-     */
-    public boolean isSuccess() {
-        return result == FingerprintResult.AUTHENTICATED;
+    public static FingerprintAuthenticationResult create(@NonNull FingerprintResult result, @Nullable String message) {
+        return new AutoValue_FingerprintAuthenticationResult(message, result);
     }
 }

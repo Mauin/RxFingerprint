@@ -52,13 +52,13 @@ android {
 }
 
 dependencies {
-	compile libraries.supportAnnotations
-	compile libraries.rxJava
+	compileOnly libraries.supportAnnotations
+	api libraries.rxJava
 
-	testCompile libraries.jUnit
-	testCompile libraries.mockito
-	testCompile libraries.powermockJUnit
-	testCompile libraries.powermockMockito
+	testImplementation libraries.jUnit
+	testImplementation libraries.mockito
+	testImplementation libraries.powermockJUnit
+	testImplementation libraries.powermockMockito
 }
 
 //apply from: 'publish.gradle'

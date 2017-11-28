@@ -23,17 +23,16 @@ ext.versions = [
 		compileSdk             : 25,
 		targetSdk              : 25,
 		minSdk                 : 15,
-		buildTools             : '25.0.2',
+		buildTools             : '26.0.2',
 
 		// Gradle Versions
-		androidGradlePlugin    : '2.3.3',
-		retrolambdaGradlePlugin: '3.2.5',
+		androidGradlePlugin    : '3.0.1',
 		mavenGradlePlugin      : '1.4.1',
 		bintrayGradlePlugin    : '1.7.1',
 
 		// Dependency Versions
 		supportLibrary         : '25.3.0',
-		rxJava                 : '2.1.1',
+		rxJava                 : '2.1.7',
 
 		// Testing dependencies
 		jUnit                  : '4.12',
@@ -44,7 +43,6 @@ ext.versions = [
 
 ext.gradlePlugins = [
 		android    : "com.android.tools.build:gradle:$versions.androidGradlePlugin",
-		retrolambda: "me.tatarka:gradle-retrolambda:$versions.retrolambdaGradlePlugin",
 		maven      : "com.github.dcendents:android-maven-gradle-plugin:$versions.mavenGradlePlugin",
 		bintray    : "com.jfrog.bintray.gradle:gradle-bintray-plugin:$versions.bintrayGradlePlugin"
 ]

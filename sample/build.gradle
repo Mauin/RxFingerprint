@@ -15,7 +15,6 @@
  */
 
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion versions.compileSdk
@@ -43,8 +42,8 @@ android {
 
 
 dependencies {
-    compile project(':rxfingerprint');
-//    compile "com.mtramin:rxfingerprint:$versions.name"
+    implementation project(':rxfingerprint');
+//    implementation "com.mtramin:rxfingerprint:$versions.name"
 
-    compile libraries.appCompat
+    implementation libraries.appCompat
 }

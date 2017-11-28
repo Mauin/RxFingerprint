@@ -17,13 +17,16 @@
 package com.mtramin.rxfingerprint.data;
 
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
+import com.google.auto.value.AutoValue;
+
 /**
  * Result of a decryption operation with fingerprint authentication.
  */
-public class FingerprintDecryptionResult extends FingerprintAuthenticationResult {
-
-    private final String decrypted;
-
+@AutoValue
+public abstract class FingerprintDecryptionResult extends FingerprintExpressionResult {
     /**
      * Default constructor
      *
@@ -31,19 +34,24 @@ public class FingerprintDecryptionResult extends FingerprintAuthenticationResult
      * @param message   message to be displayed to the user
      * @param decrypted decrypted data
      */
-    public FingerprintDecryptionResult(FingerprintResult result, String message, String decrypted) {
-        super(result, message);
-        this.decrypted = decrypted;
+    public static FingerprintDecryptionResult create(FingerprintResult result, String message, String decrypted) {
+        return new AutoValue_FingerprintDecryptionResult(message, result, decrypted);
     }
+
+    @Redacted
+    @Nullable
+    abstract String decryptedValue();
 
     /**
      * @return decrypted data as a String. Can only be accessed if the result of the fingerprint
      * authentication was of type {@link FingerprintResult#AUTHENTICATED}.
      */
-    public String getDecrypted() {
+    @NonNull
+    public final String getDecrypted() {
         if (!isSuccess()) {
             throw new IllegalAccessError("Fingerprint authentication was not successful, cannot access decryption result");
         }
-        return decrypted;
+        //noinspection ConstantConditions Is non-null if the expression is successful.
+        return decryptedValue();
     }
 }

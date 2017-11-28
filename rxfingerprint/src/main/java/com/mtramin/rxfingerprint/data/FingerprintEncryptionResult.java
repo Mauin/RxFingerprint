@@ -17,13 +17,16 @@
 package com.mtramin.rxfingerprint.data;
 
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
+import com.google.auto.value.AutoValue;
+
 /**
  * Result of a fingerprint authenticated encryption operation
  */
-public class FingerprintEncryptionResult extends FingerprintAuthenticationResult {
-
-    private final String encrypted;
-
+@AutoValue
+public abstract class FingerprintEncryptionResult extends FingerprintExpressionResult {
     /**
      * Default constructor
      *
@@ -31,19 +34,23 @@ public class FingerprintEncryptionResult extends FingerprintAuthenticationResult
      * @param message   message to be displayed to the user
      * @param encrypted encrypted data
      */
-    public FingerprintEncryptionResult(FingerprintResult result, String message, String encrypted) {
-        super(result, message);
-        this.encrypted = encrypted;
+    public static FingerprintEncryptionResult create(FingerprintResult result, String message, String encrypted) {
+        return new AutoValue_FingerprintEncryptionResult(message, result, encrypted);
     }
+
+    @Nullable
+    abstract String encryptedValue();
 
     /**
      * @return encrypted data, can only be accessed if the result was of
      * type {@link FingerprintResult#AUTHENTICATED}
      */
+    @NonNull
     public String getEncrypted() {
         if (!isSuccess()) {
             throw new IllegalAccessError("Fingerprint authentication was not successful, cannot access encryption result");
         }
-        return encrypted;
+        //noinspection ConstantConditions Is non-null if the expression is succesful.
+        return encryptedValue();
     }
 }

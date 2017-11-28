@@ -95,7 +95,7 @@ class AesDecryptionObservable extends FingerprintObservable<FingerprintDecryptio
 			Cipher cipher = result.getCryptoObject().getCipher();
 			String decrypted = new String(cipher.doFinal(cryptoData.getMessage()));
 
-			emitter.onNext(new FingerprintDecryptionResult(FingerprintResult.AUTHENTICATED, null, decrypted));
+			emitter.onNext(FingerprintDecryptionResult.create(FingerprintResult.AUTHENTICATED, null, decrypted));
 			emitter.onComplete();
 		} catch (Exception e) {
 			emitter.onError(e);
@@ -105,11 +105,11 @@ class AesDecryptionObservable extends FingerprintObservable<FingerprintDecryptio
 
 	@Override
 	protected void onAuthenticationHelp(ObservableEmitter<FingerprintDecryptionResult> emitter, int helpMessageId, String helpString) {
-		emitter.onNext(new FingerprintDecryptionResult(FingerprintResult.HELP, helpString, null));
+		emitter.onNext(FingerprintDecryptionResult.create(FingerprintResult.HELP, helpString, null));
 	}
 
 	@Override
 	protected void onAuthenticationFailed(ObservableEmitter<FingerprintDecryptionResult> emitter) {
-		emitter.onNext(new FingerprintDecryptionResult(FingerprintResult.FAILED, null, null));
+		emitter.onNext(FingerprintDecryptionResult.create(FingerprintResult.FAILED, null, null));
 	}
 }

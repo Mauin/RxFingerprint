@@ -24,7 +24,6 @@ buildscript {
 
     dependencies {
         classpath gradlePlugins.android
-        classpath gradlePlugins.retrolambda
         classpath gradlePlugins.maven
         classpath gradlePlugins.bintray
     }

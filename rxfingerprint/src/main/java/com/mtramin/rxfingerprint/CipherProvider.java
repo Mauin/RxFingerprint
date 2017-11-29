@@ -34,6 +34,7 @@ import java.security.cert.CertificateException;
 import java.util.Enumeration;
 
 import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
 abstract class CipherProvider {
@@ -86,6 +87,26 @@ abstract class CipherProvider {
 			removeKey(keyName);
 			return cipherForEncryption();
 		}
+	}
+
+	// https://github.com/googlesamples/android-FingerprintDialog/issues/21
+	// https://issuetracker.google.com/issues/65578763
+	@TargetApi(Build.VERSION_CODES.M)
+	Exception mapCipherFinalOperationException(Exception e) {
+		boolean shouldThrowKeyPermanentlyInvalidatedException = invalidatedByBiometricEnrollment &&
+				Build.VERSION.SDK_INT >= 26 /*Build.VERSION_CODES.O*/ &&
+				e instanceof IllegalBlockSizeException;
+		if (shouldThrowKeyPermanentlyInvalidatedException) {
+			Logger.warn("Removing invalidated key.");
+			try {
+				removeKey(keyName);
+			} catch (Exception exception) {
+				Logger.error("Removing invalidated key failed.", exception);
+			}
+			return new KeyPermanentlyInvalidatedException();
+
+		}
+		return e;
 	}
 
 	private static void removeKey(String keyName) throws KeyStoreException, CertificateException, NoSuchAlgorithmException, IOException {

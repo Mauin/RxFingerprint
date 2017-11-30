@@ -94,7 +94,7 @@ abstract class CipherProvider {
 	@TargetApi(Build.VERSION_CODES.M)
 	Exception mapCipherFinalOperationException(Exception e) {
 		boolean shouldThrowKeyPermanentlyInvalidatedException = invalidatedByBiometricEnrollment &&
-				Build.VERSION.SDK_INT >= 26 /*Build.VERSION_CODES.O*/ &&
+				Build.VERSION.SDK_INT == 26 /*Build.VERSION_CODES.O*/ &&
 				e instanceof IllegalBlockSizeException;
 		if (shouldThrowKeyPermanentlyInvalidatedException) {
 			Logger.warn("Removing invalidated key.");

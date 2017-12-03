@@ -54,10 +54,15 @@ class AesDecryptionObservable extends FingerprintObservable<FingerprintDecryptio
 	 * @param encrypted data to encrypt  @return Observable {@link FingerprintEncryptionResult}
 	 * @return Observable result of the decryption
 	 */
-	static Observable<FingerprintDecryptionResult> create(Context context, String keyName, String encrypted) {
+	static Observable<FingerprintDecryptionResult> create(Context context,
+														  String keyName,
+														  String encrypted,
+														  boolean keyInvalidatedByBiometricEnrollment,
+														  RxFingerprintLogger logger) {
 		try {
-			return Observable.create(new AesDecryptionObservable(new FingerprintApiWrapper(context),
-					new AesCipherProvider(context, keyName),
+			return Observable.create(new AesDecryptionObservable(
+					new FingerprintApiWrapper(context, logger),
+					new AesCipherProvider(context, keyName, keyInvalidatedByBiometricEnrollment, logger),
 					encrypted,
 					new Base64Provider()));
 		} catch (Exception e) {

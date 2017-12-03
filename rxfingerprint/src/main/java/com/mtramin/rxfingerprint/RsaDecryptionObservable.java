@@ -38,6 +38,7 @@ class RsaDecryptionObservable extends FingerprintObservable<FingerprintDecryptio
 	private final RsaCipherProvider cipherProvider;
 	private final String encryptedString;
 	private final EncodingProvider encodingProvider;
+	private final RxFingerprintLogger logger;
 
 	/**
 	 * Creates a new AesEncryptionObservable that will listen to fingerprint authentication
@@ -48,12 +49,18 @@ class RsaDecryptionObservable extends FingerprintObservable<FingerprintDecryptio
 	 * @param encrypted data to encrypt  @return Observable {@link FingerprintEncryptionResult}
 	 * @return Observable result of the decryption
 	 */
-	static Observable<FingerprintDecryptionResult> create(Context context, String keyName, String encrypted) {
+	static Observable<FingerprintDecryptionResult> create(Context context,
+														  String keyName,
+														  String encrypted,
+														  boolean keyInvalidatedByBiometricEnrollment,
+														  RxFingerprintLogger logger) {
 		try {
-			return Observable.create(new RsaDecryptionObservable(new FingerprintApiWrapper(context),
-					new RsaCipherProvider(context, keyName),
+			return Observable.create(new RsaDecryptionObservable(
+					new FingerprintApiWrapper(context, logger),
+					new RsaCipherProvider(context, keyName, keyInvalidatedByBiometricEnrollment, logger),
 					encrypted,
-					new Base64Provider()));
+					new Base64Provider(),
+					logger));
 		} catch (Exception e) {
 			return Observable.error(e);
 		}
@@ -62,11 +69,13 @@ class RsaDecryptionObservable extends FingerprintObservable<FingerprintDecryptio
 	private RsaDecryptionObservable(FingerprintApiWrapper fingerprintApiWrapper,
 									RsaCipherProvider cipherProvider,
 									String encrypted,
-									EncodingProvider encodingProvider) {
+									EncodingProvider encodingProvider,
+									RxFingerprintLogger logger) {
 		super(fingerprintApiWrapper);
 		this.cipherProvider = cipherProvider;
 		encryptedString = encrypted;
 		this.encodingProvider = encodingProvider;
+		this.logger = logger;
 	}
 
 	@Nullable
@@ -90,7 +99,7 @@ class RsaDecryptionObservable extends FingerprintObservable<FingerprintDecryptio
 			emitter.onNext(new FingerprintDecryptionResult(FingerprintResult.AUTHENTICATED, null, ConversionUtils.toChars(bytes)));
 			emitter.onComplete();
 		} catch (Exception e) {
-			Logger.error("Unable to decrypt given value. RxFingerprint is only able to decrypt values previously encrypted by RxFingerprint with the same encryption mode.", e);
+			logger.error("Unable to decrypt given value. RxFingerprint is only able to decrypt values previously encrypted by RxFingerprint with the same encryption mode.", e);
 			emitter.onError(cipherProvider.mapCipherFinalOperationException(e));
 		}
 

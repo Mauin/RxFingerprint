@@ -25,10 +25,6 @@ import android.support.annotation.Nullable;
 import com.mtramin.rxfingerprint.data.FingerprintEncryptionResult;
 import com.mtramin.rxfingerprint.data.FingerprintResult;
 
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
-import java.util.Arrays;
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 
@@ -55,10 +51,14 @@ class AesEncryptionObservable extends FingerprintObservable<FingerprintEncryptio
 	 * @param keyName   name of the key in the keystore
 	 * @param toEncrypt data to encrypt  @return Observable {@link FingerprintEncryptionResult}
 	 */
-	static Observable<FingerprintEncryptionResult> create(Context context, String keyName, char[] toEncrypt, boolean keyInvalidatedByBiometricEnrollment) {
+	static Observable<FingerprintEncryptionResult> create(Context context,
+														  String keyName,
+														  char[] toEncrypt,
+														  boolean keyInvalidatedByBiometricEnrollment,
+														  RxFingerprintLogger logger) {
 		try {
-			return Observable.create(new AesEncryptionObservable(new FingerprintApiWrapper(context),
-					new AesCipherProvider(context, keyName, keyInvalidatedByBiometricEnrollment),
+			return Observable.create(new AesEncryptionObservable(new FingerprintApiWrapper(context, logger),
+					new AesCipherProvider(context, keyName, keyInvalidatedByBiometricEnrollment, logger),
 					toEncrypt,
 					new Base64Provider()));
 		} catch (Exception e) {

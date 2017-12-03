@@ -35,39 +35,41 @@ class RsaEncryptionObservable implements ObservableOnSubscribe<FingerprintEncryp
 	private final RsaCipherProvider cipherProvider;
 	private final char[] toEncrypt;
 	private final EncodingProvider encodingProvider;
+    private final RxFingerprintLogger logger;
 
-	/**
-	 * Creates a new AesEncryptionObservable that will listen to fingerprint authentication
-	 * to encrypt the given data.
-	 *
-	 * @param context   context to use
-	 * @param keyName   name of the key in the keystore
-	 * @param toEncrypt data to encrypt  @return Observable {@link FingerprintEncryptionResult}
-	 */
-	static Observable<FingerprintEncryptionResult> create(Context context, String keyName, char[] toEncrypt, boolean keyInvalidatedByBiometricEnrollment) {
-		if (toEncrypt == null) {
-			return Observable.error(new IllegalArgumentException("String to be encrypted is null. Can only encrypt valid strings"));
-		}
-		try {
-			return Observable.create(new RsaEncryptionObservable(new FingerprintApiWrapper(context),
-					new RsaCipherProvider(context, keyName, keyInvalidatedByBiometricEnrollment),
-					toEncrypt,
-					new Base64Provider()));
-		} catch (Exception e) {
-			return Observable.error(e);
-		}
-	}
+    /**
+     * Creates a new AesEncryptionObservable that will listen to fingerprint authentication
+     * to encrypt the given data.
+     *
+     * @param context   context to use
+     * @param keyName   name of the key in the keystore
+     * @param toEncrypt data to encrypt  @return Observable {@link FingerprintEncryptionResult}
+     */
+    static Observable<FingerprintEncryptionResult> create(Context context, String keyName, char[] toEncrypt, boolean keyInvalidatedByBiometricEnrollment,
+        RxFingerprintLogger logger) {if (toEncrypt == null) {
+            return Observable.error(new IllegalArgumentException("String to be encrypted is null. Can only encrypt valid strings"));
+        }
+        try {
+            return Observable.create(new RsaEncryptionObservable(new FingerprintApiWrapper(context, logger),
+                    new RsaCipherProvider(context, keyName, keyInvalidatedByBiometricEnrollment, logger),
+                    toEncrypt,
+                    new Base64Provider(),
+                    logger));
+        } catch (Exception e) {
+            return Observable.error(e);
+        }
+    }
 
 	@VisibleForTesting
 	RsaEncryptionObservable(FingerprintApiWrapper fingerprintApiWrapper,
 							RsaCipherProvider cipherProvider,
 							char[] toEncrypt,
-							EncodingProvider encodingProvider) {
-		this.fingerprintApiWrapper = fingerprintApiWrapper;
+							EncodingProvider encodingProvider,
+		RxFingerprintLogger logger) {this.fingerprintApiWrapper = fingerprintApiWrapper;
 		this.cipherProvider = cipherProvider;
 		this.toEncrypt = toEncrypt;
 		this.encodingProvider = encodingProvider;
-	}
+	this.logger = logger;}
 
 	@Override
 	public void subscribe(ObservableEmitter<FingerprintEncryptionResult> emitter) throws Exception {
@@ -80,12 +82,12 @@ class RsaEncryptionObservable implements ObservableOnSubscribe<FingerprintEncryp
 			Cipher cipher = cipherProvider.getCipherForEncryption();
 			byte[] encryptedBytes = cipher.doFinal(ConversionUtils.toBytes(toEncrypt));
 
-			String encryptedString = encodingProvider.encode(encryptedBytes);
-			emitter.onNext(new FingerprintEncryptionResult(FingerprintResult.AUTHENTICATED, null, encryptedString));
-			emitter.onComplete();
-		} catch (Exception e) {
-			Logger.error(String.format("Error writing value for key: %s", cipherProvider.keyName), e);
-			emitter.onError(e);
-		}
-	}
+            String encryptedString = encodingProvider.encode(encryptedBytes);
+            emitter.onNext(new FingerprintEncryptionResult(FingerprintResult.AUTHENTICATED, null, encryptedString));
+            emitter.onComplete();
+        } catch (Exception e) {
+            logger.error(String.format("Error writing value for key: %s", cipherProvider.keyName), e);
+            emitter.onError(e);
+        }
+    }
 }

@@ -16,10 +16,11 @@
 
 package com.mtramin.rxfingerprint;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.pm.PackageManager;
-import android.hardware.fingerprint.FingerprintManager;
+import static android.Manifest.permission.USE_FINGERPRINT;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -27,11 +28,10 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static android.Manifest.permission.USE_FINGERPRINT;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.when;
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.hardware.fingerprint.FingerprintManager;
 
 @SuppressLint("MissingPermission")
 @RunWith(MockitoJUnitRunner.class)
@@ -39,16 +39,16 @@ public class FingerprintApiWrapperTest {
 
 	@Mock Context context;
 	@Mock FingerprintManager fingerprintManager;
+	@Mock RxFingerprintLogger logger;
 
 	@Before
 	public void setUp() throws Exception {
-		RxFingerprint.disableLogging();
 	}
 
 	@Test
 	public void oldSdkReportsUnavailable() throws Exception {
 		TestHelper.setSdkLevel(21);
-		FingerprintApiWrapper fingerprintApiWrapper = new FingerprintApiWrapper(context);
+		FingerprintApiWrapper fingerprintApiWrapper = new FingerprintApiWrapper(context, logger);
 		assertTrue(fingerprintApiWrapper.isUnavailable());
 		assertFalse(fingerprintApiWrapper.isAvailable());
 
@@ -61,7 +61,7 @@ public class FingerprintApiWrapperTest {
 		TestHelper.setSdkLevel(23);
 		when(context.checkSelfPermission(USE_FINGERPRINT)).thenReturn(PackageManager.PERMISSION_DENIED);
 
-		FingerprintApiWrapper fingerprintApiWrapper = new FingerprintApiWrapper(context);
+		FingerprintApiWrapper fingerprintApiWrapper = new FingerprintApiWrapper(context, logger);
 		assertTrue(fingerprintApiWrapper.isUnavailable());
 		assertFalse(fingerprintApiWrapper.isAvailable());
 		assertFalse(fingerprintApiWrapper.isHardwareDetected());
@@ -74,7 +74,7 @@ public class FingerprintApiWrapperTest {
 		when(context.checkSelfPermission(USE_FINGERPRINT)).thenReturn(PackageManager.PERMISSION_GRANTED);
 		when(context.getSystemService(Context.FINGERPRINT_SERVICE)).thenThrow(NoClassDefFoundError.class);
 
-		FingerprintApiWrapper fingerprintApiWrapper = new FingerprintApiWrapper(context);
+		FingerprintApiWrapper fingerprintApiWrapper = new FingerprintApiWrapper(context, logger);
 		assertTrue(fingerprintApiWrapper.isUnavailable());
 		assertFalse(fingerprintApiWrapper.isAvailable());
 		assertFalse(fingerprintApiWrapper.isHardwareDetected());
@@ -88,7 +88,7 @@ public class FingerprintApiWrapperTest {
 		when(context.getSystemService(Context.FINGERPRINT_SERVICE)).thenReturn(fingerprintManager);
 		when(fingerprintManager.isHardwareDetected()).thenReturn(false);
 
-		FingerprintApiWrapper fingerprintApiWrapper = new FingerprintApiWrapper(context);
+		FingerprintApiWrapper fingerprintApiWrapper = new FingerprintApiWrapper(context, logger);
 		assertTrue(fingerprintApiWrapper.isUnavailable());
 		assertFalse(fingerprintApiWrapper.isAvailable());
 		assertFalse(fingerprintApiWrapper.isHardwareDetected());
@@ -101,7 +101,7 @@ public class FingerprintApiWrapperTest {
 		when(context.getSystemService(Context.FINGERPRINT_SERVICE)).thenReturn(fingerprintManager);
 		when(fingerprintManager.isHardwareDetected()).thenReturn(true);
 
-		FingerprintApiWrapper fingerprintApiWrapper = new FingerprintApiWrapper(context);
+		FingerprintApiWrapper fingerprintApiWrapper = new FingerprintApiWrapper(context, logger);
 		assertTrue(fingerprintApiWrapper.isHardwareDetected());
 	}
 
@@ -112,7 +112,7 @@ public class FingerprintApiWrapperTest {
 		when(context.getSystemService(Context.FINGERPRINT_SERVICE)).thenReturn(fingerprintManager);
 		when(fingerprintManager.hasEnrolledFingerprints()).thenReturn(false);
 
-		FingerprintApiWrapper fingerprintApiWrapper = new FingerprintApiWrapper(context);
+		FingerprintApiWrapper fingerprintApiWrapper = new FingerprintApiWrapper(context, logger);
 		assertTrue(fingerprintApiWrapper.isUnavailable());
 		assertFalse(fingerprintApiWrapper.isAvailable());
 		assertFalse(fingerprintApiWrapper.hasEnrolledFingerprints());
@@ -125,7 +125,7 @@ public class FingerprintApiWrapperTest {
 		when(context.getSystemService(Context.FINGERPRINT_SERVICE)).thenReturn(fingerprintManager);
 		when(fingerprintManager.hasEnrolledFingerprints()).thenReturn(true);
 
-		FingerprintApiWrapper fingerprintApiWrapper = new FingerprintApiWrapper(context);
+		FingerprintApiWrapper fingerprintApiWrapper = new FingerprintApiWrapper(context, logger);
 		assertTrue(fingerprintApiWrapper.hasEnrolledFingerprints());
 	}
 
@@ -137,7 +137,7 @@ public class FingerprintApiWrapperTest {
 		when(fingerprintManager.hasEnrolledFingerprints()).thenReturn(true);
 		when(fingerprintManager.isHardwareDetected()).thenReturn(true);
 
-		FingerprintApiWrapper fingerprintApiWrapper = new FingerprintApiWrapper(context);
+		FingerprintApiWrapper fingerprintApiWrapper = new FingerprintApiWrapper(context, logger);
 		assertTrue(fingerprintApiWrapper.isAvailable());
 		assertFalse(fingerprintApiWrapper.isUnavailable());
 	}
@@ -150,7 +150,7 @@ public class FingerprintApiWrapperTest {
 		when(fingerprintManager.hasEnrolledFingerprints()).thenReturn(true);
 		when(fingerprintManager.isHardwareDetected()).thenReturn(true);
 
-		FingerprintApiWrapper fingerprintApiWrapper = new FingerprintApiWrapper(context);
+		FingerprintApiWrapper fingerprintApiWrapper = new FingerprintApiWrapper(context, logger);
 		assertEquals(fingerprintManager, fingerprintApiWrapper.getFingerprintManager());
 	}
 
@@ -158,7 +158,7 @@ public class FingerprintApiWrapperTest {
 	public void getFingerprintManagerThrowsWhenUnavailable() throws Exception {
 		TestHelper.setSdkLevel(21);
 
-		FingerprintApiWrapper fingerprintApiWrapper = new FingerprintApiWrapper(context);
+		FingerprintApiWrapper fingerprintApiWrapper = new FingerprintApiWrapper(context, logger);
 		fingerprintApiWrapper.getFingerprintManager();
 	}
 }

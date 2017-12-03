@@ -41,20 +41,16 @@ import javax.crypto.spec.IvParameterSpec;
 class AesCipherProvider extends CipherProvider {
 	private static final int AES_KEY_SIZE = 256;
 
-	AesCipherProvider(@NonNull Context context, @Nullable String keyName) throws CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException {
-               this(context, keyName, true);
-       }
-
-       AesCipherProvider(@NonNull Context context, @Nullable String keyName, boolean keyInvalidatedByBiometricEnrollment) throws CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException {
-               super(context, keyName, keyInvalidatedByBiometricEnrollment);
-       }
+	AesCipherProvider(@NonNull Context context, @Nullable String keyName, boolean keyInvalidatedByBiometricEnrollment, RxFingerprintLogger logger) throws CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException {
+		super(context, keyName, keyInvalidatedByBiometricEnrollment, logger);
+	}
 
 	private SecretKey findOrCreateKey(String keyName) throws NoSuchProviderException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, UnrecoverableKeyException, CertificateException, KeyStoreException, IOException {
 		if (keyExists(keyName)) {
 			return getKey(keyName);
 		}
-               return createKey(keyName, invalidatedByBiometricEnrollment);
-       }
+		return createKey(keyName, invalidatedByBiometricEnrollment);
+	}
 
 	private SecretKey getKey(String keyName) throws KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException {
 		return (SecretKey) keyStore.getKey(keyName, null);

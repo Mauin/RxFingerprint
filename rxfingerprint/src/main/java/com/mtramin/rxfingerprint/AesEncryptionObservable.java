@@ -101,7 +101,7 @@ class AesEncryptionObservable extends FingerprintObservable<FingerprintEncryptio
 			emitter.onNext(new FingerprintEncryptionResult(FingerprintResult.AUTHENTICATED, null, encryptedString));
 			emitter.onComplete();
 		} catch (Exception e) {
-			emitter.onError(e);
+			emitter.onError(cipherProvider.mapCipherFinalOperationException(e));
 		}
 	}
 

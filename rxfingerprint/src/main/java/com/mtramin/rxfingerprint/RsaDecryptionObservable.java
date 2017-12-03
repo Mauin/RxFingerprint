@@ -92,7 +92,7 @@ class RsaDecryptionObservable extends FingerprintObservable<FingerprintDecryptio
 			emitter.onComplete();
 		} catch (Exception e) {
 			Logger.error("Unable to decrypt given value. RxFingerprint is only able to decrypt values previously encrypted by RxFingerprint with the same encryption mode.", e);
-			emitter.onError(e);
+			emitter.onError(cipherProvider.mapCipherFinalOperationException(e));
 		}
 
 	}

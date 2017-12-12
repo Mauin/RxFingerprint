@@ -17,7 +17,7 @@
 ext.versions = [
 		// Version
 		code                   : 1,
-		name                   : '2.2.0',
+		name                   : '2.2.1',
 
 		// Android Versions
 		compileSdk             : 25,

@@ -61,4 +61,12 @@ public class FingerprintAuthenticationResult {
     public boolean isSuccess() {
         return result == FingerprintResult.AUTHENTICATED;
     }
+
+    @Override
+    public String toString() {
+        return "FingerprintResult {"
+                + "result=" + result.name() + ", "
+                + "message=" + message +
+                "}";
+    }
 }

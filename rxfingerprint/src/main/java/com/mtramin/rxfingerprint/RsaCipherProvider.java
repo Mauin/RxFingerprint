@@ -40,6 +40,8 @@ import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
 
 class RsaCipherProvider extends CipherProvider {
+	private static final int RSA_KEY_SIZE = 2048;
+
 	RsaCipherProvider(@NonNull Context context, @Nullable String keyName) throws CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException {
 		this(context, keyName, true);
 	}
@@ -53,6 +55,7 @@ class RsaCipherProvider extends CipherProvider {
 		KeyPairGenerator keyGenerator = KeyPairGenerator.getInstance(KeyProperties.KEY_ALGORITHM_RSA, ANDROID_KEY_STORE);
 
 		keyGenerator.initialize(getKeyGenParameterSpecBuilder(keyName, KeyProperties.BLOCK_MODE_ECB, KeyProperties.ENCRYPTION_PADDING_RSA_PKCS1, invalidatedByBiometricEnrollment)
+				.setKeySize(RSA_KEY_SIZE)
 				.build());
 
 		keyGenerator.generateKeyPair();

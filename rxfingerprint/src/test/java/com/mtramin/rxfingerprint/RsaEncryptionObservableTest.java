@@ -53,7 +53,7 @@ public class RsaEncryptionObservableTest {
 		cipher = mock(Cipher.class);
 		RxFingerprint.disableLogging();
 
-		observable = Observable.create(new RsaEncryptionObservable(fingerprintApiWrapper, cipherProvider, INPUT, new TestEncodingProvider()));
+		observable = Observable.create(new RsaEncryptionObservable(fingerprintApiWrapper, cipherProvider, INPUT.toCharArray(), new TestEncodingProvider()));
 	}
 
 	@Test
@@ -79,7 +79,7 @@ public class RsaEncryptionObservableTest {
 	public void encrypt() throws Exception {
 		when(fingerprintApiWrapper.isUnavailable()).thenReturn(false);
 		when(cipherProvider.getCipherForEncryption()).thenReturn(cipher);
-		when(cipher.doFinal(INPUT.getBytes("UTF-8"))).thenReturn(INPUT.getBytes("UTF-8"));
+		when(cipher.doFinal(ConversionUtils.toBytes(INPUT.toCharArray()))).thenReturn(ConversionUtils.toBytes(INPUT.toCharArray()));
 
 		FingerprintEncryptionResult fingerprintEncryptionResult = observable.test()
 				.assertValueCount(1)

@@ -93,9 +93,9 @@ class AesDecryptionObservable extends FingerprintObservable<FingerprintDecryptio
 		try {
 			CryptoData cryptoData = CryptoData.fromString(encodingProvider, encryptedString);
 			Cipher cipher = result.getCryptoObject().getCipher();
-			String decrypted = new String(cipher.doFinal(cryptoData.getMessage()));
+			byte[] bytes = cipher.doFinal(cryptoData.getMessage());
 
-			emitter.onNext(new FingerprintDecryptionResult(FingerprintResult.AUTHENTICATED, null, decrypted));
+			emitter.onNext(new FingerprintDecryptionResult(FingerprintResult.AUTHENTICATED, null, ConversionUtils.toChars(bytes)));
 			emitter.onComplete();
 		} catch (Exception e) {
 			emitter.onError(cipherProvider.mapCipherFinalOperationException(e));

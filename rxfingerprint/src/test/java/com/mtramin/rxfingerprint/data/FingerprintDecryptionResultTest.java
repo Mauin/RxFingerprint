@@ -9,11 +9,11 @@ public class FingerprintDecryptionResultTest {
 
 	@Test
 	public void getResultSuccess() throws Exception {
-		String decrypted = "decrypted";
+		char[] decrypted = "decrypted".toCharArray();
 		FingerprintDecryptionResult result = new FingerprintDecryptionResult(FingerprintResult.AUTHENTICATED, null, decrypted);
 
 		assertNull(result.getMessage());
-		assertEquals(decrypted, result.getDecrypted());
+		assertEquals(decrypted, result.getDecryptedChars());
 	}
 
 	@Test(expected = IllegalAccessError.class)

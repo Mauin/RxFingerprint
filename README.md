@@ -72,7 +72,7 @@ By disposing the `Disposable`, the fingerprint sensor will be disabled again wit
 
 ### Encryption-and-decryption
 
-Usage of the Encryption and decryption features of RxFingerprint are very similar to simple authentication calls. For more details about the cryptography used and it's security, see [Cryptography](#cryptography)
+Usage of the Encryption and decryption features of RxFingerprint are very similar to simple authentication calls.
 
 `RxFingerprint` supports encryption with both the AES and RSA encryption standards. They differ in the way the user needs to interact with their fingerprint sensor.
 For encryption and decryption the same `EncryptionMethod` should be used. Otherwise the encrypted data cannot be decrypted.

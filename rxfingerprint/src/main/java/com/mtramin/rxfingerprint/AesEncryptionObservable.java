@@ -25,6 +25,10 @@ import android.support.annotation.Nullable;
 import com.mtramin.rxfingerprint.data.FingerprintEncryptionResult;
 import com.mtramin.rxfingerprint.data.FingerprintResult;
 
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
+import java.util.Arrays;
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 
@@ -39,7 +43,7 @@ import io.reactivex.ObservableEmitter;
 @SuppressLint("NewApi") // SDK check happens in {@link FingerprintObservable#subscribe}
 class AesEncryptionObservable extends FingerprintObservable<FingerprintEncryptionResult> {
 
-	private final String toEncrypt;
+	private final char[] toEncrypt;
 	private final EncodingProvider encodingProvider;
 	private final AesCipherProvider cipherProvider;
 
@@ -51,7 +55,7 @@ class AesEncryptionObservable extends FingerprintObservable<FingerprintEncryptio
 	 * @param keyName   name of the key in the keystore
 	 * @param toEncrypt data to encrypt  @return Observable {@link FingerprintEncryptionResult}
 	 */
-	static Observable<FingerprintEncryptionResult> create(Context context, String keyName, String toEncrypt, boolean keyInvalidatedByBiometricEnrollment) {
+	static Observable<FingerprintEncryptionResult> create(Context context, String keyName, char[] toEncrypt, boolean keyInvalidatedByBiometricEnrollment) {
 		try {
 			return Observable.create(new AesEncryptionObservable(new FingerprintApiWrapper(context),
 					new AesCipherProvider(context, keyName, keyInvalidatedByBiometricEnrollment),
@@ -64,7 +68,7 @@ class AesEncryptionObservable extends FingerprintObservable<FingerprintEncryptio
 
 	private AesEncryptionObservable(FingerprintApiWrapper fingerprintApiWrapper,
 							AesCipherProvider cipherProvider,
-							String toEncrypt,
+							char[] toEncrypt,
 							EncodingProvider encodingProvider) {
 		super(fingerprintApiWrapper);
 		this.cipherProvider = cipherProvider;
@@ -92,7 +96,7 @@ class AesEncryptionObservable extends FingerprintObservable<FingerprintEncryptio
 	protected void onAuthenticationSucceeded(ObservableEmitter<FingerprintEncryptionResult> emitter, AuthenticationResult result) {
 		try {
 			Cipher cipher = result.getCryptoObject().getCipher();
-			byte[] encryptedBytes = cipher.doFinal(toEncrypt.getBytes("UTF-8"));
+			byte[] encryptedBytes = cipher.doFinal(ConversionUtils.toBytes(toEncrypt));
 			byte[] ivBytes = cipher.getParameters().getParameterSpec(IvParameterSpec.class).getIV();
 
 			String encryptedString = CryptoData.fromBytes(encodingProvider, encryptedBytes, ivBytes).toString();

@@ -22,7 +22,7 @@ package com.mtramin.rxfingerprint.data;
  */
 public class FingerprintDecryptionResult extends FingerprintAuthenticationResult {
 
-    private final String decrypted;
+    private final char[] decrypted;
 
     /**
      * Default constructor
@@ -31,7 +31,7 @@ public class FingerprintDecryptionResult extends FingerprintAuthenticationResult
      * @param message   message to be displayed to the user
      * @param decrypted decrypted data
      */
-    public FingerprintDecryptionResult(FingerprintResult result, String message, String decrypted) {
+    public FingerprintDecryptionResult(FingerprintResult result, String message, char[] decrypted) {
         super(result, message);
         this.decrypted = decrypted;
     }
@@ -41,6 +41,14 @@ public class FingerprintDecryptionResult extends FingerprintAuthenticationResult
      * authentication was of type {@link FingerprintResult#AUTHENTICATED}.
      */
     public String getDecrypted() {
+        return new String(getDecryptedChars());
+    }
+
+    /**
+     * @return decrypted data as a char[]. Can only be accessed if the result of the fingerprint
+     * authentication was of type {@link FingerprintResult#AUTHENTICATED}.
+     */
+    public char[] getDecryptedChars() {
         if (!isSuccess()) {
             throw new IllegalAccessError("Fingerprint authentication was not successful, cannot access decryption result");
         }

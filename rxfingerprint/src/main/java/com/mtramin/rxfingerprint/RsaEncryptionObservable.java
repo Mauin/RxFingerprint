@@ -33,7 +33,7 @@ class RsaEncryptionObservable implements ObservableOnSubscribe<FingerprintEncryp
 
 	private final FingerprintApiWrapper fingerprintApiWrapper;
 	private final RsaCipherProvider cipherProvider;
-	private final String toEncrypt;
+	private final char[] toEncrypt;
 	private final EncodingProvider encodingProvider;
 
 	/**
@@ -44,7 +44,7 @@ class RsaEncryptionObservable implements ObservableOnSubscribe<FingerprintEncryp
 	 * @param keyName   name of the key in the keystore
 	 * @param toEncrypt data to encrypt  @return Observable {@link FingerprintEncryptionResult}
 	 */
-	static Observable<FingerprintEncryptionResult> create(Context context, String keyName, String toEncrypt, boolean keyInvalidatedByBiometricEnrollment) {
+	static Observable<FingerprintEncryptionResult> create(Context context, String keyName, char[] toEncrypt, boolean keyInvalidatedByBiometricEnrollment) {
 		if (toEncrypt == null) {
 			return Observable.error(new IllegalArgumentException("String to be encrypted is null. Can only encrypt valid strings"));
 		}
@@ -61,7 +61,7 @@ class RsaEncryptionObservable implements ObservableOnSubscribe<FingerprintEncryp
 	@VisibleForTesting
 	RsaEncryptionObservable(FingerprintApiWrapper fingerprintApiWrapper,
 							RsaCipherProvider cipherProvider,
-							String toEncrypt,
+							char[] toEncrypt,
 							EncodingProvider encodingProvider) {
 		this.fingerprintApiWrapper = fingerprintApiWrapper;
 		this.cipherProvider = cipherProvider;
@@ -78,7 +78,7 @@ class RsaEncryptionObservable implements ObservableOnSubscribe<FingerprintEncryp
 
 		try {
 			Cipher cipher = cipherProvider.getCipherForEncryption();
-			byte[] encryptedBytes = cipher.doFinal(toEncrypt.getBytes("UTF-8"));
+			byte[] encryptedBytes = cipher.doFinal(ConversionUtils.toBytes(toEncrypt));
 
 			String encryptedString = encodingProvider.encode(encryptedBytes);
 			emitter.onNext(new FingerprintEncryptionResult(FingerprintResult.AUTHENTICATED, null, encryptedString));

@@ -17,12 +17,12 @@
 ext.versions = [
 		// Version
 		code                   : 1,
-		name                   : '2.2.1.1',
+		name                   : '2.2.1.2',
 
 		// Android Versions
 		compileSdk             : 27,
 		targetSdk              : 27,
-		minSdk                 : 23,
+		minSdk                 : 19,
 		buildTools             : '27.0.3',
 
 		// Gradle Versions

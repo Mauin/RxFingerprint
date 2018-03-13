@@ -206,7 +206,7 @@ public class RxFingerprint {
      * authentication was successful or has failed entirely.
      */
     public Observable<FingerprintAuthenticationResult> authenticate() {
-        return FingerprintManagerAuthenticationObservable.create(context, logger);
+        return RxFingerprintCompat.authenticate(context, logger);
     }
 
 	/**
@@ -306,14 +306,7 @@ public class RxFingerprint {
 	 */
 	public Observable<FingerprintEncryptionResult> encrypt(@Nullable String keyName,
 														   @NonNull char[] toEncrypt) {
-		switch (encryptionMethod) {
-			case AES:
-				return FingerprintManagerAesEncryptionObservable.create(context, keyName, toEncrypt, keyInvalidatedByBiometricEnrollment, logger);
-			case RSA:
-				return FingerprintManagerRsaEncryptionObservable.create(context, keyName, toEncrypt, keyInvalidatedByBiometricEnrollment, logger);
-			default:
-				return Observable.error(new IllegalArgumentException("Unknown encryption method: " + encryptionMethod));
-		}
+		return RxFingerprintCompat.encrypt(encryptionMethod, context, keyName, toEncrypt, keyInvalidatedByBiometricEnrollment, logger);
 	}
 
 	/**
@@ -359,15 +352,8 @@ public class RxFingerprint {
 	 *                  have failed entirely.
 	 */
 	public Observable<FingerprintDecryptionResult> decrypt(@Nullable String keyName,
-																  @NonNull String toDecrypt) {
-		switch (encryptionMethod) {
-			case AES:
-				return FingerprintManagerAesDecryptionObservable.create(context, keyName, toDecrypt, keyInvalidatedByBiometricEnrollment, logger);
-			case RSA:
-				return FingerprintManagerRsaDecryptionObservable.create(context, keyName, toDecrypt, keyInvalidatedByBiometricEnrollment, logger);
-			default:
-				return Observable.error(new IllegalArgumentException("Unknown decryption method: " + encryptionMethod));
-		}
+														   @NonNull String toDecrypt) {
+		return RxFingerprintCompat.decrypt(encryptionMethod, context, keyName, toDecrypt, keyInvalidatedByBiometricEnrollment, logger);
 	}
 
     /**

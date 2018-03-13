@@ -110,4 +110,12 @@ class FingerprintApiWrapper {
 		}
 		return null;
 	}
+
+	/**
+	 * Checks if the currently running OS is Android P or above
+	 * @return {@code true} if the current Android version is at least Android P
+	 */
+	static boolean isProfiteroleOrAbove() {
+		return Build.VERSION.SDK_INT > 27;
+	}
 }

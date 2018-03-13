@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Marvin Ramin.
+ * Copyright 2018 Marvin Ramin.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 
-class RsaEncryptionObservable implements ObservableOnSubscribe<FingerprintEncryptionResult> {
+class FingerprintDialogRsaEncryptionObservable implements ObservableOnSubscribe<FingerprintEncryptionResult> {
 
 	private final FingerprintApiWrapper fingerprintApiWrapper;
 	private final RsaCipherProvider cipherProvider;
@@ -50,7 +50,7 @@ class RsaEncryptionObservable implements ObservableOnSubscribe<FingerprintEncryp
             return Observable.error(new IllegalArgumentException("String to be encrypted is null. Can only encrypt valid strings"));
         }
         try {
-            return Observable.create(new RsaEncryptionObservable(new FingerprintApiWrapper(context, logger),
+            return Observable.create(new FingerprintDialogRsaEncryptionObservable(new FingerprintApiWrapper(context, logger),
                     new RsaCipherProvider(context, keyName, keyInvalidatedByBiometricEnrollment, logger),
                     toEncrypt,
                     new Base64Provider(),
@@ -61,11 +61,11 @@ class RsaEncryptionObservable implements ObservableOnSubscribe<FingerprintEncryp
     }
 
 	@VisibleForTesting
-	RsaEncryptionObservable(FingerprintApiWrapper fingerprintApiWrapper,
-							RsaCipherProvider cipherProvider,
-							char[] toEncrypt,
-							EncodingProvider encodingProvider,
-		RxFingerprintLogger logger) {this.fingerprintApiWrapper = fingerprintApiWrapper;
+	FingerprintDialogRsaEncryptionObservable(FingerprintApiWrapper fingerprintApiWrapper,
+											 RsaCipherProvider cipherProvider,
+											 char[] toEncrypt,
+											 EncodingProvider encodingProvider,
+											 RxFingerprintLogger logger) {this.fingerprintApiWrapper = fingerprintApiWrapper;
 		this.cipherProvider = cipherProvider;
 		this.toEncrypt = toEncrypt;
 		this.encodingProvider = encodingProvider;

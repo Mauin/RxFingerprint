@@ -32,8 +32,8 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 
 @SuppressLint("NewApi")
-		// SDK check happens in {@link FingerprintObservable#subscribe}
-class RsaDecryptionObservable extends FingerprintObservable<FingerprintDecryptionResult> {
+		// SDK check happens in {@link FingerprintManagerObservable#subscribe}
+class FingerprintManagerRsaDecryptionObservable extends FingerprintManagerObservable<FingerprintDecryptionResult> {
 
 	private final RsaCipherProvider cipherProvider;
 	private final String encryptedString;
@@ -55,7 +55,7 @@ class RsaDecryptionObservable extends FingerprintObservable<FingerprintDecryptio
 														  boolean keyInvalidatedByBiometricEnrollment,
 														  RxFingerprintLogger logger) {
 		try {
-			return Observable.create(new RsaDecryptionObservable(
+			return Observable.create(new FingerprintManagerRsaDecryptionObservable(
 					new FingerprintApiWrapper(context, logger),
 					new RsaCipherProvider(context, keyName, keyInvalidatedByBiometricEnrollment, logger),
 					encrypted,
@@ -66,11 +66,11 @@ class RsaDecryptionObservable extends FingerprintObservable<FingerprintDecryptio
 		}
 	}
 
-	private RsaDecryptionObservable(FingerprintApiWrapper fingerprintApiWrapper,
-									RsaCipherProvider cipherProvider,
-									String encrypted,
-									EncodingProvider encodingProvider,
-									RxFingerprintLogger logger) {
+	private FingerprintManagerRsaDecryptionObservable(FingerprintApiWrapper fingerprintApiWrapper,
+													  RsaCipherProvider cipherProvider,
+													  String encrypted,
+													  EncodingProvider encodingProvider,
+													  RxFingerprintLogger logger) {
 		super(fingerprintApiWrapper);
 		this.cipherProvider = cipherProvider;
 		encryptedString = encrypted;

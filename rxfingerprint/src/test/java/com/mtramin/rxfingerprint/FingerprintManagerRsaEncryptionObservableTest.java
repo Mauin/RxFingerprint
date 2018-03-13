@@ -35,7 +35,7 @@ import javax.crypto.Cipher;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(Cipher.class)
-public class RsaEncryptionObservableTest {
+public class FingerprintManagerRsaEncryptionObservableTest {
 
 	private static final String INPUT = "TEST";
 
@@ -51,7 +51,7 @@ public class RsaEncryptionObservableTest {
 		mockStatic(Cipher.class);
 		cipher = mock(Cipher.class);
 
-		observable = Observable.create(new RsaEncryptionObservable(fingerprintApiWrapper, cipherProvider, INPUT.toCharArray(), new TestEncodingProvider(), logger));
+		observable = Observable.create(new FingerprintManagerRsaEncryptionObservable(fingerprintApiWrapper, cipherProvider, INPUT.toCharArray(), new TestEncodingProvider(), logger));
 	}
 
 	@Test

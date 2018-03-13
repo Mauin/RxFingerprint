@@ -1,11 +1,11 @@
 /*
- * Copyright 2015 Marvin Ramin
+ * Copyright 2018 Marvin Ramin.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * <http://www.apache.org/licenses/LICENSE-2.0>
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,8 +18,7 @@ package com.mtramin.rxfingerprint;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.hardware.fingerprint.FingerprintManager.AuthenticationResult;
-import android.hardware.fingerprint.FingerprintManager.CryptoObject;
+import android.hardware.fingerprint.FingerprintDialog;
 import android.support.annotation.Nullable;
 
 import com.mtramin.rxfingerprint.data.FingerprintDecryptionResult;
@@ -39,7 +38,7 @@ import io.reactivex.ObservableEmitter;
  * The date handed in must be previously encrypted by a {@link AesEncryptionObservable}.
  */
 @SuppressLint("NewApi") // SDK check happens in {@link FingerprintObservable#subscribe}
-class AesDecryptionObservable extends FingerprintObservable<FingerprintDecryptionResult> {
+class FingerprintDialogAesDecryptionObservable extends FingerprintDialogObservable<FingerprintDecryptionResult> {
 
 	private final AesCipherProvider cipherProvider;
 	private final String encryptedString;
@@ -60,7 +59,7 @@ class AesDecryptionObservable extends FingerprintObservable<FingerprintDecryptio
 														  boolean keyInvalidatedByBiometricEnrollment,
 														  RxFingerprintLogger logger) {
 		try {
-			return Observable.create(new AesDecryptionObservable(
+			return Observable.create(new FingerprintDialogAesDecryptionObservable(
 					new FingerprintApiWrapper(context, logger),
 					new AesCipherProvider(context, keyName, keyInvalidatedByBiometricEnrollment, logger),
 					encrypted,
@@ -70,10 +69,10 @@ class AesDecryptionObservable extends FingerprintObservable<FingerprintDecryptio
 		}
 	}
 
-	private AesDecryptionObservable(FingerprintApiWrapper fingerprintApiWrapper,
-									AesCipherProvider cipherProvider,
-									String encrypted,
-									EncodingProvider encodingProvider) {
+	private FingerprintDialogAesDecryptionObservable(FingerprintApiWrapper fingerprintApiWrapper,
+													 AesCipherProvider cipherProvider,
+													 String encrypted,
+													 EncodingProvider encodingProvider) {
 		super(fingerprintApiWrapper);
 		this.cipherProvider = cipherProvider;
 		encryptedString = encrypted;
@@ -82,11 +81,11 @@ class AesDecryptionObservable extends FingerprintObservable<FingerprintDecryptio
 
 	@Nullable
 	@Override
-	protected CryptoObject initCryptoObject(ObservableEmitter<FingerprintDecryptionResult> subscriber) {
+	protected FingerprintDialog.CryptoObject initCryptoObject(ObservableEmitter<FingerprintDecryptionResult> subscriber) {
 		try {
 			CryptoData cryptoData = CryptoData.fromString(encodingProvider, encryptedString);
 			Cipher cipher = cipherProvider.getCipherForDecryption(cryptoData.getIv());
-			return new CryptoObject(cipher);
+			return new FingerprintDialog.CryptoObject(cipher);
 		} catch (Exception e) {
 			subscriber.onError(e);
 			return null;
@@ -94,7 +93,7 @@ class AesDecryptionObservable extends FingerprintObservable<FingerprintDecryptio
 	}
 
 	@Override
-	protected void onAuthenticationSucceeded(ObservableEmitter<FingerprintDecryptionResult> emitter, AuthenticationResult result) {
+	protected void onAuthenticationSucceeded(ObservableEmitter<FingerprintDecryptionResult> emitter, FingerprintDialog.AuthenticationResult result) {
 		try {
 			CryptoData cryptoData = CryptoData.fromString(encodingProvider, encryptedString);
 			Cipher cipher = result.getCryptoObject().getCipher();

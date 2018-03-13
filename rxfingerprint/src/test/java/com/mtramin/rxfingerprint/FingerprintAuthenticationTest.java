@@ -48,7 +48,7 @@ public class FingerprintAuthenticationTest {
     public void setUp() throws Exception {
         when(fingerprintApiWrapper.createCancellationSignal()).thenReturn(cancellationSignal);
 
-        observable = Observable.create(new FingerprintAuthenticationObservable(fingerprintApiWrapper));
+        observable = Observable.create(new FingerprintManagerAuthenticationObservable(fingerprintApiWrapper));
     }
 
     @Test

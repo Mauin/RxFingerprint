@@ -20,6 +20,7 @@ import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.hardware.fingerprint.FingerprintDialog;
 import android.hardware.fingerprint.FingerprintManager;
 import android.os.Build;
 import android.os.CancellationSignal;
@@ -55,6 +56,10 @@ class FingerprintApiWrapper {
 		} else {
 			this.fingerprintManager = null;
 		}
+	}
+
+	FingerprintDialog buildDialog(FingerprintDialog.Builder fingerprintDialogBuilder) {
+		return fingerprintDialogBuilder.build(context);
 	}
 
 	boolean isAvailable() {

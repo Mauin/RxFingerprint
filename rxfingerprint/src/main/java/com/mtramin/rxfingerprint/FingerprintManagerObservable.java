@@ -41,8 +41,8 @@ import static android.Manifest.permission.USE_FINGERPRINT;
  * Base observable for Fingerprint authentication. Provides abstract methods that allow
  * to alter the input and result of the authentication.
  */
-@SuppressLint("NewApi") // SDK check happens in {@link FingerprintObservable#subscribe}
-abstract class FingerprintObservable<T> implements ObservableOnSubscribe<T> {
+@SuppressLint("NewApi") // SDK check happens in {@link FingerprintManagerObservable#subscribe}
+abstract class FingerprintManagerObservable<T> implements ObservableOnSubscribe<T> {
 
 	private final FingerprintApiWrapper fingerprintApiWrapper;
 	CancellationSignal cancellationSignal;
@@ -52,7 +52,7 @@ abstract class FingerprintObservable<T> implements ObservableOnSubscribe<T> {
 	 *
 	 * @param context Context to be used for the fingerprint authentication
 	 */
-	FingerprintObservable(FingerprintApiWrapper fingerprintApiWrapper) {
+	FingerprintManagerObservable(FingerprintApiWrapper fingerprintApiWrapper) {
 		this.fingerprintApiWrapper = fingerprintApiWrapper;
 	}
 
@@ -92,17 +92,17 @@ abstract class FingerprintObservable<T> implements ObservableOnSubscribe<T> {
 
 			@Override
 			public void onAuthenticationFailed() {
-				FingerprintObservable.this.onAuthenticationFailed(emitter);
+				FingerprintManagerObservable.this.onAuthenticationFailed(emitter);
 			}
 
 			@Override
 			public void onAuthenticationHelp(int helpMsgId, CharSequence helpString) {
-				FingerprintObservable.this.onAuthenticationHelp(emitter, helpMsgId, helpString.toString());
+				FingerprintManagerObservable.this.onAuthenticationHelp(emitter, helpMsgId, helpString.toString());
 			}
 
 			@Override
 			public void onAuthenticationSucceeded(AuthenticationResult result) {
-				FingerprintObservable.this.onAuthenticationSucceeded(emitter, result);
+				FingerprintManagerObservable.this.onAuthenticationSucceeded(emitter, result);
 			}
 		};
 	}

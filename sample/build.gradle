@@ -46,4 +46,5 @@ dependencies {
 //    implementation "com.mtramin:rxfingerprint:$versions.name"
 
     implementation libraries.appCompat
+    implementation libraries.rxAndroid
 }

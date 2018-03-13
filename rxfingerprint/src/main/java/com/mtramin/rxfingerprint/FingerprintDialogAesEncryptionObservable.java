@@ -45,18 +45,20 @@ class FingerprintDialogAesEncryptionObservable extends FingerprintDialogObservab
 	/**
 	 * Creates a new FingerprintDialogAesEncryptionObservable that will listen to fingerprint authentication
 	 * to encrypt the given data.
-	 *
-	 * @param context   context to use
+	 *  @param context   context to use
+	 * @param fingerprintDialogBundle
 	 * @param keyName   name of the key in the keystore
 	 * @param toEncrypt data to encrypt  @return Observable {@link FingerprintEncryptionResult}
 	 */
 	static Observable<FingerprintEncryptionResult> create(Context context,
+														  FingerprintDialogBundle fingerprintDialogBundle,
 														  String keyName,
 														  char[] toEncrypt,
 														  boolean keyInvalidatedByBiometricEnrollment,
 														  RxFingerprintLogger logger) {
 		try {
 			return Observable.create(new FingerprintDialogAesEncryptionObservable(new FingerprintApiWrapper(context, logger),
+					fingerprintDialogBundle,
 					new AesCipherProvider(context, keyName, keyInvalidatedByBiometricEnrollment, logger),
 					toEncrypt,
 					new Base64Provider()));
@@ -66,10 +68,11 @@ class FingerprintDialogAesEncryptionObservable extends FingerprintDialogObservab
 	}
 
 	private FingerprintDialogAesEncryptionObservable(FingerprintApiWrapper fingerprintApiWrapper,
+													 FingerprintDialogBundle fingerprintDialogBundle,
 													 AesCipherProvider cipherProvider,
 													 char[] toEncrypt,
 													 EncodingProvider encodingProvider) {
-		super(fingerprintApiWrapper);
+		super(fingerprintApiWrapper, fingerprintDialogBundle);
 		this.cipherProvider = cipherProvider;
 
 		if (toEncrypt == null) {

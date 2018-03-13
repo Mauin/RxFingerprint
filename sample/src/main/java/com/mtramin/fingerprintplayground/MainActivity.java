@@ -54,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
         rxFingerprint = new RxFingerprint.Builder(this)
                 .encryptionMethod(EncryptionMethod.RSA)
                 .keyInvalidatedByBiometricEnrollment(true)
+                .dialogTitleText("Good title")
+                .dialogNegativeButtonText("Cancel")
                 .build();
 
         this.statusText = (TextView) findViewById(R.id.status);

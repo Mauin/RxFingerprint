@@ -29,7 +29,6 @@ import android.support.annotation.RequiresPermission;
 import android.util.Log;
 
 import com.mtramin.rxfingerprint.data.FingerprintAuthenticationException;
-import com.mtramin.rxfingerprint.data.FingerprintUnavailableException;
 
 import java.util.concurrent.Executor;
 
@@ -43,14 +42,16 @@ import static android.Manifest.permission.USE_FINGERPRINT;
 /**
  * Authenticates the user with their fingerprint.
  */
+@TargetApi(Build.VERSION_CODES.P)
 abstract class FingerprintDialogObservable<T> implements ObservableOnSubscribe<T> {
 
     private final FingerprintApiWrapper fingerprintApiWrapper;
+    private final FingerprintDialogBundle fingerprintDialogBundle;
     CancellationSignal cancellationSignal;
 
-    @TargetApi(Build.VERSION_CODES.P)
-    FingerprintDialogObservable(FingerprintApiWrapper fingerprintApiWrapper) {
+    FingerprintDialogObservable(FingerprintApiWrapper fingerprintApiWrapper, FingerprintDialogBundle fingerprintDialogBundle) {
         this.fingerprintApiWrapper = fingerprintApiWrapper;
+        this.fingerprintDialogBundle = fingerprintDialogBundle;
     }
 
     @Override
@@ -58,11 +59,6 @@ abstract class FingerprintDialogObservable<T> implements ObservableOnSubscribe<T
     @RequiresApi(Build.VERSION_CODES.P)
     public void subscribe(ObservableEmitter<T> emitter) throws Exception {
         // TODO somehow work this into some interfaces
-        if (fingerprintApiWrapper.isUnavailable()) {
-            emitter.onError(new FingerprintUnavailableException("Fingerprint authentication is not available on this device! Ensure that the device has a Fingerprint sensor and enrolled Fingerprints by calling RxFingerprint#isAvailable(Context) first"));
-            return;
-        }
-
         Executor executor = new Executor() {
             @Override
             public void execute(@NonNull Runnable runnable) {
@@ -74,10 +70,10 @@ abstract class FingerprintDialogObservable<T> implements ObservableOnSubscribe<T
         cancellationSignal = fingerprintApiWrapper.createCancellationSignal();
         FingerprintDialog.CryptoObject cryptoObject = initCryptoObject(emitter);
         FingerprintDialog.Builder builder = new FingerprintDialog.Builder()
-                .setTitle("TITLE")
-                .setSubtitle("SUBTITLE")
-                .setDescription("DESCRIPTION")
-                .setNegativeButton("NEGATIVE BUTTON", executor, new DialogInterface.OnClickListener() {
+                .setTitle(fingerprintDialogBundle.getDialogTitleText())
+                .setSubtitle(fingerprintDialogBundle.getDialogSubtitleText())
+                .setDescription(fingerprintDialogBundle.getDialogDescriptionText())
+                .setNegativeButton(fingerprintDialogBundle.getDialogNegativeButtonText(), executor, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Log.e("RxFingerprint", "Dialog cancelled!");

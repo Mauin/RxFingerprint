@@ -40,13 +40,14 @@ class FingerprintDialogAuthenticationObservable extends FingerprintDialogObserva
 	 * @return Observable {@link FingerprintAuthenticationResult}
 	 */
 	static Observable<FingerprintAuthenticationResult> create(Context context,
+															  FingerprintDialogBundle fingerprintDialogBundle,
 															  RxFingerprintLogger logger) {
-		return Observable.create(new FingerprintDialogAuthenticationObservable(new FingerprintApiWrapper(context, logger)));
+		return Observable.create(new FingerprintDialogAuthenticationObservable(new FingerprintApiWrapper(context, logger), fingerprintDialogBundle));
 	}
 
 	@VisibleForTesting
-	FingerprintDialogAuthenticationObservable(FingerprintApiWrapper fingerprintApiWrapper) {
-		super(fingerprintApiWrapper);
+	FingerprintDialogAuthenticationObservable(FingerprintApiWrapper fingerprintApiWrapper, FingerprintDialogBundle fingerprintDialogBundle) {
+		super(fingerprintApiWrapper, fingerprintDialogBundle);
 	}
 
 	@Nullable

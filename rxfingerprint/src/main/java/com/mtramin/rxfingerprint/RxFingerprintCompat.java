@@ -26,22 +26,23 @@ import io.reactivex.Observable;
 
 class RxFingerprintCompat {
 
-	static Observable<FingerprintAuthenticationResult> authenticate(Context context, RxFingerprintLogger logger) {
+	static Observable<FingerprintAuthenticationResult> authenticate(Context context, FingerprintDialogBundle fingerprintDialogBundle, RxFingerprintLogger logger) {
 		if (FingerprintApiWrapper.isProfiteroleOrAbove()) {
-			return FingerprintDialogAuthenticationObservable.create(context, logger);
+			return FingerprintDialogAuthenticationObservable.create(context, fingerprintDialogBundle, logger);
 		}
 		return FingerprintManagerAuthenticationObservable.create(context, logger);
 	}
 
 	static Observable<FingerprintEncryptionResult> encrypt(EncryptionMethod encryptionMethod,
-																  Context context,
-																  String keyName,
-																  char[] toEncrypt,
-																  boolean keyInvalidatedByBiometricEnrollment,
-																  RxFingerprintLogger logger) {
+														   Context context,
+														   FingerprintDialogBundle fingerprintDialogBundle,
+														   String keyName,
+														   char[] toEncrypt,
+														   boolean keyInvalidatedByBiometricEnrollment,
+														   RxFingerprintLogger logger) {
 		switch (encryptionMethod) {
 			case AES:
-				return aesEncrypt(context, keyName, toEncrypt, keyInvalidatedByBiometricEnrollment, logger);
+				return aesEncrypt(context, fingerprintDialogBundle, keyName, toEncrypt, keyInvalidatedByBiometricEnrollment, logger);
 			case RSA:
 				// RSA encryption implementation does not depend on Fingerprint authentication!
 				return RsaEncryptionObservable.create(context, keyName, toEncrypt, keyInvalidatedByBiometricEnrollment, logger);
@@ -51,42 +52,54 @@ class RxFingerprintCompat {
 	}
 
 	static Observable<FingerprintDecryptionResult> decrypt(EncryptionMethod encryptionMethod,
-																  Context context,
-																  String keyName,
-																  String toDecrypt,
-																  boolean keyInvalidatedByBiometricEnrollment,
-																  RxFingerprintLogger logger) {
+														   Context context,
+														   FingerprintDialogBundle fingerprintDialogBundle,
+														   String keyName,
+														   String toDecrypt,
+														   boolean keyInvalidatedByBiometricEnrollment,
+														   RxFingerprintLogger logger) {
 		switch (encryptionMethod) {
 			case AES:
-				return aesDecrypt(context, keyName, toDecrypt, keyInvalidatedByBiometricEnrollment, logger);
+				return aesDecrypt(context, fingerprintDialogBundle, keyName, toDecrypt, keyInvalidatedByBiometricEnrollment, logger);
 			case RSA:
-				return rsaDecrypt(context, keyName, toDecrypt, keyInvalidatedByBiometricEnrollment, logger);
+				return rsaDecrypt(context, fingerprintDialogBundle, keyName, toDecrypt, keyInvalidatedByBiometricEnrollment, logger);
 			default:
 				return Observable.error(new IllegalArgumentException("Unknown decryption method: " + encryptionMethod));
 		}
 	}
 
 	private static Observable<FingerprintEncryptionResult> aesEncrypt(Context context,
+																	  FingerprintDialogBundle fingerprintDialogBundle,
 																	  String keyName,
 																	  char[] toEncrypt,
 																	  boolean keyInvalidatedByBiometricEnrollment,
 																	  RxFingerprintLogger logger) {
 		if (FingerprintApiWrapper.isProfiteroleOrAbove()) {
-			return FingerprintDialogAesEncryptionObservable.create(context, keyName, toEncrypt, keyInvalidatedByBiometricEnrollment, logger);
+			return FingerprintDialogAesEncryptionObservable.create(context, fingerprintDialogBundle, keyName, toEncrypt, keyInvalidatedByBiometricEnrollment, logger);
 		}
 		return FingerprintManagerAesEncryptionObservable.create(context, keyName, toEncrypt, keyInvalidatedByBiometricEnrollment, logger);
 	}
 
-	private static Observable<FingerprintDecryptionResult> rsaDecrypt(Context context, String keyName, String toDecrypt, boolean keyInvalidatedByBiometricEnrollment, RxFingerprintLogger logger) {
+	private static Observable<FingerprintDecryptionResult> rsaDecrypt(Context context,
+																	  FingerprintDialogBundle fingerprintDialogBundle,
+																	  String keyName,
+																	  String toDecrypt,
+																	  boolean keyInvalidatedByBiometricEnrollment,
+																	  RxFingerprintLogger logger) {
 		if (FingerprintApiWrapper.isProfiteroleOrAbove()) {
-			return FingerprintDialogRsaDecryptionObservable.create(context, keyName, toDecrypt, keyInvalidatedByBiometricEnrollment, logger);
+			return FingerprintDialogRsaDecryptionObservable.create(context, fingerprintDialogBundle, keyName, toDecrypt, keyInvalidatedByBiometricEnrollment, logger);
 		}
 		return FingerprintManagerRsaDecryptionObservable.create(context, keyName, toDecrypt, keyInvalidatedByBiometricEnrollment, logger);
 	}
 
-	private static Observable<FingerprintDecryptionResult> aesDecrypt(Context context, String keyName, String toDecrypt, boolean keyInvalidatedByBiometricEnrollment, RxFingerprintLogger logger) {
+	private static Observable<FingerprintDecryptionResult> aesDecrypt(Context context,
+																	  FingerprintDialogBundle fingerprintDialogBundle,
+																	  String keyName,
+																	  String toDecrypt,
+																	  boolean keyInvalidatedByBiometricEnrollment,
+																	  RxFingerprintLogger logger) {
 		if (FingerprintApiWrapper.isProfiteroleOrAbove()) {
-			return FingerprintDialogAesDecryptionObservable.create(context, keyName, toDecrypt, keyInvalidatedByBiometricEnrollment, logger);
+			return FingerprintDialogAesDecryptionObservable.create(context, fingerprintDialogBundle, keyName, toDecrypt, keyInvalidatedByBiometricEnrollment, logger);
 		}
 		return FingerprintManagerAesDecryptionObservable.create(context, keyName, toDecrypt, keyInvalidatedByBiometricEnrollment, logger);
 	}

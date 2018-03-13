@@ -31,6 +31,7 @@ import com.mtramin.rxfingerprint.RxFingerprint;
 
 import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposables;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Shows example usage of RxFingerprint
@@ -54,7 +55,9 @@ public class MainActivity extends AppCompatActivity {
         rxFingerprint = new RxFingerprint.Builder(this)
                 .encryptionMethod(EncryptionMethod.RSA)
                 .keyInvalidatedByBiometricEnrollment(true)
-                .dialogTitleText("Good title")
+                .dialogTitleText("RxFingerprint")
+                .dialogSubtitleText("Android P FingerprintDialog support coming soon...")
+                .dialogDescriptionText("And it will keep supporting the good old FingerprintManager for devices running M and N.")
                 .dialogNegativeButtonText("Cancel")
                 .build();
 
@@ -95,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         fingerprintDisposable = rxFingerprint.authenticate()
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainScheduler())
                 .subscribe(fingerprintAuthenticationResult -> {
                     switch (fingerprintAuthenticationResult.getResult()) {
                         case FAILED:

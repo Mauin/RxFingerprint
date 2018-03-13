@@ -34,28 +34,21 @@ import static android.Manifest.permission.USE_FINGERPRINT;
 class FingerprintApiWrapper {
 
 	@NonNull private final Context context;
-	@Nullable private final FingerprintManager fingerprintManager;
-	private final boolean hasApis;
 	private final RxFingerprintLogger logger;
 
 	FingerprintApiWrapper(@NonNull Context context, RxFingerprintLogger logger) {
 		this.logger = logger;
-		// If this is an Application Context, it causes issues when rotating the device while
-		// the sensor is active. The 2nd callback will receive the cancellation error of the first
-		// authentication action which will immediately onError and unsubscribe the 2nd
-		// authentication action.
-		if (context instanceof Application) {
+
+		if (context instanceof Application && !isProfiteroleOrAbove()) {
+			// If this is an Application Context, it causes issues when rotating the device while
+			// the sensor is active. The 2nd callback will receive the cancellation error of the first
+			// authentication action which will immediately onError and unsubscribe the 2nd
+			// authentication action. Limited to M, N & O for now as the FingerprintDialog
+			// implementation in P might not suffer from this issue.
 			this.logger.warn("Passing an Application Context to RxFingerprint might cause issues when the authentication is active and the application changes orientation. Consider passing an Activity Context.");
 		}
 
 		this.context = context;
-
-		hasApis = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
-		if (hasApis) {
-			this.fingerprintManager = getSystemFingerprintManager();
-		} else {
-			this.fingerprintManager = null;
-		}
 	}
 
 	FingerprintDialog buildDialog(FingerprintDialog.Builder fingerprintDialogBuilder) {
@@ -63,38 +56,53 @@ class FingerprintApiWrapper {
 	}
 
 	boolean isAvailable() {
-		return hasApis && isHardwareDetected() && hasEnrolledFingerprints();
+		if (isProfiteroleOrAbove()) {
+			return fingerprintPermissionGranted() && hasSystemFeatureFingerprint();
+		} else if (isMarshmallowOrAbove()) {
+			return isHardwareDetected() && hasEnrolledFingerprints();
+		} else {
+			return false;
+		}
 	}
 
 	boolean isUnavailable() {
 		return !isAvailable();
 	}
 
+	@Deprecated
 	boolean isHardwareDetected() {
-		if (!hasApis || !fingerprintPermissionGranted()) {
+		if (!isMarshmallowOrAbove() || !fingerprintPermissionGranted()) {
 			return false;
 		}
 
+		FingerprintManager fingerprintManager = getSystemFingerprintManager();
 		return fingerprintManager != null && fingerprintManager.isHardwareDetected();
 	}
 
+	@Deprecated
 	boolean hasEnrolledFingerprints() {
-		if (!hasApis || !fingerprintPermissionGranted()) {
+		if (!isMarshmallowOrAbove() || !fingerprintPermissionGranted()) {
 			return false;
 		}
 
+		FingerprintManager fingerprintManager = getSystemFingerprintManager();
 		return fingerprintManager != null && fingerprintManager.hasEnrolledFingerprints();
 	}
 
 	FingerprintManager getFingerprintManager() {
 		if (!isAvailable()) {
-			throw new IllegalStateException("Device does not support or use Fingerprint APIs. Call isAvailable() before getting FingerprintManager.");
+			throw new IllegalStateException("Device does not support or use Fingerprint APIs. Call rxfingerprint.isAvailable() before getting FingerprintManager.");
 		}
-		return fingerprintManager;
+
+		return getSystemFingerprintManager();
 	}
 
 	CancellationSignal createCancellationSignal() {
 		return new CancellationSignal();
+	}
+
+	private boolean hasSystemFeatureFingerprint() {
+		return context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_FINGERPRINT);
 	}
 
 	private boolean fingerprintPermissionGranted() {
@@ -111,11 +119,16 @@ class FingerprintApiWrapper {
 		return null;
 	}
 
+	static boolean isMarshmallowOrAbove() {
+		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
+	}
+
 	/**
 	 * Checks if the currently running OS is Android P or above
 	 * @return {@code true} if the current Android version is at least Android P
 	 */
 	static boolean isProfiteroleOrAbove() {
-		return Build.VERSION.SDK_INT > 27;
+		// Current Emulators report SDK_INT = 27 and RELEASE = "P"
+		return Build.VERSION.SDK_INT > 27 || Build.VERSION.RELEASE.equals("P");
 	}
 }

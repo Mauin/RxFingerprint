@@ -81,8 +81,12 @@ abstract class FingerprintDialogObservable<T> implements ObservableOnSubscribe<T
                     }
                 });
 
-        fingerprintApiWrapper.buildDialog(builder)
-                .authenticate(cryptoObject, cancellationSignal, executor, authenticationCallback);
+        FingerprintDialog fingerprintDialog = fingerprintApiWrapper.buildDialog(builder);
+        if (cryptoObject == null) {
+            fingerprintDialog.authenticate(cancellationSignal, executor, authenticationCallback);
+        } else {
+            fingerprintDialog.authenticate(cryptoObject, cancellationSignal, executor, authenticationCallback);
+        }
 
         emitter.setCancellable(new Cancellable() {
             @Override

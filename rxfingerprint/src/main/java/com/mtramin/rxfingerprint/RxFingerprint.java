@@ -389,8 +389,10 @@ public class RxFingerprint {
      * {@link RxFingerprint#isAvailable()}.
      *
      * @return {@code true} if fingerprint hardware exists in this device.
+	 * @deprecated Scheduled to be removed in v3.1. Use {@link RxFingerprint#isAvailable()} instead.
      */
     @SuppressWarnings("MissingPermission")
+	@Deprecated
     public boolean isHardwareDetected() {
         return new FingerprintApiWrapper(context, logger).isHardwareDetected();
     }
@@ -402,8 +404,10 @@ public class RxFingerprint {
      * {@link RxFingerprint#isAvailable()}.
      *
      * @return {@code true} if at least one fingerprint was enrolled.
+	 * @deprecated Scheduled to be removed in v3.1. Use {@link RxFingerprint#isAvailable()} instead.
      */
     @SuppressWarnings("MissingPermission")
+	@Deprecated
     public boolean hasEnrolledFingerprints() {
         return new FingerprintApiWrapper(context, logger).hasEnrolledFingerprints();
     }

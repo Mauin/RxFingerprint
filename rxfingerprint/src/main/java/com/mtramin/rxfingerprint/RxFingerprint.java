@@ -53,15 +53,27 @@ public class RxFingerprint {
 	private final boolean keyInvalidatedByBiometricEnrollment;
 	private final EncryptionMethod encryptionMethod;
 	private final RxFingerprintLogger logger;
+	@Nullable private final String dialogTitleText;
+	@Nullable private final String dialogSubtitleText;
+	@Nullable private final String dialogDescriptionText;
+	@Nullable private final String dialogNegativeButtonText;
 
 	private RxFingerprint(Context context,
 						  boolean keyInvalidatedByBiometricEnrollment,
 						  EncryptionMethod encryptionMethod,
-						  RxFingerprintLogger logger) {
+						  RxFingerprintLogger logger,
+						  String dialogTitleText,
+						  String dialogSubtitleText,
+						  String dialogDescriptionText,
+						  String dialogNegativeButtonText) {
 		this.context = context;
 		this.keyInvalidatedByBiometricEnrollment = keyInvalidatedByBiometricEnrollment;
 		this.encryptionMethod = encryptionMethod;
 		this.logger = logger;
+		this.dialogTitleText = dialogTitleText;
+		this.dialogSubtitleText = dialogSubtitleText;
+		this.dialogDescriptionText = dialogDescriptionText;
+		this.dialogNegativeButtonText = dialogNegativeButtonText;
 	}
 
 	/**
@@ -72,6 +84,10 @@ public class RxFingerprint {
 		private boolean keyInvalidatedByBiometricEnrollment = true;
 		private EncryptionMethod encryptionMethod = EncryptionMethod.RSA;
 		private RxFingerprintLogger logger = new DefaultLogger();
+		@Nullable private String dialogTitleText;
+		@Nullable private String dialogSubtitleText;
+		@Nullable private String dialogDescriptionText;
+		@Nullable private String dialogNegativeButtonText;
 
 		/**
 		 * Creates a new Builder for {@link RxFingerprint}
@@ -82,6 +98,26 @@ public class RxFingerprint {
 		 */
 		public Builder(@NonNull Context context) {
 			this.context = context;
+		}
+
+		public Builder dialogTitleText(String dialogTitleText) {
+			this.dialogTitleText = dialogTitleText;
+			return this;
+		}
+
+		public Builder dialogSubtitleText(String dialogSubtitleText) {
+			this.dialogSubtitleText = dialogSubtitleText;
+			return this;
+		}
+
+		public Builder dialogDescriptionText(String dialogDescriptionText) {
+			this.dialogDescriptionText = dialogDescriptionText;
+			return this;
+		}
+
+		public Builder dialogNegativeButtonText(String dialogNegativeButtonText) {
+			this.dialogNegativeButtonText = dialogNegativeButtonText;
+			return this;
 		}
 
 		/**
@@ -146,9 +182,15 @@ public class RxFingerprint {
 			return this;
 		}
 
-
 		public RxFingerprint build() {
-			return new RxFingerprint(context, keyInvalidatedByBiometricEnrollment, encryptionMethod, logger);
+			return new RxFingerprint(context,
+					keyInvalidatedByBiometricEnrollment,
+					encryptionMethod,
+					logger,
+					dialogTitleText,
+					dialogSubtitleText,
+					dialogDescriptionText,
+					dialogNegativeButtonText);
 		}
 	}
 

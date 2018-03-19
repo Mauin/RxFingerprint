@@ -29,6 +29,7 @@ import android.widget.TextView;
 import com.mtramin.rxfingerprint.EncryptionMethod;
 import com.mtramin.rxfingerprint.RxFingerprint;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposables;
 import io.reactivex.schedulers.Schedulers;
@@ -99,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
 
         fingerprintDisposable = rxFingerprint.authenticate()
                 .subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainScheduler())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(fingerprintAuthenticationResult -> {
                     switch (fingerprintAuthenticationResult.getResult()) {
                         case FAILED:

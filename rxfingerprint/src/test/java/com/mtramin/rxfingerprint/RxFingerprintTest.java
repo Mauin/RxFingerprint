@@ -29,19 +29,24 @@ public class RxFingerprintTest {
     @Mock Context mockContext;
     @Mock FingerprintManager mockFingerprintManager;
 
+    private RxFingerprint rxFingerprint;
+
     @Before
     public void setUp() throws Exception {
-        RxFingerprint.disableLogging();
         initMocks(this);
         TestHelper.setSdkLevel(23);
         PowerMockito.mockStatic(FingerprintManager.class);
         PowerMockito.mockStatic(Log.class);
+
+        rxFingerprint = new RxFingerprint.Builder(mockContext)
+                .disableLogging()
+                .build();
     }
 
     @Test
     public void testKeyInvalidatedException() throws Exception {
         Throwable throwable = new KeyPermanentlyInvalidatedException();
-        assertTrue("Should result to true", RxFingerprint.keyInvalidated(throwable));
+        assertTrue("Should result to true", rxFingerprint.keyInvalidated(throwable));
     }
 
     @Test
@@ -50,8 +55,8 @@ public class RxFingerprintTest {
         when(mockFingerprintManager.isHardwareDetected()).thenReturn(true);
         when(mockFingerprintManager.hasEnrolledFingerprints()).thenReturn(true);
 
-        assertTrue("RxFingerprint should be available", RxFingerprint.isAvailable(mockContext));
-        assertFalse("RxFingerprint should be available", RxFingerprint.isUnavailable(mockContext));
+        assertTrue("RxFingerprint should be available", rxFingerprint.isAvailable());
+        assertFalse("RxFingerprint should be available", rxFingerprint.isUnavailable());
     }
 
     @Test
@@ -60,8 +65,8 @@ public class RxFingerprintTest {
         when(mockFingerprintManager.isHardwareDetected()).thenReturn(false);
         when(mockFingerprintManager.hasEnrolledFingerprints()).thenReturn(true);
 
-        assertFalse("RxFingerprint should be unavailable", RxFingerprint.isAvailable(mockContext));
-        assertTrue("RxFingerprint should be unavailable", RxFingerprint.isUnavailable(mockContext));
+        assertFalse("RxFingerprint should be unavailable", rxFingerprint.isAvailable());
+        assertTrue("RxFingerprint should be unavailable", rxFingerprint.isUnavailable());
     }
 
     @Test
@@ -70,8 +75,8 @@ public class RxFingerprintTest {
         when(mockFingerprintManager.isHardwareDetected()).thenReturn(true);
         when(mockFingerprintManager.hasEnrolledFingerprints()).thenReturn(false);
 
-        assertFalse("RxFingerprint should be unavailable", RxFingerprint.isAvailable(mockContext));
-        assertTrue("RxFingerprint should be unavailable", RxFingerprint.isUnavailable(mockContext));
+        assertFalse("RxFingerprint should be unavailable", rxFingerprint.isAvailable());
+        assertTrue("RxFingerprint should be unavailable", rxFingerprint.isUnavailable());
     }
 
     @Test
@@ -80,8 +85,8 @@ public class RxFingerprintTest {
         when(mockFingerprintManager.isHardwareDetected()).thenReturn(false);
         when(mockFingerprintManager.hasEnrolledFingerprints()).thenReturn(false);
 
-        assertFalse("RxFingerprint should be unavailable", RxFingerprint.isAvailable(mockContext));
-        assertTrue("RxFingerprint should be unavailable", RxFingerprint.isUnavailable(mockContext));
+        assertFalse("RxFingerprint should be unavailable", rxFingerprint.isAvailable());
+        assertTrue("RxFingerprint should be unavailable", rxFingerprint.isUnavailable());
     }
 
     @Test
@@ -89,7 +94,7 @@ public class RxFingerprintTest {
         when(mockContext.getSystemService(Context.FINGERPRINT_SERVICE)).thenReturn(mockFingerprintManager);
         when(mockFingerprintManager.hasEnrolledFingerprints()).thenReturn(true);
 
-        assertTrue("Fingerprint should be available", RxFingerprint.hasEnrolledFingerprints(mockContext));
+        assertTrue("Fingerprint should be available", rxFingerprint.hasEnrolledFingerprints());
     }
 
     @Test
@@ -97,7 +102,7 @@ public class RxFingerprintTest {
         when(mockContext.getSystemService(Context.FINGERPRINT_SERVICE)).thenReturn(mockFingerprintManager);
         when(mockFingerprintManager.isHardwareDetected()).thenReturn(true);
 
-        assertTrue("Hardware should be available", RxFingerprint.isHardwareDetected(mockContext));
+        assertTrue("Hardware should be available", rxFingerprint.isHardwareDetected());
     }
 
     @Test
@@ -105,7 +110,7 @@ public class RxFingerprintTest {
         when(mockContext.getSystemService(Context.FINGERPRINT_SERVICE)).thenReturn(mockFingerprintManager);
         when(mockFingerprintManager.hasEnrolledFingerprints()).thenReturn(false);
 
-        assertFalse("Fingerprint should not be unavailable", RxFingerprint.hasEnrolledFingerprints(mockContext));
+        assertFalse("Fingerprint should not be unavailable", rxFingerprint.hasEnrolledFingerprints());
     }
 
     @Test
@@ -113,19 +118,19 @@ public class RxFingerprintTest {
         when(mockContext.getSystemService(Context.FINGERPRINT_SERVICE)).thenReturn(mockFingerprintManager);
         when(mockFingerprintManager.isHardwareDetected()).thenReturn(false);
 
-        assertFalse("Hardware should not be available", RxFingerprint.isHardwareDetected(mockContext));
+        assertFalse("Hardware should not be available", rxFingerprint.isHardwareDetected());
     }
 
     @Test
     public void apisUnavailable() throws Exception {
         when(mockContext.getSystemService(Context.FINGERPRINT_SERVICE)).thenThrow(new NoClassDefFoundError());
 
-        assertFalse("RxFingerprint should be unavailable", RxFingerprint.isAvailable(mockContext));
+        assertFalse("RxFingerprint should be unavailable", rxFingerprint.isAvailable());
     }
 
     @Test
     public void sdkNotSupported() throws Exception {
         TestHelper.setSdkLevel(21);
-        assertFalse("RxFingerprint should be unavailable", RxFingerprint.isAvailable(mockContext));
+        assertFalse("RxFingerprint should be unavailable", rxFingerprint.isAvailable());
     }
 }

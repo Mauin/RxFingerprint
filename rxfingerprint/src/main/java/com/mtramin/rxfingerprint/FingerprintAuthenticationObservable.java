@@ -29,7 +29,7 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 
 /**
- * Authenticates the user with his fingerprint.
+ * Authenticates the user with their fingerprint.
  */
 class FingerprintAuthenticationObservable extends FingerprintObservable<FingerprintAuthenticationResult> {
 
@@ -40,8 +40,9 @@ class FingerprintAuthenticationObservable extends FingerprintObservable<Fingerpr
      * @param context context to use
      * @return Observable {@link FingerprintAuthenticationResult}
      */
-    static Observable<FingerprintAuthenticationResult> create(Context context) {
-        return Observable.create(new FingerprintAuthenticationObservable(new FingerprintApiWrapper(context)));
+    static Observable<FingerprintAuthenticationResult> create(Context context,
+                                                              RxFingerprintLogger logger) {
+        return Observable.create(new FingerprintAuthenticationObservable(new FingerprintApiWrapper(context, logger)));
     }
 
     @VisibleForTesting

@@ -44,13 +44,18 @@ abstract class CipherProvider {
 	final String keyName;
 	final KeyStore keyStore;
 	final boolean invalidatedByBiometricEnrollment;
+	private final RxFingerprintLogger logger;
 
-	CipherProvider(@NonNull Context context, @Nullable String keyName, boolean keyInvalidatedByBiometricEnrollment) throws KeyStoreException, CertificateException, NoSuchAlgorithmException, IOException {
+	CipherProvider(@NonNull Context context,
+				   @Nullable String keyName,
+				   boolean keyInvalidatedByBiometricEnrollment,
+				   @NonNull RxFingerprintLogger logger) throws KeyStoreException, CertificateException, NoSuchAlgorithmException, IOException {
 		if (keyName == null) {
 			this.keyName = ContextUtils.getPackageName(context) + "." + DEFAULT_KEY_NAME;
 		} else {
 			this.keyName = keyName;
 		}
+		this.logger = logger;
 		invalidatedByBiometricEnrollment = keyInvalidatedByBiometricEnrollment;
 		keyStore = KeyStore.getInstance(ANDROID_KEY_STORE);
 		keyStore.load(null);
@@ -83,7 +88,7 @@ abstract class CipherProvider {
 		try {
 			return cipherForEncryption();
 		} catch (KeyPermanentlyInvalidatedException e) {
-			Logger.warn("Renewing invalidated key.");
+			logger.warn("Renewing invalidated key.");
 			removeKey(keyName);
 			return cipherForEncryption();
 		}
@@ -97,11 +102,11 @@ abstract class CipherProvider {
 				Build.VERSION.SDK_INT == 26 /*Build.VERSION_CODES.O*/ &&
 				e instanceof IllegalBlockSizeException;
 		if (shouldThrowKeyPermanentlyInvalidatedException) {
-			Logger.warn("Removing invalidated key.");
+			logger.warn("Removing invalidated key.");
 			try {
 				removeKey(keyName);
 			} catch (Exception exception) {
-				Logger.error("Removing invalidated key failed.", exception);
+				logger.error("Removing invalidated key failed.", exception);
 			}
 			return new KeyPermanentlyInvalidatedException();
 

@@ -40,13 +40,10 @@ import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
 
 class RsaCipherProvider extends CipherProvider {
-	RsaCipherProvider(@NonNull Context context, @Nullable String keyName) throws CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException {
-		this(context, keyName, true);
+	RsaCipherProvider(@NonNull Context context, @Nullable String keyName, boolean keyInvalidatedByBiometricEnrollment, RxFingerprintLogger logger) throws CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException {
+		super(context, keyName, keyInvalidatedByBiometricEnrollment, logger);
 	}
 
-	RsaCipherProvider(@NonNull Context context, @Nullable String keyName, boolean keyInvalidatedByBiometricEnrollment) throws CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException {
-		super(context, keyName, keyInvalidatedByBiometricEnrollment);
-	}
 	@Override
 	@TargetApi(Build.VERSION_CODES.M)
 	Cipher cipherForEncryption() throws GeneralSecurityException, IOException {

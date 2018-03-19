@@ -16,9 +16,14 @@
 
 package com.mtramin.rxfingerprint;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
+import static org.powermock.api.mockito.PowerMockito.mock;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
+
 import com.mtramin.rxfingerprint.data.FingerprintEncryptionResult;
 import com.mtramin.rxfingerprint.data.FingerprintUnavailableException;
-
+import io.reactivex.Observable;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,13 +33,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import javax.crypto.Cipher;
 
-import io.reactivex.Observable;
-
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
-import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
-
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(Cipher.class)
 public class RsaEncryptionObservableTest {
@@ -43,6 +41,7 @@ public class RsaEncryptionObservableTest {
 
 	@Mock FingerprintApiWrapper fingerprintApiWrapper;
 	@Mock RsaCipherProvider cipherProvider;
+	@Mock RxFingerprintLogger logger;
 	Cipher cipher;
 
 	private Observable<FingerprintEncryptionResult> observable;
@@ -51,9 +50,8 @@ public class RsaEncryptionObservableTest {
 	public void setUp() throws Exception {
 		mockStatic(Cipher.class);
 		cipher = mock(Cipher.class);
-		RxFingerprint.disableLogging();
 
-		observable = Observable.create(new RsaEncryptionObservable(fingerprintApiWrapper, cipherProvider, INPUT.toCharArray(), new TestEncodingProvider()));
+		observable = Observable.create(new RsaEncryptionObservable(fingerprintApiWrapper, cipherProvider, INPUT.toCharArray(), new TestEncodingProvider(), logger));
 	}
 
 	@Test

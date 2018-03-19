@@ -16,6 +16,7 @@
 
 package com.mtramin.fingerprintplayground;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -43,10 +44,17 @@ public class MainActivity extends AppCompatActivity {
 
     private Disposable fingerprintDisposable = Disposables.empty();
 
+    private RxFingerprint rxFingerprint;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        rxFingerprint = new RxFingerprint.Builder(this)
+                .encryptionMethod(EncryptionMethod.RSA)
+                .keyInvalidatedByBiometricEnrollment(true)
+                .build();
 
         this.statusText = (TextView) findViewById(R.id.status);
 
@@ -69,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setStatusText() {
-        if (!RxFingerprint.isAvailable(this)) {
+        if (!rxFingerprint.isAvailable()) {
             setStatusText("Fingerprint not available");
             return;
         }
@@ -80,11 +88,11 @@ public class MainActivity extends AppCompatActivity {
     private void authenticate() {
         setStatusText();
 
-        if (RxFingerprint.isUnavailable(this)) {
+        if (rxFingerprint.isUnavailable()) {
             return;
         }
 
-        fingerprintDisposable = RxFingerprint.authenticate(this)
+        fingerprintDisposable = rxFingerprint.authenticate()
                 .subscribe(fingerprintAuthenticationResult -> {
                     switch (fingerprintAuthenticationResult.getResult()) {
                         case FAILED:
@@ -103,11 +111,12 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    @SuppressLint("NewApi")
     private void encrypt() {
         setStatusText();
 
-        if (RxFingerprint.isUnavailable(this)) {
-            setStatusText("RxFingerprint unavailable");
+        if (rxFingerprint.isUnavailable()) {
+            setStatusText("rxFingerprint unavailable");
             return;
         }
 
@@ -117,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        fingerprintDisposable = RxFingerprint.encrypt(EncryptionMethod.RSA, this, String.valueOf(key), toEncrypt)
+        fingerprintDisposable = rxFingerprint.encrypt(String.valueOf(key), toEncrypt)
                 .subscribe(fingerprintEncryptionResult -> {
                     switch (fingerprintEncryptionResult.getResult()) {
                         case FAILED:
@@ -145,14 +154,15 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    @SuppressLint("NewApi")
     private void decrypt(String key, String encrypted) {
         setStatusText();
 
-        if (!RxFingerprint.isAvailable(this)) {
+        if (!rxFingerprint.isAvailable()) {
             return;
         }
 
-        fingerprintDisposable = RxFingerprint.decrypt(EncryptionMethod.RSA, this, key, encrypted)
+        fingerprintDisposable = rxFingerprint.decrypt(key, encrypted)
                 .subscribe(fingerprintDecryptionResult -> {
                     switch (fingerprintDecryptionResult.getResult()) {
                         case FAILED:

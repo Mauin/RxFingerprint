@@ -35,14 +35,16 @@ class FingerprintApiWrapper {
 	@NonNull private final Context context;
 	@Nullable private final FingerprintManager fingerprintManager;
 	private final boolean hasApis;
+	private final RxFingerprintLogger logger;
 
-	FingerprintApiWrapper(@NonNull Context context) {
+	FingerprintApiWrapper(@NonNull Context context, RxFingerprintLogger logger) {
+		this.logger = logger;
 		// If this is an Application Context, it causes issues when rotating the device while
 		// the sensor is active. The 2nd callback will receive the cancellation error of the first
 		// authentication action which will immediately onError and unsubscribe the 2nd
 		// authentication action.
 		if (context instanceof Application) {
-			Logger.warn("Passing an Application Context to RxFingerprint might cause issues when the authentication is active and the application changes orientation. Consider passing an Activity Context.");
+			this.logger.warn("Passing an Application Context to RxFingerprint might cause issues when the authentication is active and the application changes orientation. Consider passing an Activity Context.");
 		}
 
 		this.context = context;
@@ -99,7 +101,7 @@ class FingerprintApiWrapper {
 		try {
 			return (FingerprintManager) context.getSystemService(Context.FINGERPRINT_SERVICE);
 		} catch (Exception | NoClassDefFoundError e) {
-			Logger.error("Device with SDK >=23 doesn't provide Fingerprint APIs", e);
+			logger.error("Device with SDK >=23 doesn't provide Fingerprint APIs", e);
 		}
 		return null;
 	}

@@ -20,6 +20,7 @@ ext.versions = [
 		name                   : '2.2.1',
 
 		// Android Versions
+		oreo                   : 27,
 		compileSdk             : 'android-P',
 		targetSdk              : 'P',
 		minSdk                 : 15,

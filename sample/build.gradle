@@ -17,12 +17,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion versions.compileSdk
+    compileSdkVersion versions.oreo
+//    compileSdkVersion versions.compileSdk // Use this to test with Android P
     buildToolsVersion versions.buildTools
 
     defaultConfig {
         minSdkVersion versions.minSdk
-        targetSdkVersion versions.targetSdk
+        targetSdkVersion versions.oreo
+//        targetSdkVersion versions.targetSdk // Use this to test with Android P
         versionCode versions.code
         versionName versions.name
 
@@ -42,7 +44,7 @@ android {
 
 
 dependencies {
-    implementation project(':rxfingerprint');
+    implementation project(':rxfingerprint')
 //    implementation "com.mtramin:rxfingerprint:$versions.name"
 
     implementation libraries.appCompat

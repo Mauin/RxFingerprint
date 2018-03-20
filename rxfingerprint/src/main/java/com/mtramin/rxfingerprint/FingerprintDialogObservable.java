@@ -16,7 +16,7 @@
 
 package com.mtramin.rxfingerprint;
 
-import android.annotation.TargetApi;
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.hardware.fingerprint.FingerprintDialog;
 import android.hardware.fingerprint.FingerprintManager;
@@ -40,9 +40,9 @@ import io.reactivex.functions.Cancellable;
 import static android.Manifest.permission.USE_FINGERPRINT;
 
 /**
- * Authenticates the user with their fingerprint.
+ * Authenticates the user with their fingerprint via a {@link FingerprintDialog}.
  */
-@TargetApi(Build.VERSION_CODES.P)
+@SuppressLint({"NewApi", "Override"})
 abstract class FingerprintDialogObservable<T> implements ObservableOnSubscribe<T> {
 
     private final FingerprintApiWrapper fingerprintApiWrapper;
@@ -58,7 +58,6 @@ abstract class FingerprintDialogObservable<T> implements ObservableOnSubscribe<T
     @RequiresPermission(USE_FINGERPRINT)
     @RequiresApi(Build.VERSION_CODES.P)
     public void subscribe(ObservableEmitter<T> emitter) throws Exception {
-        // TODO somehow work this into some interfaces
         Executor executor = new Executor() {
             @Override
             public void execute(@NonNull Runnable runnable) {

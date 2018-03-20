@@ -135,6 +135,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         fingerprintDisposable = rxFingerprint.encrypt(String.valueOf(key), toEncrypt)
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(fingerprintEncryptionResult -> {
                     switch (fingerprintEncryptionResult.getResult()) {
                         case FAILED:
@@ -171,6 +173,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         fingerprintDisposable = rxFingerprint.decrypt(key, encrypted)
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(fingerprintDecryptionResult -> {
                     switch (fingerprintDecryptionResult.getResult()) {
                         case FAILED:

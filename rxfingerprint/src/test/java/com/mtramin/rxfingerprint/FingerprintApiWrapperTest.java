@@ -16,11 +16,10 @@
 
 package com.mtramin.rxfingerprint;
 
-import static android.Manifest.permission.USE_FINGERPRINT;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.when;
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.hardware.fingerprint.FingerprintManager;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,10 +27,11 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.pm.PackageManager;
-import android.hardware.fingerprint.FingerprintManager;
+import static android.Manifest.permission.USE_FINGERPRINT;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
 
 @SuppressLint("MissingPermission")
 @RunWith(MockitoJUnitRunner.class)
@@ -48,6 +48,7 @@ public class FingerprintApiWrapperTest {
 	@Test
 	public void oldSdkReportsUnavailable() throws Exception {
 		TestHelper.setSdkLevel(21);
+		TestHelper.setRelease("Lollipop");
 		FingerprintApiWrapper fingerprintApiWrapper = new FingerprintApiWrapper(context, logger);
 		assertTrue(fingerprintApiWrapper.isUnavailable());
 		assertFalse(fingerprintApiWrapper.isAvailable());
@@ -59,6 +60,7 @@ public class FingerprintApiWrapperTest {
 	@Test
 	public void missingPermissionFailsFingerprintManagerChecks() throws Exception {
 		TestHelper.setSdkLevel(23);
+		TestHelper.setRelease("Marshmallow");
 		when(context.checkSelfPermission(USE_FINGERPRINT)).thenReturn(PackageManager.PERMISSION_DENIED);
 
 		FingerprintApiWrapper fingerprintApiWrapper = new FingerprintApiWrapper(context, logger);
@@ -71,6 +73,7 @@ public class FingerprintApiWrapperTest {
 	@Test
 	public void fingerprintApiFailure() throws Exception {
 		TestHelper.setSdkLevel(23);
+		TestHelper.setRelease("Marshmallow");
 		when(context.checkSelfPermission(USE_FINGERPRINT)).thenReturn(PackageManager.PERMISSION_GRANTED);
 		when(context.getSystemService(Context.FINGERPRINT_SERVICE)).thenThrow(NoClassDefFoundError.class);
 
@@ -84,6 +87,7 @@ public class FingerprintApiWrapperTest {
 	@Test
 	public void noHardwareDetected() throws Exception {
 		TestHelper.setSdkLevel(23);
+		TestHelper.setRelease("Marshmallow");
 		when(context.checkSelfPermission(USE_FINGERPRINT)).thenReturn(PackageManager.PERMISSION_GRANTED);
 		when(context.getSystemService(Context.FINGERPRINT_SERVICE)).thenReturn(fingerprintManager);
 		when(fingerprintManager.isHardwareDetected()).thenReturn(false);
@@ -97,6 +101,7 @@ public class FingerprintApiWrapperTest {
 	@Test
 	public void hardwareDetected() throws Exception {
 		TestHelper.setSdkLevel(23);
+		TestHelper.setRelease("Marshmallow");
 		when(context.checkSelfPermission(USE_FINGERPRINT)).thenReturn(PackageManager.PERMISSION_GRANTED);
 		when(context.getSystemService(Context.FINGERPRINT_SERVICE)).thenReturn(fingerprintManager);
 		when(fingerprintManager.isHardwareDetected()).thenReturn(true);
@@ -108,6 +113,7 @@ public class FingerprintApiWrapperTest {
 	@Test
 	public void noFingerprintsEnrolled() throws Exception {
 		TestHelper.setSdkLevel(23);
+		TestHelper.setRelease("Marshmallow");
 		when(context.checkSelfPermission(USE_FINGERPRINT)).thenReturn(PackageManager.PERMISSION_GRANTED);
 		when(context.getSystemService(Context.FINGERPRINT_SERVICE)).thenReturn(fingerprintManager);
 		when(fingerprintManager.hasEnrolledFingerprints()).thenReturn(false);
@@ -121,6 +127,7 @@ public class FingerprintApiWrapperTest {
 	@Test
 	public void fingerprintsEnrolled() throws Exception {
 		TestHelper.setSdkLevel(23);
+		TestHelper.setRelease("Marshmallow");
 		when(context.checkSelfPermission(USE_FINGERPRINT)).thenReturn(PackageManager.PERMISSION_GRANTED);
 		when(context.getSystemService(Context.FINGERPRINT_SERVICE)).thenReturn(fingerprintManager);
 		when(fingerprintManager.hasEnrolledFingerprints()).thenReturn(true);
@@ -132,6 +139,7 @@ public class FingerprintApiWrapperTest {
 	@Test
 	public void isAvailable() throws Exception {
 		TestHelper.setSdkLevel(23);
+		TestHelper.setRelease("Marshmallow");
 		when(context.checkSelfPermission(USE_FINGERPRINT)).thenReturn(PackageManager.PERMISSION_GRANTED);
 		when(context.getSystemService(Context.FINGERPRINT_SERVICE)).thenReturn(fingerprintManager);
 		when(fingerprintManager.hasEnrolledFingerprints()).thenReturn(true);
@@ -145,6 +153,7 @@ public class FingerprintApiWrapperTest {
 	@Test
 	public void getFingerprintManager() throws Exception {
 		TestHelper.setSdkLevel(23);
+		TestHelper.setRelease("Marshmallow");
 		when(context.checkSelfPermission(USE_FINGERPRINT)).thenReturn(PackageManager.PERMISSION_GRANTED);
 		when(context.getSystemService(Context.FINGERPRINT_SERVICE)).thenReturn(fingerprintManager);
 		when(fingerprintManager.hasEnrolledFingerprints()).thenReturn(true);
@@ -154,11 +163,20 @@ public class FingerprintApiWrapperTest {
 		assertEquals(fingerprintManager, fingerprintApiWrapper.getFingerprintManager());
 	}
 
-	@Test(expected =  IllegalStateException.class)
+	@Test(expected = IllegalStateException.class)
 	public void getFingerprintManagerThrowsWhenUnavailable() throws Exception {
 		TestHelper.setSdkLevel(21);
+		TestHelper.setRelease("Lollipop");
 
 		FingerprintApiWrapper fingerprintApiWrapper = new FingerprintApiWrapper(context, logger);
 		fingerprintApiWrapper.getFingerprintManager();
+	}
+
+	@Test
+	public void reportsProfiteroleCorrectly() throws Exception {
+		TestHelper.setSdkLevel(27);
+		TestHelper.setRelease("P");
+
+		assertTrue(FingerprintApiWrapper.isProfiteroleOrAbove());
 	}
 }

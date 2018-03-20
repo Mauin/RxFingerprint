@@ -6,6 +6,7 @@ android:
       - tools
       - platform-tools
       - build-tools-27.0.2
+      - android-27
       - android-P
 
       # Additional components

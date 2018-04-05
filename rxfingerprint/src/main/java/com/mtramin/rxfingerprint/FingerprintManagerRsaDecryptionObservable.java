@@ -31,19 +31,14 @@ import javax.crypto.Cipher;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 
-/**
- * Decrypts data with fingerprint authentication. Initializes a {@link Cipher} for decryption which
- * can only be used with fingerprint authentication and uses it once authentication was successful
- * to encrypt the given data.
- * <p/>
- * The date handed in must be previously encrypted by a {@link AesEncryptionObservable}.
- */
-@SuppressLint("NewApi") // SDK check happens in {@link FingerprintObservable#subscribe}
-class AesDecryptionObservable extends FingerprintObservable<FingerprintDecryptionResult> {
+@SuppressLint("NewApi")
+		// SDK check happens in {@link FingerprintManagerObservable#subscribe}
+class FingerprintManagerRsaDecryptionObservable extends FingerprintManagerObservable<FingerprintDecryptionResult> {
 
-	private final AesCipherProvider cipherProvider;
+	private final RsaCipherProvider cipherProvider;
 	private final String encryptedString;
 	private final EncodingProvider encodingProvider;
+	private final RxFingerprintLogger logger;
 
 	/**
 	 * Creates a new AesEncryptionObservable that will listen to fingerprint authentication
@@ -60,32 +55,34 @@ class AesDecryptionObservable extends FingerprintObservable<FingerprintDecryptio
 														  boolean keyInvalidatedByBiometricEnrollment,
 														  RxFingerprintLogger logger) {
 		try {
-			return Observable.create(new AesDecryptionObservable(
+			return Observable.create(new FingerprintManagerRsaDecryptionObservable(
 					new FingerprintApiWrapper(context, logger),
-					new AesCipherProvider(context, keyName, keyInvalidatedByBiometricEnrollment, logger),
+					new RsaCipherProvider(context, keyName, keyInvalidatedByBiometricEnrollment, logger),
 					encrypted,
-					new Base64Provider()));
+					new Base64Provider(),
+					logger));
 		} catch (Exception e) {
 			return Observable.error(e);
 		}
 	}
 
-	private AesDecryptionObservable(FingerprintApiWrapper fingerprintApiWrapper,
-									AesCipherProvider cipherProvider,
-									String encrypted,
-									EncodingProvider encodingProvider) {
+	private FingerprintManagerRsaDecryptionObservable(FingerprintApiWrapper fingerprintApiWrapper,
+													  RsaCipherProvider cipherProvider,
+													  String encrypted,
+													  EncodingProvider encodingProvider,
+													  RxFingerprintLogger logger) {
 		super(fingerprintApiWrapper);
 		this.cipherProvider = cipherProvider;
 		encryptedString = encrypted;
 		this.encodingProvider = encodingProvider;
+		this.logger = logger;
 	}
 
 	@Nullable
 	@Override
 	protected CryptoObject initCryptoObject(ObservableEmitter<FingerprintDecryptionResult> subscriber) {
 		try {
-			CryptoData cryptoData = CryptoData.fromString(encodingProvider, encryptedString);
-			Cipher cipher = cipherProvider.getCipherForDecryption(cryptoData.getIv());
+			Cipher cipher = cipherProvider.getCipherForDecryption();
 			return new CryptoObject(cipher);
 		} catch (Exception e) {
 			subscriber.onError(e);
@@ -96,13 +93,13 @@ class AesDecryptionObservable extends FingerprintObservable<FingerprintDecryptio
 	@Override
 	protected void onAuthenticationSucceeded(ObservableEmitter<FingerprintDecryptionResult> emitter, AuthenticationResult result) {
 		try {
-			CryptoData cryptoData = CryptoData.fromString(encodingProvider, encryptedString);
 			Cipher cipher = result.getCryptoObject().getCipher();
-			byte[] bytes = cipher.doFinal(cryptoData.getMessage());
+			byte[] bytes = cipher.doFinal(encodingProvider.decode(encryptedString));
 
 			emitter.onNext(new FingerprintDecryptionResult(FingerprintResult.AUTHENTICATED, null, ConversionUtils.toChars(bytes)));
 			emitter.onComplete();
 		} catch (Exception e) {
+			logger.error("Unable to decrypt given value. RxFingerprint is only able to decrypt values previously encrypted by RxFingerprint with the same encryption mode.", e);
 			emitter.onError(cipherProvider.mapCipherFinalOperationException(e));
 		}
 

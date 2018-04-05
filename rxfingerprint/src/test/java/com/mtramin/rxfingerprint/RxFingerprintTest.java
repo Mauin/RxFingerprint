@@ -35,11 +35,14 @@ public class RxFingerprintTest {
     public void setUp() throws Exception {
         initMocks(this);
         TestHelper.setSdkLevel(23);
+        TestHelper.setRelease("Marshmallow");
         PowerMockito.mockStatic(FingerprintManager.class);
         PowerMockito.mockStatic(Log.class);
 
         rxFingerprint = new RxFingerprint.Builder(mockContext)
                 .disableLogging()
+                .dialogTitleText("TITLE")
+                .dialogNegativeButtonText("CANCEL")
                 .build();
     }
 

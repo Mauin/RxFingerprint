@@ -29,8 +29,10 @@ import android.widget.TextView;
 import com.mtramin.rxfingerprint.EncryptionMethod;
 import com.mtramin.rxfingerprint.RxFingerprint;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposables;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Shows example usage of RxFingerprint
@@ -54,6 +56,10 @@ public class MainActivity extends AppCompatActivity {
         rxFingerprint = new RxFingerprint.Builder(this)
                 .encryptionMethod(EncryptionMethod.RSA)
                 .keyInvalidatedByBiometricEnrollment(true)
+                .dialogTitleText("RxFingerprint")
+                .dialogSubtitleText("Android P FingerprintDialog support coming soon...")
+                .dialogDescriptionText("And it will keep supporting the good old FingerprintManager for devices running M and N.")
+                .dialogNegativeButtonText("Cancel")
                 .build();
 
         this.statusText = (TextView) findViewById(R.id.status);
@@ -93,6 +99,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         fingerprintDisposable = rxFingerprint.authenticate()
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(fingerprintAuthenticationResult -> {
                     switch (fingerprintAuthenticationResult.getResult()) {
                         case FAILED:
@@ -127,6 +135,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         fingerprintDisposable = rxFingerprint.encrypt(String.valueOf(key), toEncrypt)
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(fingerprintEncryptionResult -> {
                     switch (fingerprintEncryptionResult.getResult()) {
                         case FAILED:
@@ -163,6 +173,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         fingerprintDisposable = rxFingerprint.decrypt(key, encrypted)
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(fingerprintDecryptionResult -> {
                     switch (fingerprintDecryptionResult.getResult()) {
                         case FAILED:

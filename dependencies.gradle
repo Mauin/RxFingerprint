@@ -20,10 +20,11 @@ ext.versions = [
 		name                   : '2.2.1',
 
 		// Android Versions
-		compileSdk             : 25,
-		targetSdk              : 25,
+		oreo                   : 27,
+		compileSdk             : 'android-P',
+		targetSdk              : 'P',
 		minSdk                 : 15,
-		buildTools             : '26.0.2',
+		buildTools             : '27.0.2',
 
 		// Gradle Versions
 		androidGradlePlugin    : '3.0.1',
@@ -33,6 +34,7 @@ ext.versions = [
 		// Dependency Versions
 		supportLibrary         : '25.3.0',
 		rxJava                 : '2.1.7',
+		rxAndroid              : '2.0.2',
 
 		// Testing dependencies
 		jUnit                  : '4.12',
@@ -51,6 +53,7 @@ ext.libraries = [
 		// RxFingerprint dependencies
 		supportAnnotations: "com.android.support:support-annotations:$versions.supportLibrary",
 		rxJava            : "io.reactivex.rxjava2:rxjava:$versions.rxJava",
+		rxAndroid		  : "io.reactivex.rxjava2:rxandroid:$versions.rxAndroid",
 
 		// Sample dependencies
 		appCompat         : "com.android.support:appcompat-v7:$versions.supportLibrary",

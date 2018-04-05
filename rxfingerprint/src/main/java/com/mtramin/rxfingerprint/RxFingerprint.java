@@ -17,6 +17,7 @@
 package com.mtramin.rxfingerprint;
 
 import android.content.Context;
+import android.content.Intent;
 import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -53,15 +54,18 @@ public class RxFingerprint {
 	private final boolean keyInvalidatedByBiometricEnrollment;
 	private final EncryptionMethod encryptionMethod;
 	private final RxFingerprintLogger logger;
+	private final FingerprintDialogBundle fingerprintDialogBundle;
 
 	private RxFingerprint(Context context,
 						  boolean keyInvalidatedByBiometricEnrollment,
 						  EncryptionMethod encryptionMethod,
-						  RxFingerprintLogger logger) {
+						  RxFingerprintLogger logger,
+						  FingerprintDialogBundle fingerprintDialogBundle) {
 		this.context = context;
 		this.keyInvalidatedByBiometricEnrollment = keyInvalidatedByBiometricEnrollment;
 		this.encryptionMethod = encryptionMethod;
 		this.logger = logger;
+		this.fingerprintDialogBundle = fingerprintDialogBundle;
 	}
 
 	/**
@@ -72,6 +76,10 @@ public class RxFingerprint {
 		private boolean keyInvalidatedByBiometricEnrollment = true;
 		private EncryptionMethod encryptionMethod = EncryptionMethod.RSA;
 		private RxFingerprintLogger logger = new DefaultLogger();
+		@NonNull private String dialogTitleText;
+		@Nullable private String dialogSubtitleText;
+		@Nullable private String dialogDescriptionText;
+		@NonNull private String dialogNegativeButtonText;
 
 		/**
 		 * Creates a new Builder for {@link RxFingerprint}
@@ -82,6 +90,26 @@ public class RxFingerprint {
 		 */
 		public Builder(@NonNull Context context) {
 			this.context = context;
+		}
+
+		public Builder dialogTitleText(String dialogTitleText) {
+			this.dialogTitleText = dialogTitleText;
+			return this;
+		}
+
+		public Builder dialogSubtitleText(String dialogSubtitleText) {
+			this.dialogSubtitleText = dialogSubtitleText;
+			return this;
+		}
+
+		public Builder dialogDescriptionText(String dialogDescriptionText) {
+			this.dialogDescriptionText = dialogDescriptionText;
+			return this;
+		}
+
+		public Builder dialogNegativeButtonText(String dialogNegativeButtonText) {
+			this.dialogNegativeButtonText = dialogNegativeButtonText;
+			return this;
 		}
 
 		/**
@@ -146,9 +174,25 @@ public class RxFingerprint {
 			return this;
 		}
 
-
 		public RxFingerprint build() {
-			return new RxFingerprint(context, keyInvalidatedByBiometricEnrollment, encryptionMethod, logger);
+			if (dialogTitleText == null) {
+				throw new IllegalArgumentException("RxFingerprint requires a dialotTitleText.");
+			}
+
+			if (dialogNegativeButtonText == null) {
+				throw new IllegalArgumentException("RxFingerprint requires a dialogNegativeButtonText.");
+			}
+
+			return new RxFingerprint(context,
+					keyInvalidatedByBiometricEnrollment,
+					encryptionMethod,
+					logger,
+					new FingerprintDialogBundle(
+							dialogTitleText,
+							dialogSubtitleText,
+							dialogDescriptionText,
+							dialogNegativeButtonText)
+			);
 		}
 	}
 
@@ -164,7 +208,7 @@ public class RxFingerprint {
      * authentication was successful or has failed entirely.
      */
     public Observable<FingerprintAuthenticationResult> authenticate() {
-        return FingerprintAuthenticationObservable.create(context, logger);
+        return RxFingerprintCompat.authenticate(context, fingerprintDialogBundle, logger);
     }
 
 	/**
@@ -264,14 +308,7 @@ public class RxFingerprint {
 	 */
 	public Observable<FingerprintEncryptionResult> encrypt(@Nullable String keyName,
 														   @NonNull char[] toEncrypt) {
-		switch (encryptionMethod) {
-			case AES:
-				return AesEncryptionObservable.create(context, keyName, toEncrypt, keyInvalidatedByBiometricEnrollment, logger);
-			case RSA:
-				return RsaEncryptionObservable.create(context, keyName, toEncrypt, keyInvalidatedByBiometricEnrollment, logger);
-			default:
-				return Observable.error(new IllegalArgumentException("Unknown encryption method: " + encryptionMethod));
-		}
+		return RxFingerprintCompat.encrypt(encryptionMethod, context, fingerprintDialogBundle, keyName, toEncrypt, keyInvalidatedByBiometricEnrollment, logger);
 	}
 
 	/**
@@ -317,15 +354,8 @@ public class RxFingerprint {
 	 *                  have failed entirely.
 	 */
 	public Observable<FingerprintDecryptionResult> decrypt(@Nullable String keyName,
-																  @NonNull String toDecrypt) {
-		switch (encryptionMethod) {
-			case AES:
-				return AesDecryptionObservable.create(context, keyName, toDecrypt, keyInvalidatedByBiometricEnrollment, logger);
-			case RSA:
-				return RsaDecryptionObservable.create(context, keyName, toDecrypt, keyInvalidatedByBiometricEnrollment, logger);
-			default:
-				return Observable.error(new IllegalArgumentException("Unknown decryption method: " + encryptionMethod));
-		}
+														   @NonNull String toDecrypt) {
+		return RxFingerprintCompat.decrypt(encryptionMethod, context, fingerprintDialogBundle, keyName, toDecrypt, keyInvalidatedByBiometricEnrollment, logger);
 	}
 
     /**
@@ -359,8 +389,10 @@ public class RxFingerprint {
      * {@link RxFingerprint#isAvailable()}.
      *
      * @return {@code true} if fingerprint hardware exists in this device.
+	 * @deprecated Scheduled to be removed in v3.1. Use {@link RxFingerprint#isAvailable()} instead.
      */
     @SuppressWarnings("MissingPermission")
+	@Deprecated
     public boolean isHardwareDetected() {
         return new FingerprintApiWrapper(context, logger).isHardwareDetected();
     }
@@ -372,11 +404,17 @@ public class RxFingerprint {
      * {@link RxFingerprint#isAvailable()}.
      *
      * @return {@code true} if at least one fingerprint was enrolled.
+	 * @deprecated Scheduled to be removed in v3.1. Use {@link RxFingerprint#isAvailable()} instead.
      */
     @SuppressWarnings("MissingPermission")
+	@Deprecated
     public boolean hasEnrolledFingerprints() {
         return new FingerprintApiWrapper(context, logger).hasEnrolledFingerprints();
     }
+
+    public void launchFingerprintEnrollment() {
+		context.startActivity(new Intent("ACTION_FINGERPRINT_ENROLL"));
+	}
 
     /**
      * Checks if the provided {@link Throwable} is of type {@link KeyPermanentlyInvalidatedException}

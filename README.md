@@ -4,9 +4,18 @@ RxFingerprint wraps the Android Fingerprint APIs (introduced in Android Marshmal
 - Authenticate your users with their fingerprint
 - Encrypt and decrypt their data with fingerprint authentication
 
-Learn more about the Android Fingerprint APIs at <a href="https://developer.android.com/about/versions/marshmallow/android-6.0.html#fingerprint-authentication">developer.android.com</a>.
+RxFingerprint supports both the (now deprecated) `FingerprintManager` and the new `FingerprintDialog` introduced
+with Android P. Devices running Android P and above will use the `FingerprintDialog` implementation. Older devices
+supporting fingerprint sensors will use the old `FingerprintManager` implementation.
 
-This library has a minSdkVersion of `15`, but will only really work on API level `23`. Below that it will provide no functionality due to the missing APIs.
+
+Learn more about the original Android Fingerprint APIs at <a href="https://developer.android.com/about/versions/marshmallow/android-6.0.html#fingerprint-authentication">developer.android.com</a>.
+Using the `FingerprintManager` requires you to build and show your own UI to let the user know that the fingerprint sensor is active.
+
+Learn more about the new FingerprintDialog APIs at <a href="https://developer.android.com/reference/android/hardware/fingerprint/FingerprintDialog.html">developer.android.com</a>.
+Using the `FingerprintDialog` automatically shows a default system UI component prompting the user to touch the fingerprint sensor.
+
+This library has a minSdkVersion of `15`, but will only really work on API level `23` and above. Below that it will provide no functionality due to the missing APIs.
 
 ## Usage
 
@@ -22,15 +31,31 @@ Furthermore, you have to declare the Fingerprint permission in your `AndroidMani
 <uses-permission android:name="android.permission.USE_FINGERPRINT" />
 ```
 
+### Building and configuring an RxFingerprint instance
+
+An instance of `RxFingerprint` is created by it's builder. The builder gives many options to configure
+the behavior of fingerprint operations.
+
+``` java
+RxFingerprint rxFingerprint = new RxFingerprint.Builder(context)
+                                               .encryptionMethod(EncryptionMethod.RSA)
+                                               .keyInvalidatedByBiometricEnrollment(true)
+                                               .dialogTitleText("RxFingerprint")
+                                               .dialogSubtitleText("Android P FingerprintDialog support coming soon...")
+                                               .dialogDescriptionText("And it will keep supporting the good old FingerprintManager for devices running M and N.")
+                                               .dialogNegativeButtonText("Cancel")
+                                               .build();
+```
+
 ### Checking for availability
 
 Before using any fingerprint related operations it should be verified that `RxFingerprint` can be used by calling:
 
 ``` java
-if (RxFingerprint.isAvailable(this)) {
+if (rxFingerprint.isAvailable(this)) {
     // proceed with fingerprint operation
 } else {
-    // fingerprint is not available
+    // fingerprint is not available, provide other authentication options
 }
 ```
 
@@ -39,12 +64,15 @@ Reasons for `RxFingerprint` to report that it is not available include:
 - The user is not using the fingerprint sensor of the device
 - The device is running an Android version that doesn't support the Android Fingerprint APIs
 
+If you call any fingerprint operation on the rxFingerprint object without verifying that the fingerprint
+APIs are available to be used the resulting `Observable` will return an error callback..
+
 ### Authenticating a user with their fingerprint
 
 To authenticate the user with their fingerprint, call the following:
 
 ``` java
-Disposable disposable = RxFingerprint.authenticate(this)
+Disposable disposable = rxFingerprint.authenticate()
                 .subscribe(fingerprintAuthenticationResult -> {
                     switch (fingerprintAuthenticationResult.getResult()) {
                         case FAILED:
@@ -62,7 +90,7 @@ Disposable disposable = RxFingerprint.authenticate(this)
                 });
 ```
 
-By subscribing to `RxFingerprint.authenticate(Context)` the fingerprint sensor of the device will be activated and it will wait for the user to touch it with one of their registered fingerprints.
+By subscribing to `rxFingerprint.authenticate(Context)` the fingerprint sensor of the device will be activated and it will wait for the user to touch it with one of their registered fingerprints.
 Should the device not contain a fingerprint sensor or the user has not enrolled any fingerprints, `onError` will be called.
 
 After successful authentication or a recoverable error (e.g. the sensor could not read the fingerprint clearly) `onNext` will be called. You should check the result to see if the authentication was successful.
@@ -87,11 +115,12 @@ When choosing AES for encryption and decryption the user will have to approve bo
 The encryption then relies on the [Advanced Encryption Standard](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard) with a 256-bit keysize.
 
 The usage flow for AES is as follows:
-- Call `RxFingerprint.encrypt(EncryptionMethod.AES, ...)` to initialize the encryption flow
+- Build an instance of RxFingerprint and set the `.encryptionMethod(EncryptionMethod.AES)`
+- Call `rxFingerprint.encrypt("String to encrypt")` to start the encryption flow
 - User authenticates by touching the fingerprint sensor
 - Store the encrypted data returned in the `onNext` callback
 
-- Call `RxFingerprint.decrypt(EncryptionMethod.AES, ...)` to initialize the decryption flow
+- Call `rxFingerprint.decrypt("Encrypted String")` to start the decryption flow
 - User authenticates by touching the fingerprint sensor
 - Receive the decrypted data in the `onNext` callback
 
@@ -100,12 +129,12 @@ The usage flow for AES is as follows:
 [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) encryption allows you to encrypt a value without any user action. The data to encrypt can be encrypted and a user won't need to authenticate oneself by touching the fingerprint sensor.
 The encrypted data can only be decrypted again when the user authenticates by using the fingerprint sensor on their device.
 
-
-The usage flow for AES is as follows:
-- Call `RxFingerprint.encrypt(EncryptionMethod.RSA, ...)` to initialize the encryption flow
+The usage flow for RSA is as follows:
+- Build an instance of RxFingerprint and set the `.encryptionMethod(EncryptionMethod.RSA)`
+- Call `rxFingerprint.encrypt("String to encrypt")` to initialize the encryption flow
 - Store the encrypted data returned in the `onNext` callback
 
-- Call `RxFingerprint.decrypt(EncryptionMethod.RSA, ...)` to initialize the decryption flow
+- Call `rxFingerprint.decrypt("Encrypted string")` to initialize the decryption flow
 - User authenticates by touching the fingerprint sensor
 - Receive the decrypted data in the `onNext` callback
 
@@ -113,7 +142,7 @@ The usage flow for AES is as follows:
 #### Encrypting and decrypting values
 
 ``` java
-Disposable disposable = RxFingerprint.encrypt(EncryptionMethod.RSA, this, keyName, stringToEncrypt)
+Disposable disposable = rxFingerprint.encrypt(stringToEncrypt, keyName)
                    .subscribe(encryptionResult -> {
                        switch (encryptionResult.getResult()) {
                            case FAILED:
@@ -132,12 +161,12 @@ Disposable disposable = RxFingerprint.encrypt(EncryptionMethod.RSA, this, keyNam
                    });
 ```
 
-`RxFingerprint.encrypt(EncryptionMethod, Context, String, String)` takes the String you want to encrypt (which might be a token, user password, or any other String) and a key name.
+`rxFingerprint.encrypt(String, String)` takes the String you want to encrypt (which might be a token, user password, or any other String) and a key name.
 The given String will be encrypted with a key in the Android KeyStore and returns an encrypted String. The key used in the encryption is only accessible from your own app.
 Store the encrypted String anywhere and use it later to decrypt the original value by calling:
 
 ``` java
-Disposable disposable = RxFingerprint.decrypt(EncryptionMethod.RSA, this, keyName, encryptedValue)
+Disposable disposable = rxFingerprint.decrypt(encryptedValue, keyName)
                     .subscribe(decryptionResult -> {
                         switch (decryptionResult.getResult()) {
                             case FAILED:
@@ -165,19 +194,19 @@ Disposable disposable = RxFingerprint.decrypt(EncryptionMethod.RSA, this, keyNam
 Be aware that all encryption keys will be invalidated once the user changes their lockscreen or changes any of their enrolled fingerprints. If you receive an `onError` event
 during decryption check if the keys were invalidated with `RxFingerprint.keyInvalidated(Throwable)` and prompt the user to encrypt their data again.
 
-Once the encryption keys are invalidated RxFingerprint will delete and renew the keys in the Android Keystore on the next call to `RxFingerprint.encrypt(...)`. 
+Once the encryption keys are invalidated RxFingerprint will delete and renew the keys in the Android Keystore on the next call to `rxFingerprint.encrypt(...)`. 
 
 ### Best-practices
 
 To prevent errors and ensure a good user experience, make sure to think of these cases:
 
-- Before calling any RxFingerprint authentication, check if the user can use fingerprint authentication by calling: `RxFingerprint.isAvailable(Context)` or `RxFingerprint.isUnavailable(Context)`
+- Before calling any RxFingerprint authentication, check if the user can use fingerprint authentication by calling: `rxFingerprint.isAvailable(Context)` or `rxFingerprint.isUnavailable(Context)`
 - Always check for recoverable errors in any `onNext` events and provide the user with the given Error message in the result.
 - If keys were invalidated due to the user changing their lockscreen or enrolled fingerprints provide them with a way to encrypt their data again.
 
 ## Dependencies
 
-RxFingerprint brings the following dependencies:
+RxFingerprint contains the following dependencies:
 
 - RxJava2
 - Android Support Annotations
@@ -188,7 +217,7 @@ For bugs, questions and discussions please use the [Github Issues](https://githu
  
 ## LICENSE
 
-Copyright 2015-2017 Marvin Ramin.
+Copyright 2015-2018 Marvin Ramin.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

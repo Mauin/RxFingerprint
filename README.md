@@ -22,7 +22,7 @@ This library has a minSdkVersion of `15`, but will only really work on API level
 To use RxFingerprint in your project, add the library as a dependency in your `build.gradle` file:
 ```groovy
 dependencies {
-    compile 'com.mtramin:rxfingerprint:3.0.0-RC-1'
+    implementation 'com.mtramin:rxfingerprint:3.0.0-RC-1'
 }
 ```
 

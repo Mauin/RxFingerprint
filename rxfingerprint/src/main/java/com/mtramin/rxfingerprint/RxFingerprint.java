@@ -31,6 +31,8 @@ import org.reactivestreams.Subscriber;
 
 import io.reactivex.Observable;
 
+import static android.provider.Settings.ACTION_FINGERPRINT_ENROLL;
+
 /**
  * Entry point for RxFingerprint. Contains all the base methods you need to interact with the
  * fingerprint sensor of the device. Allows authentication of the user via the fingerprint
@@ -413,7 +415,7 @@ public class RxFingerprint {
     }
 
     public void launchFingerprintEnrollment() {
-		context.startActivity(new Intent("ACTION_FINGERPRINT_ENROLL"));
+		context.startActivity(new Intent(ACTION_FINGERPRINT_ENROLL));
 	}
 
     /**

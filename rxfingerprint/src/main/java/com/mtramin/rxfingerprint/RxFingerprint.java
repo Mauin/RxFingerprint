@@ -18,6 +18,7 @@ package com.mtramin.rxfingerprint;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -414,6 +415,7 @@ public class RxFingerprint {
         return new FingerprintApiWrapper(context, logger).hasEnrolledFingerprints();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.P)
     public void launchFingerprintEnrollment() {
 		context.startActivity(new Intent(ACTION_FINGERPRINT_ENROLL));
 	}

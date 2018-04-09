@@ -18,6 +18,7 @@ package com.mtramin.rxfingerprint;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -30,6 +31,8 @@ import com.mtramin.rxfingerprint.data.FingerprintEncryptionResult;
 import org.reactivestreams.Subscriber;
 
 import io.reactivex.Observable;
+
+import static android.provider.Settings.ACTION_FINGERPRINT_ENROLL;
 
 /**
  * Entry point for RxFingerprint. Contains all the base methods you need to interact with the
@@ -412,8 +415,9 @@ public class RxFingerprint {
         return new FingerprintApiWrapper(context, logger).hasEnrolledFingerprints();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.P)
     public void launchFingerprintEnrollment() {
-		context.startActivity(new Intent("ACTION_FINGERPRINT_ENROLL"));
+		context.startActivity(new Intent(ACTION_FINGERPRINT_ENROLL));
 	}
 
     /**

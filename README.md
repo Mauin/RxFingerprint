@@ -52,7 +52,7 @@ RxFingerprint rxFingerprint = new RxFingerprint.Builder(context)
 Before using any fingerprint related operations it should be verified that `RxFingerprint` can be used by calling:
 
 ``` java
-if (rxFingerprint.isAvailable(this)) {
+if (rxFingerprint.isAvailable()) {
     // proceed with fingerprint operation
 } else {
     // fingerprint is not available, provide other authentication options

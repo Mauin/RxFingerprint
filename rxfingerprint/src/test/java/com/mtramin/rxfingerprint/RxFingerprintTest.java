@@ -1,7 +1,7 @@
 package com.mtramin.rxfingerprint;
 
 import android.content.Context;
-import android.hardware.fingerprint.FingerprintManager;
+import androidx.core.hardware.fingerprint.FingerprintManagerCompat;
 import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.util.Log;
 

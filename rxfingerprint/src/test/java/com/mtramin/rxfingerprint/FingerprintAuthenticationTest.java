@@ -1,9 +1,9 @@
 package com.mtramin.rxfingerprint;
 
-import android.hardware.fingerprint.FingerprintManager;
-import android.hardware.fingerprint.FingerprintManager.AuthenticationResult;
-import android.hardware.fingerprint.FingerprintManager.CryptoObject;
-import android.os.CancellationSignal;
+import androidx.core.hardware.fingerprint.FingerprintManagerCompat;
+import androidx.core.hardware.fingerprint.FingerprintManagerCompat.AuthenticationResult;
+import androidx.core.hardware.fingerprint.FingerprintManagerCompat.CryptoObject;
+import androidx.core.os.CancellationSignal;
 import android.os.Handler;
 
 import com.mtramin.rxfingerprint.data.FingerprintAuthenticationException;
@@ -39,7 +39,7 @@ public class FingerprintAuthenticationTest {
     private static final CharSequence MESSAGE_HELP = "Help message";
 
     @Mock FingerprintApiWrapper fingerprintApiWrapper;
-    @Mock FingerprintManager fingerprintManager;
+    @Mock FingerprintManagerCompat fingerprintManager;
     @Mock CancellationSignal cancellationSignal;
 
     Observable<FingerprintAuthenticationResult> observable;
@@ -68,8 +68,14 @@ public class FingerprintAuthenticationTest {
         AuthenticationResult result = mock(AuthenticationResult.class);
         TestObserver<FingerprintAuthenticationResult> testObserver = observable.test();
 
-        ArgumentCaptor<FingerprintManager.AuthenticationCallback> callbackCaptor = ArgumentCaptor.forClass(FingerprintManager.AuthenticationCallback.class);
-        verify(fingerprintManager).authenticate(any(CryptoObject.class), any(CancellationSignal.class), anyInt(), callbackCaptor.capture(), any(Handler.class));
+        ArgumentCaptor<FingerprintManagerCompat.AuthenticationCallback> callbackCaptor =
+                ArgumentCaptor.forClass(FingerprintManagerCompat.AuthenticationCallback.class);
+        
+        //any(CryptoObject.class), any(CancellationSignal.class), anyInt(), callbackCaptor.capture(), any(Handler.class)
+        verify(fingerprintManager).authenticate(any(CryptoObject.class), anyInt(),
+                any(CancellationSignal.class), callbackCaptor.capture(), any(Handler.class));
+        
+        
         callbackCaptor.getValue().onAuthenticationSucceeded(result);
 
         testObserver.awaitTerminalEvent();
@@ -90,8 +96,10 @@ public class FingerprintAuthenticationTest {
 
         TestObserver<FingerprintAuthenticationResult> testObserver = observable.test();
 
-        ArgumentCaptor<FingerprintManager.AuthenticationCallback> callbackCaptor = ArgumentCaptor.forClass(FingerprintManager.AuthenticationCallback.class);
-        verify(fingerprintManager).authenticate(any(CryptoObject.class), any(CancellationSignal.class), anyInt(), callbackCaptor.capture(), any(Handler.class));
+        ArgumentCaptor<FingerprintManagerCompat.AuthenticationCallback> callbackCaptor = ArgumentCaptor.forClass(FingerprintManagerCompat.AuthenticationCallback.class);
+
+        verify(fingerprintManager).authenticate(any(CryptoObject.class), anyInt(),
+                any(CancellationSignal.class), callbackCaptor.capture(), any(Handler.class));
         callbackCaptor.getValue().onAuthenticationError(0, ERROR_MESSAGE);
 
         testObserver.awaitTerminalEvent();
@@ -111,8 +119,9 @@ public class FingerprintAuthenticationTest {
 
         TestObserver<FingerprintAuthenticationResult> testObserver = observable.test();
 
-        ArgumentCaptor<FingerprintManager.AuthenticationCallback> callbackCaptor = ArgumentCaptor.forClass(FingerprintManager.AuthenticationCallback.class);
-        verify(fingerprintManager).authenticate(any(CryptoObject.class), any(CancellationSignal.class), anyInt(), callbackCaptor.capture(), any(Handler.class));
+        ArgumentCaptor<FingerprintManagerCompat.AuthenticationCallback> callbackCaptor = ArgumentCaptor.forClass(FingerprintManagerCompat.AuthenticationCallback.class);
+        verify(fingerprintManager).authenticate(any(CryptoObject.class), anyInt(),
+                any(CancellationSignal.class), callbackCaptor.capture(), any(Handler.class));
         callbackCaptor.getValue().onAuthenticationFailed();
 
         testObserver.assertNotTerminated();
@@ -133,8 +142,12 @@ public class FingerprintAuthenticationTest {
 
         TestObserver<FingerprintAuthenticationResult> testObserver = observable.test();
 
-        ArgumentCaptor<FingerprintManager.AuthenticationCallback> callbackCaptor = ArgumentCaptor.forClass(FingerprintManager.AuthenticationCallback.class);
-        verify(fingerprintManager).authenticate(any(CryptoObject.class), any(CancellationSignal.class), anyInt(), callbackCaptor.capture(), any(Handler.class));
+        ArgumentCaptor<FingerprintManagerCompat.AuthenticationCallback> callbackCaptor = ArgumentCaptor.forClass(FingerprintManagerCompat.AuthenticationCallback.class);
+        //verify(fingerprintManager).authenticate(any(CryptoObject.class),
+          //      any(CancellationSignal.class), anyInt(), callbackCaptor.capture(),
+            //    any(Handler.class));
+        verify(fingerprintManager).authenticate(any(CryptoObject.class), anyInt(),
+                any(CancellationSignal.class), callbackCaptor.capture(), any(Handler.class));
         callbackCaptor.getValue().onAuthenticationHelp(0, MESSAGE_HELP);
 
         testObserver.assertNotTerminated();
@@ -155,8 +168,9 @@ public class FingerprintAuthenticationTest {
 
         TestObserver<FingerprintAuthenticationResult> testObserver = observable.test();
 
-        ArgumentCaptor<FingerprintManager.AuthenticationCallback> callbackCaptor = ArgumentCaptor.forClass(FingerprintManager.AuthenticationCallback.class);
-        verify(fingerprintManager).authenticate(any(CryptoObject.class), any(CancellationSignal.class), anyInt(), callbackCaptor.capture(), any(Handler.class));
+        ArgumentCaptor<FingerprintManagerCompat.AuthenticationCallback> callbackCaptor = ArgumentCaptor.forClass(FingerprintManagerCompat.AuthenticationCallback.class);
+        verify(fingerprintManager).authenticate(any(CryptoObject.class), anyInt(),
+                any(CancellationSignal.class), callbackCaptor.capture(), any(Handler.class));
         callbackCaptor.getValue().onAuthenticationHelp(0, MESSAGE_HELP);
 
         testObserver.assertNotTerminated();

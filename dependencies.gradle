@@ -20,13 +20,13 @@ ext.versions = [
 		name                   : '2.2.1',
 
 		// Android Versions
-		compileSdk             : 25,
-		targetSdk              : 25,
+		compileSdk             : 29,
+		targetSdk              : 29,
 		minSdk                 : 15,
-		buildTools             : '26.0.2',
+		buildTools             : '29.0.3',
 
 		// Gradle Versions
-		androidGradlePlugin    : '3.0.1',
+		androidGradlePlugin    : '3.6.3',
 		mavenGradlePlugin      : '1.4.1',
 		bintrayGradlePlugin    : '1.7.1',
 
@@ -38,7 +38,8 @@ ext.versions = [
 		jUnit                  : '4.12',
 		mockito                : '1.10.19',
 		powermock              : '1.6.4',
-		testRunner             : '0.5'
+		testRunner             : '0.5',
+		androidBiometric       : '1.0.1'
 ]
 
 ext.gradlePlugins = [
@@ -60,5 +61,6 @@ ext.libraries = [
 		mockito           : "org.mockito:mockito-core:$versions.mockito",
 		powermockJUnit    : "org.powermock:powermock-api-mockito:$versions.powermock",
 		powermockMockito  : "org.powermock:powermock-module-junit4:$versions.powermock",
+		androidBiometric  : "androidx.biometric:biometric:$versions.androidBiometric",
 
 ]

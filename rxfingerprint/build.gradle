@@ -59,6 +59,7 @@ dependencies {
 	testImplementation libraries.mockito
 	testImplementation libraries.powermockJUnit
 	testImplementation libraries.powermockMockito
+	api libraries.androidBiometric
 }
 
 //apply from: 'publish.gradle'

@@ -16,16 +16,23 @@
 
 package com.mtramin.rxfingerprint;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.drm.DrmStore;
 import android.security.keystore.KeyPermanentlyInvalidatedException;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.mtramin.rxfingerprint.data.FingerprintAuthenticationResult;
 import com.mtramin.rxfingerprint.data.FingerprintDecryptionResult;
 import com.mtramin.rxfingerprint.data.FingerprintEncryptionResult;
 
+import androidx.annotation.RequiresApi;
+import androidx.biometric.BiometricPrompt;
+import androidx.biometric.BiometricPrompt.PromptInfo;
+import androidx.fragment.app.FragmentActivity;
 import io.reactivex.Observable;
+import io.reactivex.internal.disposables.ObserverFullArbiter;
 
 /**
  * Entry point for RxFingerprint. Contains all the base methods you need to interact with the
@@ -38,7 +45,7 @@ import io.reactivex.Observable;
  * call {@link #encrypt(EncryptionMethod, Context, String, String)}
  * <p/>
  * To decrypt previously encrypted data via the {@link #encrypt(EncryptionMethod, Context, String, String)}
- * method, call {@link #decrypt(EncryptionMethod, Context, String, String)}
+ * method, call {@link #decrypt(PromptInfo, EncryptionMethod, Context, String, String)}
  * <p/>
  * Helper methods provide information about the devices capability to handle fingerprint
  * authentication. For fingerprint authentication to be isAvailable, the device needs to contain the
@@ -56,14 +63,26 @@ public class RxFingerprint {
      * @param context current context
      * @return Observable {@link FingerprintAuthenticationResult}. Will complete once the
      * authentication was successful or has failed entirely.
+	 *
+	 *
+	 * @deprecated Use {@code com.mtramin.rxfingerprint.RxFingerprint#authenticate(FragmentActivity context)} instead.
      */
+    @Deprecated
     public static Observable<FingerprintAuthenticationResult> authenticate(@NonNull Context context) {
         return FingerprintAuthenticationObservable.create(context);
     }
 
+
+	//@RequiresApi(29)
+	public static Observable<FingerprintAuthenticationResult> authenticate(@NonNull FragmentActivity context) {
+		return FingerprintAuthenticationObservable.create(context);
+	}
+
+
     /**
      * Encrypt data and authenticate the user with his fingerprint. The encrypted data can only be
-     * accessed again by calling {@link #decrypt(Context, String)}. Will use a default keyName in
+     * accessed again by calling {@link #decrypt(PromptInfo, Context, String)}. Will use a default
+	 * keyName in
      * the Android keystore unique to this applications package name.
      * If you want to provide a custom key name use {@link #encrypt(Context, String, String)}
      * instead.
@@ -90,7 +109,8 @@ public class RxFingerprint {
 
 	/**
 	 * Encrypt data and authenticate the user with his fingerprint. The encrypted data can only be
-	 * accessed again by calling {@link #decrypt(Context, String)}. Will use a default keyName in
+	 * accessed again by calling {@link #decrypt(PromptInfo, Context, String)}. Will use a default
+	 * keyName in
 	 * the Android keystore unique to this applications package name.
 	 * If you want to provide a custom key name use {@link #encrypt(Context, String, String)}
 	 * instead.
@@ -119,7 +139,8 @@ public class RxFingerprint {
 
 	/**
 	 * Encrypt data and authenticate the user with his fingerprint. The encrypted data can only be
-	 * accessed again by calling {@link #decrypt(Context, String)}. Will use a default keyName in
+	 * accessed again by calling {@link #decrypt(PromptInfo, Context, String)}. Will use a default
+	 * keyName in
 	 * the Android keystore unique to this applications package name.
 	 * If you want to provide a custom key name use {@link #encrypt(Context, String, String)}
 	 * instead.
@@ -165,13 +186,15 @@ public class RxFingerprint {
      * @return Observable result of the decryption operation. Will contain the
      * decrypted string if decryption was successful.
      */
-    public static Observable<FingerprintDecryptionResult> decrypt(@NonNull Context context, @NonNull String encrypted) {
-        return decrypt(EncryptionMethod.AES, context, null, encrypted);
+    public static Observable<FingerprintDecryptionResult> decrypt(PromptInfo promptInfo,
+																  @NonNull Context context, @NonNull String encrypted) {
+        return decrypt(promptInfo, EncryptionMethod.AES, context, null, encrypted);
     }
 
     /**
      * Encrypt data  and authenticate the user with his fingerprint. The encrypted data can only be
-     * accessed again by calling {@link #decrypt(Context, String, String)} with the same keyName.
+     * accessed again by calling {@link #decrypt(PromptInfo, Context, String, String)}
+	 * with the same keyName.
      * Encrypted data is only accessible after the user has authenticated with
      * fingerprint authentication.
      * <p/>
@@ -195,7 +218,8 @@ public class RxFingerprint {
 
 	/**
 	 * Encrypt data  and authenticate the user with his fingerprint. The encrypted data can only be
-	 * accessed again by calling {@link #decrypt(Context, String, String)} with the same keyName.
+	 * accessed again by calling {@link #decrypt(PromptInfo, Context, String, String)}
+	 * with the same keyName.
 	 * Encrypted data is only accessible after the user has authenticated with
 	 * fingerprint authentication.
 	 * <p/>
@@ -237,15 +261,18 @@ public class RxFingerprint {
      *                  successful or have failed entirely.
      * @return Observable result of the decryption
      */
-    public static Observable<FingerprintDecryptionResult> decrypt(@NonNull Context context, @Nullable String keyName, @NonNull String encrypted) {
-        return decrypt(EncryptionMethod.AES, context, keyName, encrypted);
+    public static Observable<FingerprintDecryptionResult> decrypt(PromptInfo promptInfo,
+																  @NonNull Context context,
+																  @Nullable String keyName, @NonNull String encrypted) {
+        return decrypt(promptInfo, EncryptionMethod.AES, context, keyName, encrypted);
     }
 
 	/**
 	 * Encrypt data with the given {@link EncryptionMethod}. Depending on the given method, the
 	 * fingerprint sensor might be enabled and waiting for the user to authenticate before the
 	 * encryption step. All encrypted data can only be accessed again by calling
-	 * {@link #decrypt(EncryptionMethod, Context, String, String)} with the same
+	 * {@link #decrypt(PromptInfo, EncryptionMethod, Context, String, String)} with the
+	 * same
 	 * {@link EncryptionMethod} that was used for encryption of the given value.
 	 * <p>
 	 * Take more details about the encryption method and how they behave from {@link EncryptionMethod}
@@ -272,7 +299,8 @@ public class RxFingerprint {
 	 * Encrypt data with the given {@link EncryptionMethod}. Depending on the given method, the
 	 * fingerprint sensor might be enabled and waiting for the user to authenticate before the
 	 * encryption step. All encrypted data can only be accessed again by calling
-	 * {@link #decrypt(EncryptionMethod, Context, String, String)} with the same
+	 * {@link #decrypt(PromptInfo, EncryptionMethod, Context, String, String)} with
+	 * the same
 	 * {@link EncryptionMethod} that was used for encryption of the given value.
 	 * <p>
 	 * Take more details about the encryption method and how they behave from {@link EncryptionMethod}
@@ -300,7 +328,7 @@ public class RxFingerprint {
 	 * Encrypt data with the given {@link EncryptionMethod}. Depending on the given method, the
 	 * fingerprint sensor might be enabled and waiting for the user to authenticate before the
 	 * encryption step. All encrypted data can only be accessed again by calling
-	 * {@link #decrypt(EncryptionMethod, Context, String, String)} with the same
+	 * {@link #decrypt(PromptInfo, EncryptionMethod, Context, String, String)} with the same
 	 * {@link EncryptionMethod} that was used for encryption of the given value.
 	 * <p>
 	 * Take more details about the encryption method and how they behave from {@link EncryptionMethod}
@@ -331,7 +359,7 @@ public class RxFingerprint {
 	 * Encrypt data with the given {@link EncryptionMethod}. Depending on the given method, the
 	 * fingerprint sensor might be enabled and waiting for the user to authenticate before the
 	 * encryption step. All encrypted data can only be accessed again by calling
-	 * {@link #decrypt(EncryptionMethod, Context, String, String)} with the same
+	 * {@link #decrypt(PromptInfo, EncryptionMethod, Context, String, String)} with the same
 	 * {@link EncryptionMethod} that was used for encryption of the given value.
 	 * <p>
 	 * Take more details about the encryption method and how they behave from {@link EncryptionMethod}
@@ -354,7 +382,7 @@ public class RxFingerprint {
 																																@NonNull Context context,
 																																@Nullable String keyName,
 																																@NonNull char[] toEncrypt,
-																																boolean keyInvalidatedByBiometricEnrollment) {
+																  boolean keyInvalidatedByBiometricEnrollment) {
 		switch (method) {
 			case AES:
 				return AesEncryptionObservable.create(context, keyName, toEncrypt, keyInvalidatedByBiometricEnrollment);
@@ -389,10 +417,16 @@ public class RxFingerprint {
 	 *                  have failed entirely.
 	 * @return Observable result of the decryption
 	 */
-	public static Observable<FingerprintDecryptionResult> decrypt(@NonNull EncryptionMethod method,
+	public static Observable<FingerprintDecryptionResult> decrypt(@Nullable PromptInfo promptInfo
+			, @NonNull EncryptionMethod method,
 																  @NonNull Context context,
 																  @Nullable String keyName,
 																  @NonNull String toDecrypt) {
+
+
+		if(promptInfo != null){
+			setPromptInfo(promptInfo);
+		}
 		switch (method) {
 			case AES:
 				return AesDecryptionObservable.create(context, keyName, toDecrypt);
@@ -401,9 +435,18 @@ public class RxFingerprint {
 			default:
 				return Observable.error(new IllegalArgumentException("Unknown decryption method: " + method));
 		}
+
 	}
 
-    /**
+
+	/**
+	 * An entry point for prompt info dialog
+	 */
+	public static void setPromptInfo(BiometricPrompt.PromptInfo promptInfo){
+		FingerprintApiWrapper.setPromptInfo(promptInfo);
+	}
+
+	/**
      * Provides information if fingerprint authentication is currently available.
      * <p/>
      * The device needs to have a fingerprint hardware and the user needs to have enrolled
@@ -491,4 +534,5 @@ public class RxFingerprint {
     public static boolean keyInvalidated(Throwable throwable) {
         return throwable instanceof KeyPermanentlyInvalidatedException;
     }
+
 }

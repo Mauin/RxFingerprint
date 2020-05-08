@@ -19,7 +19,7 @@ package com.mtramin.rxfingerprint;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.hardware.fingerprint.FingerprintManager;
+import androidx.core.hardware.fingerprint.FingerprintManagerCompat;
 
 import org.junit.Before;
 import org.junit.Test;

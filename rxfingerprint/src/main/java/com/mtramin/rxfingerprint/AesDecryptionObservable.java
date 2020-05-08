@@ -18,9 +18,11 @@ package com.mtramin.rxfingerprint;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.hardware.fingerprint.FingerprintManager.AuthenticationResult;
-import android.hardware.fingerprint.FingerprintManager.CryptoObject;
-import android.support.annotation.Nullable;
+
+import androidx.biometric.BiometricPrompt;
+import androidx.core.hardware.fingerprint.FingerprintManagerCompat.AuthenticationResult;
+import androidx.core.hardware.fingerprint.FingerprintManagerCompat.CryptoObject;
+import androidx.annotation.Nullable;
 
 import com.mtramin.rxfingerprint.data.FingerprintDecryptionResult;
 import com.mtramin.rxfingerprint.data.FingerprintEncryptionResult;
@@ -88,6 +90,19 @@ class AesDecryptionObservable extends FingerprintObservable<FingerprintDecryptio
 		}
 	}
 
+	@Nullable
+	@Override
+	protected BiometricPrompt.CryptoObject initBiometricCryptoObject(ObservableEmitter<FingerprintDecryptionResult> subscriber) {
+		try {
+			CryptoData cryptoData = CryptoData.fromString(encodingProvider, encryptedString);
+			Cipher cipher = cipherProvider.getCipherForDecryption(cryptoData.getIv());
+			return new BiometricPrompt.CryptoObject(cipher);
+		} catch (Exception e) {
+			subscriber.onError(e);
+			return null;
+		}
+	}
+
 	@Override
 	protected void onAuthenticationSucceeded(ObservableEmitter<FingerprintDecryptionResult> emitter, AuthenticationResult result) {
 		try {
@@ -101,6 +116,20 @@ class AesDecryptionObservable extends FingerprintObservable<FingerprintDecryptio
 			emitter.onError(cipherProvider.mapCipherFinalOperationException(e));
 		}
 
+	}
+
+	@Override
+	protected void onAuthenticationSucceeded(ObservableEmitter<FingerprintDecryptionResult> emitter, BiometricPrompt.AuthenticationResult result) {
+		try {
+			CryptoData cryptoData = CryptoData.fromString(encodingProvider, encryptedString);
+			Cipher cipher = result.getCryptoObject().getCipher();
+			byte[] bytes = cipher.doFinal(cryptoData.getMessage());
+
+			emitter.onNext(new FingerprintDecryptionResult(FingerprintResult.AUTHENTICATED, null, ConversionUtils.toChars(bytes)));
+			emitter.onComplete();
+		} catch (Exception e) {
+			emitter.onError(cipherProvider.mapCipherFinalOperationException(e));
+		}
 	}
 
 	@Override

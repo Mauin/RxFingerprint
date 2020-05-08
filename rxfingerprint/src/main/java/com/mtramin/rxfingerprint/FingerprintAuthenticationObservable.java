@@ -17,14 +17,21 @@
 package com.mtramin.rxfingerprint;
 
 import android.content.Context;
-import android.hardware.fingerprint.FingerprintManager.AuthenticationResult;
-import android.hardware.fingerprint.FingerprintManager.CryptoObject;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
+import android.util.Log;
+
+import androidx.biometric.BiometricPrompt;
+import androidx.core.hardware.fingerprint.FingerprintManagerCompat.AuthenticationResult;
+import androidx.core.hardware.fingerprint.FingerprintManagerCompat.CryptoObject;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 
 import com.mtramin.rxfingerprint.data.FingerprintAuthenticationResult;
 import com.mtramin.rxfingerprint.data.FingerprintResult;
 
+import javax.crypto.Cipher;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 
@@ -40,24 +47,41 @@ class FingerprintAuthenticationObservable extends FingerprintObservable<Fingerpr
      * @param context context to use
      * @return Observable {@link FingerprintAuthenticationResult}
      */
+
     static Observable<FingerprintAuthenticationResult> create(Context context) {
         return Observable.create(new FingerprintAuthenticationObservable(new FingerprintApiWrapper(context)));
     }
+
 
     @VisibleForTesting
 	FingerprintAuthenticationObservable(FingerprintApiWrapper fingerprintApiWrapper) {
 		super(fingerprintApiWrapper);
 	}
 
+
+
     @Nullable
     @Override
     protected CryptoObject initCryptoObject(ObservableEmitter<FingerprintAuthenticationResult> subscriber) {
         // Simple authentication does not need CryptoObject
+
+        return null;
+    }
+
+    @Nullable
+    @Override
+    protected BiometricPrompt.CryptoObject initBiometricCryptoObject(ObservableEmitter<FingerprintAuthenticationResult> subscriber) {
         return null;
     }
 
     @Override
     protected void onAuthenticationSucceeded(ObservableEmitter<FingerprintAuthenticationResult> emitter, AuthenticationResult result) {
+        emitter.onNext(new FingerprintAuthenticationResult(FingerprintResult.AUTHENTICATED, null));
+        emitter.onComplete();
+    }
+
+    @Override
+    protected void onAuthenticationSucceeded(ObservableEmitter<FingerprintAuthenticationResult> emitter, BiometricPrompt.AuthenticationResult result) {
         emitter.onNext(new FingerprintAuthenticationResult(FingerprintResult.AUTHENTICATED, null));
         emitter.onComplete();
     }

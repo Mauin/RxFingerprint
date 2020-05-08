@@ -18,9 +18,11 @@ package com.mtramin.rxfingerprint;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.hardware.fingerprint.FingerprintManager.AuthenticationResult;
-import android.hardware.fingerprint.FingerprintManager.CryptoObject;
-import android.support.annotation.Nullable;
+
+import androidx.biometric.BiometricPrompt;
+import androidx.core.hardware.fingerprint.FingerprintManagerCompat.AuthenticationResult;
+import androidx.core.hardware.fingerprint.FingerprintManagerCompat.CryptoObject;
+import androidx.annotation.Nullable;
 
 import com.mtramin.rxfingerprint.data.FingerprintDecryptionResult;
 import com.mtramin.rxfingerprint.data.FingerprintEncryptionResult;
@@ -81,19 +83,38 @@ class RsaDecryptionObservable extends FingerprintObservable<FingerprintDecryptio
 		}
 	}
 
+	@Nullable
+	@Override
+	protected BiometricPrompt.CryptoObject initBiometricCryptoObject(ObservableEmitter<FingerprintDecryptionResult> subscriber) {
+		try {
+			Cipher cipher = cipherProvider.getCipherForDecryption();
+			return new BiometricPrompt.CryptoObject(cipher);
+		} catch (Exception e) {
+			subscriber.onError(e);
+			return null;
+		}
+	}
+
+	@Deprecated
 	@Override
 	protected void onAuthenticationSucceeded(ObservableEmitter<FingerprintDecryptionResult> emitter, AuthenticationResult result) {
 		try {
-			Cipher cipher = result.getCryptoObject().getCipher();
-			byte[] bytes = cipher.doFinal(encodingProvider.decode(encryptedString));
-
-			emitter.onNext(new FingerprintDecryptionResult(FingerprintResult.AUTHENTICATED, null, ConversionUtils.toChars(bytes)));
-			emitter.onComplete();
-		} catch (Exception e) {
+			final Cipher cipher =result.getCryptoObject().getCipher();
+			authenticationSucceed(cipher, emitter);
+		}catch (Exception e){
 			Logger.error("Unable to decrypt given value. RxFingerprint is only able to decrypt values previously encrypted by RxFingerprint with the same encryption mode.", e);
 			emitter.onError(cipherProvider.mapCipherFinalOperationException(e));
 		}
+	}
 
+	@Override
+	protected void onAuthenticationSucceeded(ObservableEmitter<FingerprintDecryptionResult> emitter, BiometricPrompt.AuthenticationResult result) {
+		try {
+			authenticationSucceed(result.getCryptoObject().getCipher(), emitter);
+		}catch (Exception e){
+			Logger.error("Unable to decrypt given value. RxFingerprint is only able to decrypt values previously encrypted by RxFingerprint with the same encryption mode.", e);
+			emitter.onError(cipherProvider.mapCipherFinalOperationException(e));
+		}
 	}
 
 	@Override
@@ -104,5 +125,15 @@ class RsaDecryptionObservable extends FingerprintObservable<FingerprintDecryptio
 	@Override
 	protected void onAuthenticationFailed(ObservableEmitter<FingerprintDecryptionResult> emitter) {
 		emitter.onNext(new FingerprintDecryptionResult(FingerprintResult.FAILED, null, null));
+	}
+
+
+	private void authenticationSucceed(Cipher cipher,
+									   ObservableEmitter<FingerprintDecryptionResult> emitter) throws Exception{
+
+		byte[] bytes = cipher.doFinal(encodingProvider.decode(encryptedString));
+
+		emitter.onNext(new FingerprintDecryptionResult(FingerprintResult.AUTHENTICATED, null, ConversionUtils.toChars(bytes)));
+		emitter.onComplete();
 	}
 }

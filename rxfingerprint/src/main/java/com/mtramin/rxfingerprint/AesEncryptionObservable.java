@@ -18,9 +18,11 @@ package com.mtramin.rxfingerprint;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.hardware.fingerprint.FingerprintManager.AuthenticationResult;
-import android.hardware.fingerprint.FingerprintManager.CryptoObject;
-import android.support.annotation.Nullable;
+
+import androidx.biometric.BiometricPrompt;
+import androidx.core.hardware.fingerprint.FingerprintManagerCompat.AuthenticationResult;
+import androidx.core.hardware.fingerprint.FingerprintManagerCompat.CryptoObject;
+import androidx.annotation.Nullable;
 
 import com.mtramin.rxfingerprint.data.FingerprintEncryptionResult;
 import com.mtramin.rxfingerprint.data.FingerprintResult;
@@ -92,10 +94,42 @@ class AesEncryptionObservable extends FingerprintObservable<FingerprintEncryptio
 		}
 	}
 
+	@Nullable
 	@Override
-	protected void onAuthenticationSucceeded(ObservableEmitter<FingerprintEncryptionResult> emitter, AuthenticationResult result) {
+	protected BiometricPrompt.CryptoObject initBiometricCryptoObject(ObservableEmitter<FingerprintEncryptionResult> emitter) {
 		try {
-			Cipher cipher = result.getCryptoObject().getCipher();
+			Cipher cipher = cipherProvider.getCipherForEncryption();
+			return new BiometricPrompt.CryptoObject(cipher);
+		} catch (Exception e) {
+			emitter.onError(e);
+			return null;
+		}
+	}
+
+	@Override
+	@Deprecated
+	protected void onAuthenticationSucceeded(ObservableEmitter<FingerprintEncryptionResult> emitter, AuthenticationResult result) {
+		authenticationSucceed(result.getCryptoObject().getCipher(), emitter);
+	}
+
+	@Override
+	protected void onAuthenticationSucceeded(ObservableEmitter<FingerprintEncryptionResult> emitter, BiometricPrompt.AuthenticationResult result) {
+		authenticationSucceed(result.getCryptoObject().getCipher(), emitter);
+	}
+
+	@Override
+	protected void onAuthenticationHelp(ObservableEmitter<FingerprintEncryptionResult> emitter, int helpMessageId, String helpString) {
+		emitter.onNext(new FingerprintEncryptionResult(FingerprintResult.HELP, helpString, null));
+	}
+
+	@Override
+	protected void onAuthenticationFailed(ObservableEmitter<FingerprintEncryptionResult> emitter) {
+		emitter.onNext(new FingerprintEncryptionResult(FingerprintResult.FAILED, null, null));
+	}
+
+	private void authenticationSucceed(Cipher cipher,
+							  ObservableEmitter<FingerprintEncryptionResult> emitter ){
+		try {
 			byte[] encryptedBytes = cipher.doFinal(ConversionUtils.toBytes(toEncrypt));
 			byte[] ivBytes = cipher.getParameters().getParameterSpec(IvParameterSpec.class).getIV();
 
@@ -109,13 +143,4 @@ class AesEncryptionObservable extends FingerprintObservable<FingerprintEncryptio
 		}
 	}
 
-	@Override
-	protected void onAuthenticationHelp(ObservableEmitter<FingerprintEncryptionResult> emitter, int helpMessageId, String helpString) {
-		emitter.onNext(new FingerprintEncryptionResult(FingerprintResult.HELP, helpString, null));
-	}
-
-	@Override
-	protected void onAuthenticationFailed(ObservableEmitter<FingerprintEncryptionResult> emitter) {
-		emitter.onNext(new FingerprintEncryptionResult(FingerprintResult.FAILED, null, null));
-	}
 }

@@ -20,12 +20,24 @@ import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.hardware.fingerprint.FingerprintManager;
+import android.hardware.biometrics.BiometricManager;
+import androidx.core.hardware.fingerprint.FingerprintManagerCompat;
+import androidx.core.hardware.fingerprint.FingerprintManagerCompat.CryptoObject;
+import androidx.core.hardware.fingerprint.FingerprintManagerCompat.AuthenticationCallback;
 import android.os.Build;
-import android.os.CancellationSignal;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.util.Log;
 
+import java.lang.ref.WeakReference;
+
+import androidx.core.os.CancellationSignal;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import androidx.biometric.BiometricPrompt;
+import androidx.fragment.app.FragmentActivity;
+import io.reactivex.ObservableEmitter;
+
+import static android.Manifest.permission.USE_BIOMETRIC;
 import static android.Manifest.permission.USE_FINGERPRINT;
 
 @SuppressLint("NewApi")
@@ -33,8 +45,12 @@ import static android.Manifest.permission.USE_FINGERPRINT;
 class FingerprintApiWrapper {
 
 	@NonNull private final Context context;
-	@Nullable private final FingerprintManager fingerprintManager;
+	@Nullable private FingerprintManagerCompat fingerprintManager;
+	@Nullable private BiometricManager biometricManager;
 	private final boolean hasApis;
+	private static final String TAG= "FingerprintApiWrapper";
+
+	private static WeakReference<BiometricPrompt.PromptInfo> mPromptInfo;
 
 	FingerprintApiWrapper(@NonNull Context context) {
 		// If this is an Application Context, it causes issues when rotating the device while
@@ -49,6 +65,10 @@ class FingerprintApiWrapper {
 
 		hasApis = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
 		if (hasApis) {
+			if(isAbove28()){
+				this.biometricManager = getBiometricManager();
+				return;
+			}
 			this.fingerprintManager = getSystemFingerprintManager();
 		} else {
 			this.fingerprintManager = null;
@@ -68,6 +88,10 @@ class FingerprintApiWrapper {
 			return false;
 		}
 
+		//Do check using biometricManager if the device is greater than or equals API 28
+		if(isAbove28()){
+			return biometricManager != null && biometricManager.canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS;
+		}
 		return fingerprintManager != null && fingerprintManager.isHardwareDetected();
 	}
 
@@ -75,11 +99,13 @@ class FingerprintApiWrapper {
 		if (!hasApis || !fingerprintPermissionGranted()) {
 			return false;
 		}
-
+		if(isAbove28()){
+			return biometricManager != null && biometricManager.canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS;
+		}
 		return fingerprintManager != null && fingerprintManager.hasEnrolledFingerprints();
 	}
 
-	FingerprintManager getFingerprintManager() {
+	FingerprintManagerCompat getFingerprintManager() {
 		if (!isAvailable()) {
 			throw new IllegalStateException("Device does not support or use Fingerprint APIs. Call isAvailable() before getting FingerprintManager.");
 		}
@@ -91,16 +117,74 @@ class FingerprintApiWrapper {
 	}
 
 	private boolean fingerprintPermissionGranted() {
+		if(isAbove28()){
+			return context.checkSelfPermission(USE_BIOMETRIC) == PackageManager.PERMISSION_GRANTED;
+		}
 		return context.checkSelfPermission(USE_FINGERPRINT) == PackageManager.PERMISSION_GRANTED;
 	}
 
+	//This is an ugly code. Please improve it if you can
+	public static void setPromptInfo(BiometricPrompt.PromptInfo promptInfo){
+		mPromptInfo = new WeakReference<>(promptInfo);
+	}
+
 	@Nullable
-	private FingerprintManager getSystemFingerprintManager() {
+	private FingerprintManagerCompat getSystemFingerprintManager() {
 		try {
-			return (FingerprintManager) context.getSystemService(Context.FINGERPRINT_SERVICE);
+			
+			return FingerprintManagerCompat.from(context);
 		} catch (Exception | NoClassDefFoundError e) {
 			Logger.error("Device with SDK >=23 doesn't provide Fingerprint APIs", e);
 		}
 		return null;
+	}
+
+
+	public void authenticateForBiometric(BiometricHelper cryptoObject,
+										 AuthenticationCallbackHelper authenticationCallbackHelper){
+
+		if(context instanceof FragmentActivity){
+			authenticate(context,
+					((BiometricPrompt.CryptoObject)cryptoObject.getCryptoObject()),
+					((BiometricPrompt.AuthenticationCallback)authenticationCallbackHelper.getAuthenticationCallback()));
+		}else{
+			getFingerprintManager().authenticate(((CryptoObject)cryptoObject.getCryptoObject()),
+					0, createCancellationSignal(),
+					((AuthenticationCallback)authenticationCallbackHelper.getAuthenticationCallback()),
+					null);
+		}
+	}
+
+
+
+	protected  void authenticate(Context context,
+								 BiometricPrompt.CryptoObject cryptoObject,
+									 BiometricPrompt.AuthenticationCallback callback) {
+
+		BiometricPrompt mBiometricPrompt = new BiometricPrompt(((FragmentActivity)context),
+				UIThreadExecutor.get(), callback);
+
+		// Show biometric prompt
+		if (cryptoObject != null) {
+			Log.i(TAG, "Show biometric prompt_"+ mPromptInfo);
+			mBiometricPrompt.authenticate(mPromptInfo.get(), cryptoObject);
+		}
+	}
+
+	@Nullable
+	private BiometricManager getBiometricManager(){
+		/*final BiometricManager biometricManager= context.getSystemService(BiometricManager.class);
+		if(null != biometricManager){
+
+		}*/
+		return context.getSystemService(BiometricManager.class);
+	}
+
+	public static boolean isAbove28(){
+		return Build.VERSION.SDK_INT >= 29;
+	}
+
+	public boolean hasActivity(){
+		return (context instanceof FragmentActivity);
 	}
 }

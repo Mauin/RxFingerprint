@@ -17,7 +17,7 @@
 package com.mtramin.fingerprintplayground;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.ViewGroup;
@@ -28,6 +28,7 @@ import android.widget.TextView;
 import com.mtramin.rxfingerprint.EncryptionMethod;
 import com.mtramin.rxfingerprint.RxFingerprint;
 
+import androidx.biometric.BiometricPrompt;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposables;
 
@@ -83,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
         if (RxFingerprint.isUnavailable(this)) {
             return;
         }
+
 
         fingerprintDisposable = RxFingerprint.authenticate(this)
                 .subscribe(fingerprintAuthenticationResult -> {
@@ -152,7 +154,16 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        fingerprintDisposable = RxFingerprint.decrypt(EncryptionMethod.RSA, this, key, encrypted)
+        // Set prompt info
+        BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
+                .setDescription("Description")
+                .setTitle("Title")
+                .setSubtitle("Subtitle")
+                .setNegativeButtonText("Cancel")
+                .build();
+
+        fingerprintDisposable = RxFingerprint.decrypt(promptInfo, EncryptionMethod.RSA, this, key,
+                encrypted)
                 .subscribe(fingerprintDecryptionResult -> {
                     switch (fingerprintDecryptionResult.getResult()) {
                         case FAILED:

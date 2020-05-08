@@ -16,7 +16,7 @@
 
 package com.mtramin.rxfingerprint.data;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 /**
  * Result of a fingerprint based authentication.

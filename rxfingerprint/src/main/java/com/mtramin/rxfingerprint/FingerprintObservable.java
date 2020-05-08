@@ -17,19 +17,23 @@
 package com.mtramin.rxfingerprint;
 
 import android.annotation.SuppressLint;
-import android.hardware.fingerprint.FingerprintManager;
-import android.hardware.fingerprint.FingerprintManager.AuthenticationCallback;
-import android.hardware.fingerprint.FingerprintManager.AuthenticationResult;
-import android.hardware.fingerprint.FingerprintManager.CryptoObject;
+
+import androidx.annotation.NonNull;
+import androidx.core.hardware.fingerprint.FingerprintManagerCompat.CryptoObject;
+import androidx.core.hardware.fingerprint.FingerprintManagerCompat.AuthenticationCallback;
+import androidx.core.hardware.fingerprint.FingerprintManagerCompat.AuthenticationResult;
 import android.os.Build;
-import android.os.CancellationSignal;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.support.annotation.RequiresPermission;
+import android.util.Log;
+
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.annotation.RequiresPermission;
 
 import com.mtramin.rxfingerprint.data.FingerprintAuthenticationException;
 import com.mtramin.rxfingerprint.data.FingerprintUnavailableException;
 
+import androidx.biometric.BiometricPrompt;
+import androidx.core.os.CancellationSignal;
 import io.reactivex.Emitter;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -46,6 +50,7 @@ abstract class FingerprintObservable<T> implements ObservableOnSubscribe<T> {
 
 	private final FingerprintApiWrapper fingerprintApiWrapper;
 	CancellationSignal cancellationSignal;
+	BiometricPrompt.PromptInfo promptInfo;
 
 	/**
 	 * Default constructor for fingerprint authentication
@@ -56,6 +61,7 @@ abstract class FingerprintObservable<T> implements ObservableOnSubscribe<T> {
 		this.fingerprintApiWrapper = fingerprintApiWrapper;
 	}
 
+
 	@Override
 	@RequiresPermission(USE_FINGERPRINT)
 	@RequiresApi(Build.VERSION_CODES.M)
@@ -65,11 +71,26 @@ abstract class FingerprintObservable<T> implements ObservableOnSubscribe<T> {
 			return;
 		}
 
-		AuthenticationCallback callback = createAuthenticationCallback(emitter);
+		AuthenticationCallback compactCallback = createAuthenticationCallbackCompat(emitter);
+		BiometricPrompt.AuthenticationCallback biometricAuthCallback =
+				createBiometricAuthenticationCallback(emitter);
+
 		cancellationSignal = fingerprintApiWrapper.createCancellationSignal();
-		CryptoObject cryptoObject = initCryptoObject(emitter);
-		//noinspection MissingPermission
-		fingerprintApiWrapper.getFingerprintManager().authenticate(cryptoObject, cancellationSignal, 0, callback, null);
+
+		BiometricPrompt.CryptoObject biometricCryptoObject = initBiometricCryptoObject(emitter);
+		CryptoObject compactCryptoObj =initCryptoObject(emitter);
+
+		final BiometricHelper biometricHelper =
+				BiometricHelper.set(fingerprintApiWrapper.hasActivity()?
+								biometricCryptoObject :compactCryptoObj
+						 );
+
+		final AuthenticationCallbackHelper authCallbackHelper =
+				AuthenticationCallbackHelper.set(fingerprintApiWrapper.hasActivity()? biometricAuthCallback :
+						compactCallback);
+
+		fingerprintApiWrapper
+				.authenticateForBiometric(biometricHelper, authCallbackHelper);
 
 		emitter.setCancellable(new Cancellable() {
 			@Override
@@ -81,8 +102,11 @@ abstract class FingerprintObservable<T> implements ObservableOnSubscribe<T> {
 		});
 	}
 
-	private AuthenticationCallback createAuthenticationCallback(final ObservableEmitter<T> emitter) {
-		return new AuthenticationCallback() {
+
+
+
+	private BiometricPrompt.AuthenticationCallback createBiometricAuthenticationCallback(final ObservableEmitter<T> emitter) {
+		return new BiometricPrompt.AuthenticationCallback() {
 			@Override
 			public void onAuthenticationError(int errMsgId, CharSequence errString) {
 				if (!emitter.isDisposed()) {
@@ -96,27 +120,53 @@ abstract class FingerprintObservable<T> implements ObservableOnSubscribe<T> {
 			}
 
 			@Override
-			public void onAuthenticationHelp(int helpMsgId, CharSequence helpString) {
-				FingerprintObservable.this.onAuthenticationHelp(emitter, helpMsgId, helpString.toString());
-			}
-
-			@Override
-			public void onAuthenticationSucceeded(AuthenticationResult result) {
+			public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
 				FingerprintObservable.this.onAuthenticationSucceeded(emitter, result);
 			}
 		};
 	}
 
+	private AuthenticationCallback createAuthenticationCallbackCompat(final ObservableEmitter<T> emitter) {
+			return new AuthenticationCallback() {
+				@Override
+				public void onAuthenticationError(int errMsgId, CharSequence errString) {
+					if (!emitter.isDisposed()) {
+						emitter.onError(new FingerprintAuthenticationException(errString));
+					}
+				}
+
+				@Override
+				public void onAuthenticationFailed() {
+					FingerprintObservable.this.onAuthenticationFailed(emitter);
+				}
+
+				@Override
+				public void onAuthenticationHelp(int helpMsgId, CharSequence helpString) {
+					FingerprintObservable.this.onAuthenticationHelp(emitter, helpMsgId, helpString.toString());
+				}
+
+				@Override
+				public void onAuthenticationSucceeded(AuthenticationResult result) {
+					FingerprintObservable.this.onAuthenticationSucceeded(emitter, result);
+				}
+			};
+		}
+
 	/**
-	 * Method to initialize the {@link FingerprintManager.CryptoObject}
+	 * Method to initialize the {@link CryptoObject}
 	 * used for the fingerprint authentication.
 	 *
 	 * @param subscriber current subscriber
-	 * @return a {@link FingerprintManager.CryptoObject}
+	 * @return a {@link CryptoObject}
 	 * that is to be used in the authentication. May be {@code null}.
 	 */
 	@Nullable
+	@Deprecated
 	protected abstract CryptoObject initCryptoObject(ObservableEmitter<T> subscriber);
+
+
+	@Nullable
+	protected abstract BiometricPrompt.CryptoObject initBiometricCryptoObject(ObservableEmitter<T> subscriber);
 
 	/**
 	 * Action to execute when fingerprint authentication was successful.
@@ -126,8 +176,15 @@ abstract class FingerprintObservable<T> implements ObservableOnSubscribe<T> {
 	 *
 	 * @param emitter current subscriber
 	 * @param result  result of the successful fingerprint authentication
+	 *
+	 * @
 	 */
+
+	@Deprecated
 	protected abstract void onAuthenticationSucceeded(ObservableEmitter<T> emitter, AuthenticationResult result);
+
+	protected abstract void onAuthenticationSucceeded(ObservableEmitter<T> emitter,
+													  BiometricPrompt.AuthenticationResult result);
 
 	/**
 	 * Action to execute when the fingerprint authentication returned a help result.
@@ -136,8 +193,8 @@ abstract class FingerprintObservable<T> implements ObservableOnSubscribe<T> {
 	 * Should <b>not</b> {@link Emitter#onComplete()}.
 	 *
 	 * @param emitter       current subscriber
-	 * @param helpMessageId ID of the help message returned from the {@link FingerprintManager}
-	 * @param helpString    Help message string returned by the {@link FingerprintManager}
+	 * @param helpMessageId ID of the help message returned from the {@link FingerprintManagerCompat}
+	 * @param helpString    Help message string returned by the {@link FingerprintManagerCompat}
 	 */
 	protected abstract void onAuthenticationHelp(ObservableEmitter<T> emitter, int helpMessageId, String helpString);
 
